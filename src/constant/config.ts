@@ -1,7 +1,7 @@
 export const siteConfig = {
-  title: 'PranaAirdrop',
+  title: 'Lyra loans',
   description:
-    'Site to check the ecosystem values and estimate the airdrop to be received',
+    '', //TODO check description with team
   /** Without additional '/' on the end, e.g. https://theodorusclarence.com */
   // url: 'https://tsnext-tw.thcl.dev',
 };

@@ -1,15 +1,15 @@
 /* eslint-disable no-console */
-'use client';
+"use client";
 
-import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 
-import 'react-toastify/dist/ReactToastify.css';
+import "react-toastify/dist/ReactToastify.css";
 
-import { CardCollection } from '@/components/CardCollection';
-import { TooltipContainer } from '@/components/Tooltip';
+import { CardCollection } from "@/components/CardCollection";
+import { TooltipContainer } from "@/components/Tooltip";
 
-import { cardData } from '@/utils/utils';
+import { cardData } from "@/utils/utils";
 
 export default function HomePage() {
   const [updatedCardData, setUpdatedCardData] = useState(cardData);
@@ -17,31 +17,31 @@ export default function HomePage() {
   const [showTooltip, setShowTooltip] = useState(false);
 
   const apiUrls = {
-    Kubz: 'https://api.opensea.io/api/v2/collections/kubz/stats',
-    'Keungz Genesis':
-      'https://api.opensea.io/api/v2/collections/keungz-genesis/stats',
-    Yogapetz: 'https://api.opensea.io/api/v2/collections/yogapetz/stats',
-    'Ordinal Kubz':
-      'https://api.opensea.io/api/v2/collections/ordinal-kubz/stats',
+    Kubz: "https://api.opensea.io/api/v2/collections/kubz/stats",
+    "Keungz Genesis":
+      "https://api.opensea.io/api/v2/collections/keungz-genesis/stats",
+    Yogapetz: "https://api.opensea.io/api/v2/collections/yogapetz/stats",
+    "Ordinal Kubz":
+      "https://api.opensea.io/api/v2/collections/ordinal-kubz/stats",
   };
 
   const apiUrlsBlur = {
-    '0xeb2dfc54ebafca8f50efcc1e21a9d100b5aeb349':
-      'https://api.reservoir.tools/orders/asks/v5?contracts=0xEb2dFC54EbaFcA8F50eFcc1e21A9D100b5AEb349&sources=blur.io&sortBy=price', //kubz
-    '0x76Cc4742f7Eaa89a93576505dec37C2C66a76AB7':
-      'https://api.reservoir.tools/orders/asks/v5?contracts=0x76Cc4742f7Eaa89a93576505dec37C2C66a76AB7&sources=blur.io&sortBy=price', // genesis
-    '0x142e03367eDE17Cd851477A4287D1F35676E6dC2':
-      'https://api.reservoir.tools/orders/asks/v5?contracts=0x142e03367eDE17Cd851477A4287D1F35676E6dC2&sources=blur.io&sortBy=price', // yogapetz
-    '0xC589770757cD0d372c54568BF7e5E1d56b958015':
-      'https://api.reservoir.tools/orders/asks/v5?contracts=0xC589770757cD0d372c54568BF7e5E1d56b958015&sources=blur.io&sortBy=price', // okubz
+    "0xeb2dfc54ebafca8f50efcc1e21a9d100b5aeb349":
+      "https://api.reservoir.tools/orders/asks/v5?contracts=0xEb2dFC54EbaFcA8F50eFcc1e21A9D100b5AEb349&sources=blur.io&sortBy=price", //kubz
+    "0x76Cc4742f7Eaa89a93576505dec37C2C66a76AB7":
+      "https://api.reservoir.tools/orders/asks/v5?contracts=0x76Cc4742f7Eaa89a93576505dec37C2C66a76AB7&sources=blur.io&sortBy=price", // genesis
+    "0x142e03367eDE17Cd851477A4287D1F35676E6dC2":
+      "https://api.reservoir.tools/orders/asks/v5?contracts=0x142e03367eDE17Cd851477A4287D1F35676E6dC2&sources=blur.io&sortBy=price", // yogapetz
+    "0xC589770757cD0d372c54568BF7e5E1d56b958015":
+      "https://api.reservoir.tools/orders/asks/v5?contracts=0xC589770757cD0d372c54568BF7e5E1d56b958015&sources=blur.io&sortBy=price", // okubz
   };
 
   const fetchDataOS = () => {
     const options = {
-      method: 'GET',
+      method: "GET",
       headers: {
-        accept: 'application/json',
-        'x-api-key': '9e79a6f8e78e4d56b2611f5a9c5b25a3',
+        accept: "application/json",
+        "x-api-key": "9e79a6f8e78e4d56b2611f5a9c5b25a3",
       },
     };
 
@@ -78,10 +78,10 @@ export default function HomePage() {
 
   const fetchDataBlur = () => {
     const options = {
-      method: 'GET',
+      method: "GET",
       headers: {
-        accept: '*/*',
-        'x-api-key': 'de4680c3-9198-54a9-b42d-e8abe7cd3996',
+        accept: "*/*",
+        "x-api-key": "de4680c3-9198-54a9-b42d-e8abe7cd3996",
       },
     };
 
@@ -138,7 +138,7 @@ export default function HomePage() {
         const response = await axios.get(url);
         setEthPrice(response.data.result.ethusd);
       } catch (error) {
-        console.error('Error fetching Ethereum price:', error);
+        console.error("Error fetching Ethereum price:", error);
       }
     };
 
@@ -163,16 +163,16 @@ export default function HomePage() {
 
             return {
               ...card,
-              priceBlur: dataBlur?.priceBlur || '0',
-              priceBlurEth: dataBlur?.priceBlurEth || '0',
-              priceOs: dataOS?.priceOs || '0',
-              priceOsEth: dataOS?.priceOsEth || '0',
+              priceBlur: dataBlur?.priceBlur || "0",
+              priceBlurEth: dataBlur?.priceBlurEth || "0",
+              priceOs: dataOS?.priceOs || "0",
+              priceOsEth: dataOS?.priceOsEth || "0",
             };
           });
 
           setUpdatedCardData(combinedData);
         } catch (error) {
-          console.error('Error updating data:', error);
+          console.error("Error updating data:", error);
         }
       }
     };
@@ -192,40 +192,10 @@ export default function HomePage() {
 
   return (
     <main>
-      <section className='bg-whiteAlpha-50'>
-        <div className='layout relative flex min-h-screen flex-col items-center justify-start gap-20 pb-12 text-center'>
-          <div className='flex'>
-            <div
-              className='pt-7 text-7xl font-bold'
-              onMouseEnter={() => setShowTooltip(true)}
-              onMouseLeave={() => setShowTooltip(false)}
-            >
-              Prices
-            </div>
-            {showTooltip && (
-              <div className='h-[50px]'>
-                <TooltipContainer>
-                  The data is automatically updated every 1 hour or when the
-                  page is reloaded.
-                </TooltipContainer>
-              </div>
-            )}
-          </div>
-          <div className='flex w-full flex-col items-center justify-center gap-7 lg:flex-row'>
-            {updatedCardData.map((card, index) => (
-              <CardCollection
-                key={index}
-                title={card.title}
-                image={card.image}
-                priceOs={card.priceOs}
-                priceOsEth={card.priceOsEth}
-                priceBlur={card.priceBlur}
-                priceBlurEth={card.priceBlurEth}
-                linkOs={card.linkOs}
-                linkBlur={card.linkBlur}
-              />
-            ))}
-          </div>
+      <section className="bg-whiteAlpha-50">
+        <div className="layout relative flex min-h-screen flex-col items-center justify-start gap-20 pb-12 text-center">
+          <div className="flex"></div>
+          <div className="flex w-full flex-col items-center justify-center gap-7 lg:flex-row"></div>
         </div>
       </section>
     </main>

@@ -16,7 +16,7 @@ export default {
       colors: {
         transparent: 'transparent',
         current: 'currentColor',
-        primary: '#f5e7d5',
+        primary: '#001C3B',
         whiteAlpha: {
           50: '#0c182105',
           100: '#FFFFFF0F',
@@ -26,8 +26,10 @@ export default {
           1000: '#FFFFFF',
         },
         brandBlue: {
+          50: '#6cf0db',
           100: '#81DFE4',
           200: '#15BBC6',
+          300: '#05A0B6',
         },
         gray: {
           300: '#999999',
@@ -39,7 +41,11 @@ export default {
           900: '#222631',
         },
         orange: '#FF9900',
+        yellow: '#f3e3ae',
         red: '#B50A0A',
+      },
+      backgroundImage: {
+        "background-dark": "url('/images/background.svg')",
       },
     },
   },
