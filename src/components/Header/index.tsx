@@ -59,7 +59,7 @@ export const Header = () => {
 
         <button
           type="button"
-          className="bg-brandBlue-200 font-size-[14px] flex h-[45px] max-w-[212px] items-center justify-center gap-4 rounded-[5px] py-4 pl-4 pr-6"
+          className="bg-brandBlue-300 font-size-[14px] flex h-[45px] max-w-[212px] items-center justify-center gap-4 rounded-[5px] py-4 pl-4 pr-6"
           onClick={!isConnected ? onOpen : undefined}
         >
           <BiWallet size={"1.5rem"} />
