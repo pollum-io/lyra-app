@@ -115,4 +115,8 @@
   .animated-underline:focus-visible {
     background-size: 0 2px, 100% 2px;
   }
+
+  .radial-gradient-bg {
+    background-image: radial-gradient(60% 35% at 50% 0%, #6cf0db, transparent);
+  }
 }

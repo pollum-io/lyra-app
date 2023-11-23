@@ -4,6 +4,7 @@ import * as React from "react";
 
 import "@/styles/globals.css";
 import "@/styles/colors.css";
+import "@/styles/backgroundStars.css";
 
 import { Header } from "@/components/Header";
 
@@ -33,7 +34,12 @@ export default function RootLayout({
     <html suppressHydrationWarning lang="en">
       <body className={`${mulish.className} m-0 h-screen p-0`}>
         <Providers>
-          <div className="bg-primary flex min-h-screen flex-col  bg-[url('/svg/background.svg')] bg-cover bg-repeat-x">
+          <div className="bg-primary radial-gradient-bg flex min-h-screen flex-col">
+            <>
+              <div id="starsLightMode"></div>
+              <div id="starsLightMode2"></div>
+              <div id="starsLightMode3"></div>
+            </>
             <Header />
             <main className="mt-[105px] flex-grow">{children}</main>
           </div>

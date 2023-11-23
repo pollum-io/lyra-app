@@ -195,7 +195,7 @@ export default function HomePage() {
 
   return (
     <main>
-      <section className="bg-whiteAlpha-50">
+      <section>
         <div className="layout relative flex min-h-screen flex-col items-center justify-start gap-20 py-12 text-center">
           <div className="flex h-full w-full items-end justify-between">
             <Card text={"Supply Balance"} value={"16,818.992"} />

@@ -39,9 +39,9 @@ export const Header = () => {
 
   return (
     <header
-      className={`header top-0 z-40 flex h-[105px] w-full items-center justify-center bg-transparent ${
+      className={`header top-0 z-10 flex h-[105px] w-full items-center justify-center bg-transparent ${
         sticky
-          ? "shadow-sticky dark:!bg-primary !fixed !bg-gray-900 !bg-opacity-80 backdrop-blur-sm !transition dark:!bg-opacity-20"
+          ? "shadow-sticky !fixed !bg-gray-900 !bg-opacity-20 backdrop-blur-sm !transition"
           : "absolute"
       }`}
     >
