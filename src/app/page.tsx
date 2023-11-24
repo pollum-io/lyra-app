@@ -6,13 +6,11 @@ import React, { useEffect, useState } from "react";
 
 import "react-toastify/dist/ReactToastify.css";
 
-import { CardCollection } from "@/components/CardCollection";
-import { TooltipContainer } from "@/components/Tooltip";
-
 import { cardData } from "@/utils/utils";
 import { Card } from "@/components/Card";
 import { Apr } from "@/components/Apr";
 import { ProgressBar } from "@/components/ProgressBar";
+import { Lending } from "@/components/Lending";
 
 export default function HomePage() {
   const [updatedCardData, setUpdatedCardData] = useState(cardData);
@@ -213,7 +211,10 @@ export default function HomePage() {
             </div>
             <Card text={"Borrow Balance"} value={"16,818.992"} isLeft />
           </div>
-          <div className="flex w-full flex-col items-center justify-center gap-7 lg:flex-row"></div>
+          <div className="flex w-full flex-col items-center justify-center gap-7 lg:flex-row">
+            <Lending title="Supplied" />
+            <Lending title="Borrowed" />
+          </div>
         </div>
       </section>
     </main>
