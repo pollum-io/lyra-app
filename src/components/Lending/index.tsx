@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { Button } from "../Button";
 
 export const Lending = ({ title }: { title: string }) => {
   return (
@@ -8,6 +9,7 @@ export const Lending = ({ title }: { title: string }) => {
         <div className="flex h-[58px] w-[535px] items-center justify-between px-4">
           <div className="text-sm font-semibold">Asset</div>
           <div className="text-sm font-semibold">APR / Earned</div>
+          <div className="text-sm font-semibold">Liquidity</div>
           <div className="text-sm font-semibold">Balance</div>
           <div className="h-5 w-[34px]" />
         </div>
@@ -34,12 +36,20 @@ export const Lending = ({ title }: { title: string }) => {
 
           <div className="flex flex-col items-end">
             <div className="text-sm font-medium text-white">$18.91</div>
-            <div className="text-xs text-white">18.91 WETH</div>
           </div>
 
           <div className="flex flex-col items-end">
             <div className="text-sm font-medium text-white">$18.91</div>
             <div className="text-xs text-white">18.91 WETH</div>
+          </div>
+
+          <div className="flex flex-col items-end">
+            <Button
+              text={"Manage"}
+              height="h-[16px]"
+              maxWidth="max-w-[45px]"
+              textSize="text-xs"
+            />
           </div>
         </div>
       </div>
