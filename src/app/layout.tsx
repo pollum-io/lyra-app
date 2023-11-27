@@ -11,6 +11,7 @@ import { Header } from "@/components/Header";
 import { siteConfig } from "@/constant/config";
 import { Providers } from "./provider";
 import { ConnectWallet } from "@/components/ConnectWallet";
+import { LendingManage } from "@/components/LendingManage";
 const mulish = Mulish({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -44,6 +45,7 @@ export default function RootLayout({
             <Header />
             <main className="mt-[105px] flex-grow">{children}</main>
             <ConnectWallet />
+            <LendingManage />
           </div>
         </Providers>
       </body>

@@ -1,14 +1,19 @@
 import Image from "next/image";
 import { Button } from "../Button";
+import { useState } from "react";
+import { useStore } from "zustand";
+import { useLendingModal } from "@/stores/lendingModal";
 
 export const Lending = ({ title }: { title: string }) => {
+  const { onOpen } = useStore(useLendingModal);
+
   return (
     <div className="flex h-full w-full flex-col items-start justify-center">
       <div className="text-xl font-semibold leading-7">{title}</div>
       <div className="flex h-full w-full flex-col items-start justify-center">
         <div className="flex h-[58px] w-[535px] items-center justify-between px-4">
           <div className="text-sm font-semibold">Asset</div>
-          <div className="text-sm font-semibold">APR / Earned</div>
+          <div className="text-sm font-semibold">APR</div>
           <div className="text-sm font-semibold">Liquidity</div>
           <div className="text-sm font-semibold">Balance</div>
           <div className="h-5 w-[34px]" />
@@ -31,7 +36,6 @@ export const Lending = ({ title }: { title: string }) => {
           </div>
           <div className="flex flex-col items-end">
             <div className="text-sm font-medium text-white">14.65%</div>
-            <div className="text-xs text-white">TBD</div>
           </div>
 
           <div className="flex flex-col items-end">
@@ -47,8 +51,9 @@ export const Lending = ({ title }: { title: string }) => {
             <Button
               text={"Manage"}
               height="h-[16px]"
-              maxWidth="max-w-[45px]"
+              maxWidth="max-w-[55px]"
               textSize="text-xs"
+              onClick={onOpen}
             />
           </div>
         </div>

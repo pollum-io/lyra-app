@@ -13,7 +13,6 @@ export function ConnectWallet() {
   const { isOpen, onClose } = useStore(useConnectWallet);
 
   const metamask = connectors.find((c) => c.id === "metaMask");
-  const injected = connectors.find((c) => c.id === "injected");
   const walletConnect = connectors.find((c) => c.id === "walletConnect");
 
   const connect = async (connector: Connector<any, any> | undefined) => {
