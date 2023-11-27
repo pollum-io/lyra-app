@@ -20,6 +20,7 @@
   "dependencies": {
     "@apollo/client": "^3.8.7",
     "@heroicons/react": "^2.0.18",
+    "@react-spring/web": "^9.7.3",
     "axios": "^1.6.2",
     "clsx": "^1.2.1",
     "graphql": "^16.8.1",
