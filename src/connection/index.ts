@@ -6,50 +6,29 @@ import { InjectedConnector } from "wagmi/connectors/injected"
 import { MetaMaskConnector } from "wagmi/connectors/metaMask"
 import { WalletConnectConnector } from "wagmi/connectors/walletConnect"
 
-const bedrock = {
-  id: 57000,
-  network: "Bedrock",
-  name: "Bedrock",
-  nativeCurrency: { name: "SYS", symbol: "TSYS", decimals: 18 },
+const mumbai = {
+  id: 80001,
+  network: "Mumbai",
+  name: "Mumbai",
+  nativeCurrency: { name: "MATIC", symbol: "MATIC", decimals: 18 },
   blockExplorers: {
-    default: { name: "Bedrock", url: "https://rollux.tanenbaum.io/" },
+    default: { name: "Mumbai", url: "https://mumbai.polygonscan.com/" },
   },
   rpcUrls: {
     default: {
-      http: ["https://rpc-tanenbaum.rollux.com/"],
-      webSocket: ["wss://rpc-tanenbaum.rollux.com/wss"],
+      http: ["https://polygon-mumbai-pokt.nodies.app"],
+      webSocket: ["wss://polygon-mumbai-pokt.nodies.app/wss"],
     },
     public: {
-      http: ["https://rpc-tanenbaum.rollux.com/"],
-      webSocket: ["wss://rpc-tanenbaum.rollux.com/wss"],
-    },
-  },
-  testnet: true,
-}
-
-const rollux = {
-  id: 570,
-  network: "Rollux",
-  name: "Rollux",
-  nativeCurrency: { name: "SYS", symbol: "SYS", decimals: 18 },
-  blockExplorers: {
-    default: { name: "Rollux", url: "https://explorer.rollux.com/" },
-  },
-  rpcUrls: {
-    default: {
-      http: ["https://rpc.rollux.com"],
-      webSocket: ["wss://rpc.rollux.com/wss"],
-    },
-    public: {
-      http: ["https://rpc.rollux.com"],
-      webSocket: ["wss://rpc.rollux.com/wss"],
+      http: ["https://polygon-mumbai-pokt.nodies.app"],
+      webSocket: ["wss://polygon-mumbai-pokt.nodies.app/wss"],
     },
   },
   testnet: false,
 }
 
 const { chains, publicClient, webSocketPublicClient } = configureChains(
-  [bedrock, rollux],
+  [mumbai],
   [publicProvider()],
 )
 
