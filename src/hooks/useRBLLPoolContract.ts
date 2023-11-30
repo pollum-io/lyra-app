@@ -58,11 +58,6 @@ export function useRepayDREX(amount: BigNumberish | 'MAX') {
   return useRBRLLPoolWrite(functionName, args);
 }
 
-// Function to get Supply Secondly Rate
-export function useGetSupplySR() {
-  return useRBRLLPoolRead('getSR');
-}
-
 // Function to get total supplied
 export function useGetTotalSupplied() {
   return useRBRLLPoolRead('totalSupplyrBRLL');
@@ -128,6 +123,18 @@ export function useGetUnitValue() {
   return { data, isError, isLoading };
 }
 
+// Function to get Supply Secondly Rate
+export function getSupplyInterestRate(totalSupply: BigNumberish,totalBorrow: BigNumberish) {
+  const { data, isError, isLoading } = useContractRead({
+    address: InterestRateModel,
+    abi: InterestRateModelABI,
+    functionName: 'getSupplyInterestRate',
+    args: [totalSupply, totalBorrow]
+  });
+
+  return { data, isError, isLoading };
+}
+
 // Function to get the Interest Rate of TSELIC via Chainlink
 export function useGetInterestRate() {
   const { data, isError, isLoading } = useContractRead({
@@ -138,4 +145,3 @@ export function useGetInterestRate() {
 
   return { data, isError, isLoading };
 }
-

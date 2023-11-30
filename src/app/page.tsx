@@ -26,8 +26,10 @@ import {
   useGetTotalDepositedTSELIC,
   useGetUnitValue,
   useGetInterestRate,
-  useGetSupplySR,
+  getSupplyInterestRate,
 } from "../hooks/useRBLLPoolContract";
+
+import { BigNumberish } from 'ethers';
 
 export default function HomePage() {
   const { onOpen: onOpenSD } = useStore(useLendingModalSupplyDrex);
@@ -86,19 +88,15 @@ export default function HomePage() {
   } = useGetInterestRate();
 
   const {
-    data: dataSupplySR,
-    isError: isErrorSupplySR,
-    isLoading: isLoadingSupplySR,
-  } = useGetSupplySR();
+    data: dataSupplyInterestRate,
+    isError: isErrorSupplyInterestRate,
+    isLoading: isLoadingSupplyInterestRate,
+  } = getSupplyInterestRate( dataTotalSupplied as BigNumberish || 0 , dataTotalBorrowed as BigNumberish) || 0;
 
-  const availableToBorrow =
-    Number(dataDepositedTSELIC) * Number(dataUnitValue) -
-    Number(dataBorrowedAmount);
+  const availableToBorrow = (Number(dataDepositedTSELIC) * Number(dataUnitValue) -
+    Number(dataBorrowedAmount)).toFixed(2) || 0;
 
-  const borrowPercentual =
-    100 -
-    Number(dataTotalBorrowed) /
-      (Number(dataDepositedTSELIC) * Number(dataUnitValue));
+  const borrowPercentual = (100 - Number(dataTotalBorrowed) / (Number(dataDepositedTSELIC) * Number(dataUnitValue))) || 0;
       
   useEffect(() => {
     const loading = [
@@ -110,7 +108,7 @@ export default function HomePage() {
       isLoadingTotalDepositedTSELIC,
       isLoadingUnitValue,
       isLoadingInterestRate,
-      isLoadingSupplySR,
+      isLoadingSupplyInterestRate,
     ].every((loading) => loading === false);
 
     setLoading(!loading);
@@ -123,7 +121,7 @@ export default function HomePage() {
     isLoadingTotalDepositedTSELIC,
     isLoadingUnitValue,
     isLoadingInterestRate,
-    isLoadingSupplySR,
+    isLoadingSupplyInterestRate,
   ]);
 
   return (
@@ -138,12 +136,11 @@ export default function HomePage() {
             <div className="flex h-full w-full flex-col items-center justify-center">
               <Apr aprPercent={75} />
               <div className="relative mt-6 h-10 w-[482px]">
-                <ProgressBar progress={30} />
-                <div className="absolute left-[412px] top-[20px] text-sm font-normal leading-tight text-white">
-                  {availableToBorrow}
+                <ProgressBar progress={Number(borrowPercentual)} />
+                <div className="absolute left-[412px] top-[20px] text-sm font-normal leading-tight text-white"> {!isLoading ? `R$ ${availableToBorrow}` : "R$ 0"}
                 </div>
                 <div className="absolute left-0 top-0 text-sm font-normal leading-tight text-white">
-                  Limite de Empréstimo: {borrowPercentual.toFixed(2)}%
+                  Limite de Empréstimo: {borrowPercentual}%
                 </div>
               </div>
             </div>
@@ -159,7 +156,7 @@ export default function HomePage() {
               items={[
                 {
                   title: "DREX",
-                  apr: `${dataSupplySR}%`,
+                  apr: `${dataSupplyInterestRate}%`,
                   liquidity: `R$ ${dataTotalSupplied}`,
                   balance: `R$ ${dataSuppliedDREX}`,
                   onManageClick: onOpenSD,
@@ -180,7 +177,7 @@ export default function HomePage() {
               items={[
                 {
                   title: "DREX",
-                  apr: "14.65%",
+                  apr: `${dataSupplyInterestRate}%`,
                   liquidity: `R$ ${dataTotalBorrowed}`,
                   balance: `R$ ${dataBorrowedAmount}`,
                   onManageClick: onOpenBD,
