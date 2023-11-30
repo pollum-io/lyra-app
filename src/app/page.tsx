@@ -11,7 +11,7 @@ import { ProgressBar } from "@/components/ProgressBar";
 import { Lending } from "@/components/Lending";
 import { useStore } from "zustand";
 import { useEffect, useState } from "react";
-import { useAccount } from "wagmi";
+import { useAccount, useNetwork, useSwitchNetwork } from "wagmi";
 import {
   useLendingModalBorrowDrex,
   useLendingModalSupplyDrex,
@@ -38,6 +38,15 @@ export default function HomePage() {
 
   const [isLoading, setLoading] = useState(true);
   const { address } = useAccount();
+  const { chain } = useNetwork();
+  const { switchNetwork } = useSwitchNetwork();
+  const desiredChainId = 80001;
+
+  useEffect(() => {
+    if (chain?.id !== desiredChainId && switchNetwork) {
+      switchNetwork(desiredChainId);
+    }
+  }, [chain, desiredChainId]);
 
   const {
     data: dataTotalSupplied,

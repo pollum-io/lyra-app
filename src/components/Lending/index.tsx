@@ -11,7 +11,6 @@ interface LendingItem {
   onManageClick: () => void;
   imageUrl: string;
 }
-
 interface LendingProps {
   title: string;
   items: LendingItem[];
