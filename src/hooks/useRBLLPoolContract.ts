@@ -4,15 +4,24 @@ import { abi as rBRLLABI } from '../contracts/rBRLLABI';
 import { abi as InterestRateModelABI } from '../contracts/InterestRateModelABI';
 import { rBRLLPool, InterestRateModel } from '../constant/contracts'
 
+type RBRLLPoolFunctionName = 'supplyDREX' | 'withdrawDREX' | 'withdrawAllDREX' | 'repayDREX' | 'repayAll' | 'flashLiquidateBorrow' | 'supplyTSELIC' | 'withdrawTSELIC' | 'withdrawAllTSELIC' | 'borrowDREX';
+type RBRLLPoolWriteArgs = BigNumberish[] | ['MAX'] | [string, BigNumberish, BigNumberish];
 
+interface ContractWriteHookReturn<T = BigNumberish> {
+  write: () => void;
+  data: BigNumberish | undefined;
+  isLoading: boolean;
+  isSuccess: boolean;
+  isError: boolean;
+}
 
-interface HookReturnType {
-  data: string; // replace any with the actual type
+interface ContractReadHookReturn<T> {
+  data: T;
   isError: boolean;
   isLoading: boolean;
 }
 
-export function useRBRLLPoolWrite(functionName: string, args?: any[]) {
+export function useRBRLLPoolWrite(functionName: RBRLLPoolFunctionName, args?: RBRLLPoolWriteArgs): ContractWriteHookReturn {
   const { config } = usePrepareContractWrite({
     address: rBRLLPool,
     abi: rBRLLABI,
@@ -21,11 +30,13 @@ export function useRBRLLPoolWrite(functionName: string, args?: any[]) {
   });
 
   const { write, data, isLoading, isSuccess, isError } = useContractWrite(config);
+  const safeWrite = write ?? (() => { });
+  const safeData: BigNumberish | undefined = data as BigNumberish | undefined;
 
-  return { write, data, isLoading, isSuccess, isError };
+  return { write: safeWrite, data: safeData, isLoading, isSuccess, isError };
 }
 
-export function useRBRLLPoolRead(functionName: string, args?: any[]) {
+export function useRBRLLPoolRead<T = any>(functionName: string, args?: any[]): ContractReadHookReturn<T> {
   const { data, isError, isLoading } = useContractRead({
     address: rBRLLPool,
     abi: rBRLLABI,
@@ -33,7 +44,7 @@ export function useRBRLLPoolRead(functionName: string, args?: any[]) {
     args,
   });
 
-  return { data, isError, isLoading };
+  return { data: data as T, isError, isLoading };
 }
 
 // Function to call supplyDREX
@@ -124,7 +135,7 @@ export function useGetUnitValue() {
 }
 
 // Function to get Supply Secondly Rate
-export function getSupplyInterestRate(totalSupply: BigNumberish,totalBorrow: BigNumberish) {
+export function getSupplyInterestRate(totalSupply: BigNumberish, totalBorrow: BigNumberish) {
   const { data, isError, isLoading } = useContractRead({
     address: InterestRateModel,
     abi: InterestRateModelABI,
