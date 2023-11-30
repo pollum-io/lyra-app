@@ -34,7 +34,7 @@ import {
   useSupplyDREX,
 } from "../../hooks/useRBLLPoolContract";
 
-export function LendingManage() { 
+export function LendingManage() {
   const { isOpen: isOpenSD, onClose: onCloseSD } = useStore(
     useLendingModalSupplyDrex
   );
@@ -72,36 +72,34 @@ export function LendingManage() {
     data: dataSupplyInterestRate,
     isError: isErrorSupplyInterestRate,
     isLoading: isLoadingSupplyInterestRate,
-  } = getSupplyInterestRate(
-    (dataTotalSupplied) || 0,
-    dataTotalBorrowed || 0) ;
-    const {
-      data: dataSuppliedDREX,
-      isError: isErrorSuppliedDREX,
-      isLoading: isLoadingSuppliedDREX,
-    } = useGetSuppliedDREX(address as EthereumAddress);
+  } = getSupplyInterestRate(dataTotalSupplied || 0, dataTotalBorrowed || 0);
+  const {
+    data: dataSuppliedDREX,
+    isError: isErrorSuppliedDREX,
+    isLoading: isLoadingSuppliedDREX,
+  } = useGetSuppliedDREX(address as EthereumAddress);
 
-    const {
-      data: dataDepositedTSELIC,
-      isError: isErrorDepositedTSELIC,
-      isLoading: isLoadingDepositedTSELIC,
-    } = useGetDepositedTSELIC(address as EthereumAddress);
-  
-    const {
-      data: dataBorrowedAmount,
-      isError: isErrorBorrowedAmount,
-      isLoading: isLoadingBorrowedAmount,
-    } = useGetBorrowedAmount(address as EthereumAddress);
-    const {
-      data: dataAllowanceDREX,
-      isError: isErrorAllowanceDREX,
-      isLoading: isLoadingAllowanceDREX,
-    } = useAllowanceDREX(address as EthereumAddress);
-    const {
-      data: dataAllowanceTSELIC,
-      isError: isErrorAllowanceTSELIC,
-      isLoading: isLoadingAllowanceTSELIC,
-    } = useAllowanceTSELIC(address as EthereumAddress);
+  const {
+    data: dataDepositedTSELIC,
+    isError: isErrorDepositedTSELIC,
+    isLoading: isLoadingDepositedTSELIC,
+  } = useGetDepositedTSELIC(address as EthereumAddress);
+
+  const {
+    data: dataBorrowedAmount,
+    isError: isErrorBorrowedAmount,
+    isLoading: isLoadingBorrowedAmount,
+  } = useGetBorrowedAmount(address as EthereumAddress);
+  const {
+    data: dataAllowanceDREX,
+    isError: isErrorAllowanceDREX,
+    isLoading: isLoadingAllowanceDREX,
+  } = useAllowanceDREX(address as EthereumAddress);
+  const {
+    data: dataAllowanceTSELIC,
+    isError: isErrorAllowanceTSELIC,
+    isLoading: isLoadingAllowanceTSELIC,
+  } = useAllowanceTSELIC(address as EthereumAddress);
 
   const {
     write: writeApproveDREX,
@@ -127,7 +125,6 @@ export function LendingManage() {
   //   isError: isErrorSupplyDREX,
   // } = useSupplyDREX();
 
-
   const drexBalance = Number(dataDrexBalance) / 10 ** 6;
   const TselicBalance = Number(dataTselicBalance) / 10 ** 18;
 
@@ -144,8 +141,8 @@ export function LendingManage() {
       return (
         <Tabs>
           <TabContent title="Depositar">
-            <div className="flex h-full w-full flex-col items-center justify-start gap-6 pt-5">
-              <div className="flex h-full w-full items-start justify-start gap-3">
+            <div className="flex h-[400px] w-full flex-col items-center justify-start gap-6 pt-5">
+              <div className="flex w-full items-start justify-start gap-3">
                 <div className="flex h-full w-full flex-col items-start justify-start gap-1">
                   <div className="inline-flex items-start justify-start gap-6">
                     <div className="text-base font-normal leading-normal text-gray-400">
@@ -183,7 +180,7 @@ export function LendingManage() {
                 </div>
               </div>
 
-              <div className="flex w-full flex-col gap-2">
+              <div className="flex h-full w-full flex-col gap-2">
                 <div className=" flex justify-between text-white">
                   <span>APY de Deposito:</span>
                   <span>{Number(dataSupplyInterestRate || 0) / 10e5}%</span>
@@ -198,24 +195,29 @@ export function LendingManage() {
                 </div>
                 <div className="flex justify-between text-white">
                   <span>Taxa de Utilização:</span>
-                  <span>{!isLoading ? `${Number(dataTotalSupplied)/Number(dataTotalBorrowed)*100}` : "0"}%</span>
+                  <span>
+                    {!isLoading
+                      ? `${
+                          (Number(dataTotalSupplied) /
+                            Number(dataTotalBorrowed)) *
+                          100
+                        }`
+                      : "0"}
+                    %
+                  </span>
                 </div>
               </div>
 
-              <Button
-                text="Depositar"
-                onClick={() => null}
-                isLoading={false}
-              />
+              <Button text="Depositar" onClick={() => null} isLoading={false} />
             </div>
           </TabContent>
           <TabContent title="Sacar">
-            <div className="flex h-full w-full flex-col items-center justify-start gap-6 pt-5">
-              <div className="flex h-full w-full items-start justify-start gap-3">
+            <div className="flex h-[400px] w-full flex-col items-center justify-center gap-6 pt-5">
+              <div className="flex w-full items-start justify-start gap-3">
                 <div className="flex h-full w-full flex-col items-start justify-start gap-4">
                   <div className="inline-flex items-start justify-start gap-6">
                     <div className="text-base font-normal leading-normal text-gray-400">
-                    Balanço: {!isLoading ? `${dataSuppliedDREX}` : "0"} rBRLL
+                      Balanço: {!isLoading ? `${dataSuppliedDREX}` : "0"} rBRLL
                     </div>
                   </div>
                   <div className="border-brandBlue-300 inline-flex w-full items-center justify-between rounded-lg border border-opacity-20 bg-gray-700 px-3">
@@ -271,10 +273,16 @@ export function LendingManage() {
                 </div>
               </div>
 
-              <div className="flex w-full flex-col gap-2">
+              <div className="flex h-full w-full flex-col gap-2">
                 <div className=" flex justify-between text-white">
                   <span>Liquidez Disponível em DREX:</span>
-                  <span>{!isLoading ? `R$ ${Number(dataTotalSupplied)-Number(dataTotalBorrowed)}` : "R$ 0"}</span>
+                  <span>
+                    {!isLoading
+                      ? `R$ ${
+                          Number(dataTotalSupplied) - Number(dataTotalBorrowed)
+                        }`
+                      : "R$ 0"}
+                  </span>
                 </div>
                 <div className="flex justify-between text-white">
                   <span>Total Depositado:</span>
@@ -286,7 +294,16 @@ export function LendingManage() {
                 </div>
                 <div className="flex justify-between text-white">
                   <span>Taxa de Utilização:</span>
-                  <span>{!isLoading ? `${Number(dataTotalSupplied)/Number(dataTotalBorrowed)*100}` : "0"}%</span>
+                  <span>
+                    {!isLoading
+                      ? `${
+                          (Number(dataTotalSupplied) /
+                            Number(dataTotalBorrowed)) *
+                          100
+                        }`
+                      : "0"}
+                    %
+                  </span>
                 </div>
               </div>
 
@@ -294,12 +311,12 @@ export function LendingManage() {
             </div>
           </TabContent>
           <TabContent title="Recall">
-            <div className="flex h-full w-full flex-col items-center justify-start gap-6 pt-5">
-              <div className="flex h-full w-full items-start justify-start gap-3">
+            <div className="flex h-[400px] w-full flex-col items-center justify-start gap-6 pt-5">
+              <div className="flex w-full items-start justify-start gap-3">
                 <div className="flex h-full w-full flex-col items-start justify-start gap-4">
                   <div className="inline-flex items-start justify-start gap-6">
                     <div className="text-base font-normal leading-normal text-gray-400">
-                    Balanço: {!isLoading ? `${dataSuppliedDREX}` : "0"} rBRLL
+                      Balanço: {!isLoading ? `${dataSuppliedDREX}` : "0"} rBRLL
                     </div>
                   </div>
                   <div className="border-brandBlue-300 inline-flex w-full items-center justify-between rounded-lg border border-opacity-20 bg-gray-700 px-3">
@@ -355,7 +372,10 @@ export function LendingManage() {
                 </div>
               </div>
 
-              <div className="flex w-full  text-white">O recall instantâneo facilita a troca de garantias TSELIC por DREX através do pool da Uniswap.</div>
+              <div className="flex h-full w-full  text-white">
+                O recall instantâneo facilita a troca de garantias TSELIC por
+                DREX através do pool da Uniswap.
+              </div>
 
               <Button text="Recall" onClick={() => null} isLoading={false} />
             </div>
@@ -367,12 +387,12 @@ export function LendingManage() {
       return (
         <Tabs>
           <TabContent title="Depositar">
-            <div className="flex h-full w-full flex-col items-center justify-start gap-6 pt-5">
-              <div className="flex h-full w-full items-start justify-start gap-3">
+            <div className="flex h-[400px] w-full flex-col items-center justify-start gap-6 pt-5">
+              <div className="flex w-full items-start justify-start gap-3">
                 <div className="flex h-full w-full flex-col items-start justify-start gap-1">
                   <div className="inline-flex items-start justify-start gap-6">
                     <div className="text-base font-normal leading-normal text-gray-400">
-                       Balanço: {!isLoading ? `${TselicBalance}` : "0"} TSELIC
+                      Balanço: {!isLoading ? `${TselicBalance}` : "0"} TSELIC
                     </div>
                   </div>
                   <div className="border-brandBlue-300 inline-flex w-full items-center justify-between rounded-lg border border-opacity-20 bg-gray-700 px-3">
@@ -406,27 +426,25 @@ export function LendingManage() {
                 </div>
               </div>
 
-              <div className="flex w-full flex-col gap-2">
+              <div className="flex h-full w-full flex-col gap-2">
                 <div className=" flex justify-between text-white">
                   <span>TSELIC Depositado:</span>
-                  <span>{!isLoading ? `${dataDepositedTSELIC}` : "0"} TSELIC</span>
+                  <span>
+                    {!isLoading ? `${dataDepositedTSELIC}` : "0"} TSELIC
+                  </span>
                 </div>
               </div>
 
-              <Button
-                text="Depositar"
-                onClick={() => null}
-                isLoading={false}
-              />
+              <Button text="Depositar" onClick={() => null} isLoading={false} />
             </div>
           </TabContent>
           <TabContent title="Sacar">
-            <div className="flex h-full w-full flex-col items-center justify-start gap-6 pt-5">
-              <div className="flex h-full w-full items-start justify-start gap-3">
+            <div className="flex h-[400px] w-full flex-col items-center justify-start gap-6 pt-5">
+              <div className="flex w-full items-start justify-start gap-3">
                 <div className="flex h-full w-full flex-col items-start justify-start gap-4">
                   <div className="inline-flex items-start justify-start gap-6">
                     <div className="text-base font-normal leading-normal text-gray-400">
-                    Balanço: {!isLoading ? `${TselicBalance}` : "0"} TSELIC
+                      Balanço: {!isLoading ? `${TselicBalance}` : "0"} TSELIC
                     </div>
                   </div>
                   <div className="border-brandBlue-300 inline-flex w-full items-center justify-between rounded-lg border border-opacity-20 bg-gray-700 px-3">
@@ -460,10 +478,12 @@ export function LendingManage() {
                 </div>
               </div>
 
-              <div className="flex w-full flex-col gap-2">
+              <div className="flex h-full w-full flex-col gap-2">
                 <div className=" flex justify-between text-white">
                   <span>TSELIC Depositado:</span>
-                  <span>{!isLoading ? `${dataDepositedTSELIC}` : "0"} TSELIC</span>
+                  <span>
+                    {!isLoading ? `${dataDepositedTSELIC}` : "0"} TSELIC
+                  </span>
                 </div>
                 <div className="flex justify-between text-white">
                   <span>DREX Emprestado:</span>
@@ -480,12 +500,12 @@ export function LendingManage() {
       return (
         <Tabs>
           <TabContent title="Emprestar">
-            <div className="flex h-full w-full flex-col items-center justify-start gap-6 pt-5">
-              <div className="flex h-full w-full items-start justify-start gap-3">
+            <div className="flex h-[400px] w-full flex-col items-center justify-start gap-6 pt-5">
+              <div className="flex w-full items-start justify-start gap-3">
                 <div className="flex h-full w-full flex-col items-start justify-start gap-1">
                   <div className="inline-flex items-start justify-start gap-6">
                     <div className="text-base font-normal leading-normal text-gray-400">
-                    Balanço: {!isLoading ? `${drexBalance}` : "0"} DREX
+                      Balanço: {!isLoading ? `${drexBalance}` : "0"} DREX
                     </div>
                   </div>
                   <div className="border-brandBlue-300 inline-flex w-full items-center justify-between rounded-lg border border-opacity-20 bg-gray-700 px-3">
@@ -519,10 +539,12 @@ export function LendingManage() {
                 </div>
               </div>
 
-              <div className="flex w-full flex-col gap-2">
-              <div className=" flex justify-between text-white">
+              <div className="flex h-full w-full flex-col gap-2">
+                <div className=" flex justify-between text-white">
                   <span>TSELIC Depositado:</span>
-                  <span>{!isLoading ? `${dataDepositedTSELIC}` : "0"} TSELIC</span>
+                  <span>
+                    {!isLoading ? `${dataDepositedTSELIC}` : "0"} TSELIC
+                  </span>
                 </div>
                 <div className="flex justify-between text-white">
                   <span>DREX Emprestado:</span>
@@ -530,20 +552,30 @@ export function LendingManage() {
                 </div>
                 <div className=" flex justify-between text-white">
                   <span>Liquidez Disponível em DREX:</span>
-                  <span>{!isLoading ? `R$ ${Number(dataTotalSupplied)-Number(dataTotalBorrowed)}` : "R$ 0"}</span>
+                  <span>
+                    {!isLoading
+                      ? `R$ ${
+                          Number(dataTotalSupplied) - Number(dataTotalBorrowed)
+                        }`
+                      : "R$ 0"}
+                  </span>
                 </div>
               </div>
-              <Button text="Tomar Emprestimo" onClick={() => null} isLoading={false} />
+              <Button
+                text="Tomar Emprestimo"
+                onClick={() => null}
+                isLoading={false}
+              />
             </div>
           </TabContent>
 
           <TabContent title="Quitar">
-            <div className="flex h-full w-full flex-col items-center justify-start gap-6 pt-5">
-              <div className="flex h-full w-full items-start justify-start gap-3">
+            <div className="flex h-[400px] w-full flex-col items-center justify-start gap-6 pt-5">
+              <div className="flex w-full items-start justify-start gap-3">
                 <div className="flex h-full w-full flex-col items-start justify-start gap-1">
                   <div className="inline-flex items-start justify-start gap-6">
                     <div className="text-base font-normal leading-normal text-gray-400">
-                    Balanço: {!isLoading ? `${drexBalance}` : "0"} DREX
+                      Balanço: {!isLoading ? `${drexBalance}` : "0"} DREX
                     </div>
                   </div>
                   <div className="border-brandBlue-300 inline-flex w-full items-center justify-between rounded-lg border border-opacity-20 bg-gray-700 px-3">
@@ -577,14 +609,18 @@ export function LendingManage() {
                 </div>
               </div>
 
-              <div className="flex w-full flex-col gap-2">
+              <div className="flex h-full w-full flex-col gap-2">
                 <div className="flex justify-between text-white">
                   <span>DREX Emprestado:</span>
                   <span>{!isLoading ? `${dataBorrowedAmount}` : "0"} DREX</span>
                 </div>
               </div>
 
-              <Button text="Quitar Emprestimo" onClick={() => null} isLoading={false} />
+              <Button
+                text="Quitar Emprestimo"
+                onClick={() => null}
+                isLoading={false}
+              />
             </div>
           </TabContent>
         </Tabs>

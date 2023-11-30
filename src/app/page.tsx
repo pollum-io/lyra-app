@@ -31,6 +31,7 @@ import {
 
 import { BigNumberish } from "ethers";
 import { InfoHeaderSkeleton } from "@/components/Skeletons/InfoHeaderSkeleton";
+import { EthereumAddress } from "@/hooks/useErc20";
 
 export default function HomePage() {
   const { onOpen: onOpenSD } = useStore(useLendingModalSupplyDrex);
@@ -40,11 +41,6 @@ export default function HomePage() {
   const [depositedTSELIC, setDepositedTSELIC] = useState(null);
   const [suppliedDREX, setSuppliedDREX] = useState(null);
   const [borrowedAmount, setBorrowedAmount] = useState(null);
-
-  const [isLoadingDepositedTSELIC, setIsLoadingDepositedTSELIC] =
-    useState(false);
-  const [isLoadingSuppliedDREX, setIsLoadingSuppliedDREX] = useState(false);
-  const [isLoadingBorrowedAmount, setIsLoadingBorrowedAmount] = useState(false);
 
   const [isLoading, setLoading] = useState(true);
   const { address } = useAccount();
@@ -76,38 +72,31 @@ export default function HomePage() {
     isLoading: isLoadingTotalDepositedTSELIC,
   } = useGetTotalDepositedTSELIC();
 
+  const {
+    data: dataDepositedTSELIC,
+    isError: isErrorDepositedTSELIC,
+    isLoading: isLoadingDepositedTSELIC,
+  } = useGetDepositedTSELIC(address as EthereumAddress);
+
+  const {
+    data: dataSuppliedDREX,
+    isError: isErrorSuppliedDREX,
+    isLoading: isLoadingSuppliedDREX,
+  } = useGetSuppliedDREX(address as EthereumAddress);
+
+  const {
+    data: dataBorrowedAmount,
+    isError: isErrorBorrowedAmount,
+    isLoading: isLoadingBorrowedAmount,
+  } = useGetBorrowedAmount(address as EthereumAddress);
+
   useEffect(() => {
     if (address) {
-      setIsLoadingDepositedTSELIC(true);
-      setIsLoadingSuppliedDREX(true);
-      setIsLoadingBorrowedAmount(true);
-
-      const {
-        data: dataDepositedTSELIC,
-        isError: isErrorDepositedTSELIC,
-        isLoading: isLoadingDepositedTSELIC,
-      } = useGetDepositedTSELIC(address as `0x${string}`);
-
-      const {
-        data: dataSuppliedDREX,
-        isError: isErrorSuppliedDREX,
-        isLoading: isLoadingSuppliedDREX,
-      } = useGetSuppliedDREX(address as `0x${string}`);
-
-      const {
-        data: dataBorrowedAmount,
-        isError: isErrorBorrowedAmount,
-        isLoading: isLoadingBorrowedAmount,
-      } = useGetBorrowedAmount(address as `0x${string}`);
-
       setDepositedTSELIC(dataDepositedTSELIC);
       setSuppliedDREX(dataSuppliedDREX);
       setBorrowedAmount(dataBorrowedAmount);
-      setIsLoadingDepositedTSELIC(isLoadingDepositedTSELIC);
-      setIsLoadingSuppliedDREX(isLoadingSuppliedDREX);
-      setIsLoadingBorrowedAmount(isLoadingBorrowedAmount);
     }
-  }, [address]);
+  }, [address, dataDepositedTSELIC, dataSuppliedDREX, dataBorrowedAmount]);
 
   const {
     data: dataUnitValue,
@@ -125,9 +114,7 @@ export default function HomePage() {
     data: dataSupplyInterestRate,
     isError: isErrorSupplyInterestRate,
     isLoading: isLoadingSupplyInterestRate,
-  } = getSupplyInterestRate(
-    (dataTotalSupplied) || 0,
-    dataTotalBorrowed || 0) ;
+  } = getSupplyInterestRate(dataTotalSupplied || 0, dataTotalBorrowed || 0);
 
   const totalBorrowed = safeParseFloat(dataTotalBorrowed);
   const localDepositedTSELIC = safeParseFloat(depositedTSELIC);
