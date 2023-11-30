@@ -10,34 +10,96 @@ import { Apr } from "@/components/Apr";
 import { ProgressBar } from "@/components/ProgressBar";
 import { Lending } from "@/components/Lending";
 import { useStore } from "zustand";
-import { useEffect, useState } from "react"
-import { useAccount } from "wagmi"
+import { useEffect, useState } from "react";
+import { useAccount } from "wagmi";
 import {
   useLendingModalBorrowDrex,
   useLendingModalSupplyDrex,
   useLendingModalSupplyTSelic,
 } from "@/stores/lendingModal";
-import { useGetTotalSupplied, useGetTotalBorrowed, useGetBorrowedAmount, useGetDepositedTSELIC, useGetSuppliedDREX, useGetTotalDepositedTSELIC, useGetUnitValue, useGetInterestRate, useGetSupplySR } from "../hooks/useRBLLPoolContract"
+import {
+  useGetTotalSupplied,
+  useGetTotalBorrowed,
+  useGetBorrowedAmount,
+  useGetDepositedTSELIC,
+  useGetSuppliedDREX,
+  useGetTotalDepositedTSELIC,
+  useGetUnitValue,
+  useGetInterestRate,
+  useGetSupplySR,
+} from "../hooks/useRBLLPoolContract";
 
 export default function HomePage() {
   const { onOpen: onOpenSD } = useStore(useLendingModalSupplyDrex);
   const { onOpen: onOpenST } = useStore(useLendingModalSupplyTSelic);
   const { onOpen: onOpenBD } = useStore(useLendingModalBorrowDrex);
 
-  const [isLoading, setLoading] = useState(true)
-  const { address } = useAccount()
+  const [isLoading, setLoading] = useState(true);
+  const { address } = useAccount();
 
-  const { data: dataTotalSupplied, isError: isErrorTotalSupplied, isLoading: isLoadingTotalSupplied } = useGetTotalSupplied()
-  const { data: dataTotalBorrowed, isError: isErrorTotalBorrowed, isLoading: isLoadingTotalBorrowed } = useGetTotalBorrowed()
-  const { data: dataTotalDepositedTSELIC, isError: isErrorTotalDepositedTSELIC, isLoading: isLoadingTotalDepositedTSELIC } = useGetTotalDepositedTSELIC()
-  const { data: dataDepositedTSELIC, isError: isErrorDepositedTSELIC, isLoading: isLoadingDepositedTSELIC } = useGetDepositedTSELIC(address as `0x${string}`)
-  const { data: dataSuppliedDREX, isError: isErrorSuppliedDREX, isLoading: isLoadingSuppliedDREX } = useGetSuppliedDREX(address as `0x${string}`)
-  const { data: dataBorrowedAmount, isError: isErrorBorrowedAmount, isLoading: isLoadingBorrowedAmount } = useGetBorrowedAmount(address as `0x${string}`)
-  const { data: dataUnitValue, isError: isErrorUnitValue, isLoading: isLoadingUnitValue } = useGetUnitValue()
-  const { data: dataInterestRate, isError: isErrorInterestRate, isLoading: isLoadingInterestRate } = useGetInterestRate()
-  const { data: dataSupplySR, isError: isErrorSupplySR, isLoading: isLoadingSupplySR } = useGetSupplySR()
-  const availableToBorrow = Number(dataDepositedTSELIC) * Number(dataUnitValue) - Number(dataBorrowedAmount);
-  const borrowPercentual = 100 - Number(dataTotalBorrowed) / (Number(dataDepositedTSELIC) * Number(dataUnitValue))
+  const {
+    data: dataTotalSupplied,
+    isError: isErrorTotalSupplied,
+    isLoading: isLoadingTotalSupplied,
+  } = useGetTotalSupplied();
+
+  const {
+    data: dataTotalBorrowed,
+    isError: isErrorTotalBorrowed,
+    isLoading: isLoadingTotalBorrowed,
+  } = useGetTotalBorrowed();
+
+  const {
+    data: dataTotalDepositedTSELIC,
+    isError: isErrorTotalDepositedTSELIC,
+    isLoading: isLoadingTotalDepositedTSELIC,
+  } = useGetTotalDepositedTSELIC();
+
+  const {
+    data: dataDepositedTSELIC,
+    isError: isErrorDepositedTSELIC,
+    isLoading: isLoadingDepositedTSELIC,
+  } = useGetDepositedTSELIC(address as `0x${string}`);
+
+  const {
+    data: dataSuppliedDREX,
+    isError: isErrorSuppliedDREX,
+    isLoading: isLoadingSuppliedDREX,
+  } = useGetSuppliedDREX(address as `0x${string}`);
+
+  const {
+    data: dataBorrowedAmount,
+    isError: isErrorBorrowedAmount,
+    isLoading: isLoadingBorrowedAmount,
+  } = useGetBorrowedAmount(address as `0x${string}`);
+
+  const {
+    data: dataUnitValue,
+    isError: isErrorUnitValue,
+    isLoading: isLoadingUnitValue,
+  } = useGetUnitValue();
+
+  const {
+    data: dataInterestRate,
+    isError: isErrorInterestRate,
+    isLoading: isLoadingInterestRate,
+  } = useGetInterestRate();
+
+  const {
+    data: dataSupplySR,
+    isError: isErrorSupplySR,
+    isLoading: isLoadingSupplySR,
+  } = useGetSupplySR();
+
+  const availableToBorrow =
+    Number(dataDepositedTSELIC) * Number(dataUnitValue) -
+    Number(dataBorrowedAmount);
+
+  const borrowPercentual =
+    100 -
+    Number(dataTotalBorrowed) /
+      (Number(dataDepositedTSELIC) * Number(dataUnitValue));
+      
   useEffect(() => {
     const loading = [
       isLoadingTotalSupplied,
@@ -48,10 +110,10 @@ export default function HomePage() {
       isLoadingTotalDepositedTSELIC,
       isLoadingUnitValue,
       isLoadingInterestRate,
-      isLoadingSupplySR
-    ].every((loading) => loading === false)
+      isLoadingSupplySR,
+    ].every((loading) => loading === false);
 
-    setLoading(!loading)
+    setLoading(!loading);
   }, [
     isLoadingTotalSupplied,
     isLoadingTotalBorrowed,
@@ -61,17 +123,17 @@ export default function HomePage() {
     isLoadingTotalDepositedTSELIC,
     isLoadingUnitValue,
     isLoadingInterestRate,
-    isLoadingSupplySR
-  ])
+    isLoadingSupplySR,
+  ]);
 
   return (
     <main>
       <section>
         <div className="layout relative flex min-h-screen flex-col items-center justify-start gap-20 py-12 text-center">
           <div className="flex h-full w-full items-end justify-between">
-            <Card text={"Saldo em Depósito"} value={!isLoading
-              ? `R$ ${dataSuppliedDREX}`
-              : "R$ 0"}
+            <Card
+              text={"Saldo em Depósito"}
+              value={!isLoading ? `R$ ${dataSuppliedDREX}` : "R$ 0"}
             />
             <div className="flex h-full w-full flex-col items-center justify-center">
               <Apr aprPercent={75} />
@@ -85,9 +147,11 @@ export default function HomePage() {
                 </div>
               </div>
             </div>
-            <Card text={"Saldo em Empréstimo"} value={!isLoading
-              ? `R$ ${dataBorrowedAmount}`
-              : "R$ 0"} isLeft />
+            <Card
+              text={"Saldo em Empréstimo"}
+              value={!isLoading ? `R$ ${dataBorrowedAmount}` : "R$ 0"}
+              isLeft
+            />
           </div>
           <div className="flex w-full flex-col items-start justify-center gap-7 lg:flex-row">
             <Lending
