@@ -98,6 +98,17 @@ export default function HomePage() {
 
   const borrowPercentual = (100 - Number(dataTotalBorrowed) / (Number(dataDepositedTSELIC) * Number(dataUnitValue))) || 0;
       
+  const totalBorrowed = safeParseFloat(dataTotalBorrowed);
+  const depositedTSELIC = safeParseFloat(dataDepositedTSELIC);
+  const unitValue = safeParseFloat(dataUnitValue);
+
+  function safeParseFloat(value: unknown): number {
+    if (typeof value === "string") {
+      return parseFloat(value) || 0;
+    }
+    return 0;
+  }
+
   useEffect(() => {
     const loading = [
       isLoadingTotalSupplied,
@@ -140,7 +151,7 @@ export default function HomePage() {
                 <div className="absolute left-[412px] top-[20px] text-sm font-normal leading-tight text-white"> {!isLoading ? `R$ ${availableToBorrow}` : "R$ 0"}
                 </div>
                 <div className="absolute left-0 top-0 text-sm font-normal leading-tight text-white">
-                  Limite de Empréstimo: {borrowPercentual}%
+                  Limite de Empréstimo: {!isLoading ?borrowPercentual: 0}%
                 </div>
               </div>
             </div>
