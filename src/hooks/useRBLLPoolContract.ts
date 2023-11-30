@@ -94,7 +94,7 @@ export function useWithdrawTSELIC(amount: BigNumberish | 'MAX') {
   const isMax = amount === 'MAX';
   const functionName = isMax ? 'withdrawAllTSELIC' : 'withdrawTSELIC';
   const args = isMax ? [] : [amount];
-  return useRBRLLPoolWrite('functionName', args);
+  return useRBRLLPoolWrite(functionName, args);
 }
 
 // Function to get borrowed amount
