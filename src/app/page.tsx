@@ -29,7 +29,7 @@ import {
   getSupplyInterestRate,
 } from "../hooks/useRBLLPoolContract";
 
-import { BigNumberish } from 'ethers';
+import { BigNumberish } from "ethers";
 
 export default function HomePage() {
   const { onOpen: onOpenSD } = useStore(useLendingModalSupplyDrex);
@@ -91,18 +91,21 @@ export default function HomePage() {
     data: dataSupplyInterestRate,
     isError: isErrorSupplyInterestRate,
     isLoading: isLoadingSupplyInterestRate,
-  } = getSupplyInterestRate( dataTotalSupplied as BigNumberish || 0 , dataTotalBorrowed as BigNumberish) || 0;
+  } = getSupplyInterestRate(
+    (dataTotalSupplied as BigNumberish) || 0,
+    dataTotalBorrowed as BigNumberish
+  ) || 0;
 
   const totalBorrowed = safeParseFloat(dataTotalBorrowed);
   const depositedTSELIC = safeParseFloat(dataDepositedTSELIC);
   const unitValue = safeParseFloat(dataUnitValue);
   const borrowedAmount = safeParseFloat(dataBorrowedAmount);
 
-  const availableToBorrow = (depositedTSELIC * unitValue -
-    borrowedAmount) || 0;
+  const availableToBorrow = depositedTSELIC * unitValue - borrowedAmount || 0;
 
-  const borrowPercentual = (100 - totalBorrowed / (depositedTSELIC * unitValue)) || 0;
-      
+  const borrowPercentual =
+    100 - totalBorrowed / (depositedTSELIC * unitValue) || 0;
+
   function safeParseFloat(value: unknown): number {
     if (typeof value === "string") {
       return parseFloat(value) || 0;
@@ -149,10 +152,12 @@ export default function HomePage() {
               <Apr aprPercent={75} />
               <div className="relative mt-6 h-10 w-[482px]">
                 <ProgressBar progress={Number(borrowPercentual)} />
-                <div className="absolute left-[412px] top-[20px] text-sm font-normal leading-tight text-white"> {!isLoading ? `R$ ${availableToBorrow}` : "R$ 0"}
+                <div className="absolute left-[412px] top-[20px] text-sm font-normal leading-tight text-white">
+                  {" "}
+                  {!isLoading ? `R$ ${availableToBorrow}` : "R$ 0"}
                 </div>
                 <div className="absolute left-0 top-0 text-sm font-normal leading-tight text-white">
-                  Limite de Empréstimo: {!isLoading ?borrowPercentual: 0}%
+                  Limite de Empréstimo: {!isLoading ? borrowPercentual : 0}%
                 </div>
               </div>
             </div>
