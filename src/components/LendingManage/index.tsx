@@ -28,43 +28,233 @@ export function LendingManage() {
       return (
         <Tabs>
           <TabContent title="Supply">
-            <div className="flex h-[300px] w-full flex-col items-center justify-start gap-6 pt-5">
-              <div className="flex h-full w-full items-start justify-start  gap-3">
-                <div className="border-brandBlue-300 flex h-16 w-20 rounded-full">
-                  <Image
-                    src={"/images/prana.png"}
-                    alt="logo"
-                    width={64}
-                    height={64}
-                    className="rounded-full"
-                    objectFit="cover"
-                  />
-                </div>
-                <div className=" flex h-full w-full flex-col items-start justify-start gap-1">
+            <div className="flex h-full w-full flex-col items-center justify-start gap-6 pt-5">
+              <div className="flex h-full w-full items-start justify-start gap-3">
+                <div className="flex h-full w-full flex-col items-start justify-start gap-1">
                   <div className="inline-flex items-start justify-start gap-6">
                     <div className="text-base font-normal leading-normal text-gray-400">
-                      Wallet Balance: 96.29 ETH
+                      Wallet Balance: 96.29 DREX
                     </div>
                   </div>
-                  <div className="border-brandBlue-300 inline-flex w-full items-start justify-start rounded-lg border border-opacity-20 bg-gray-700">
-                    <div className="flex h-10 shrink grow basis-0 items-center justify-start gap-2.5 px-[22px] py-2">
-                      <div className="min-w-[50px] text-base font-normal leading-normal text-white">
-                        1
-                      </div>
-                    </div>
-                    <div className="flex w-16 items-center justify-center gap-2.5 px-4 py-2">
-                      <div className="text-brandBlue-300 text-base font-normal leading-normal">
+                  <div className="border-brandBlue-300 inline-flex w-full items-center justify-between rounded-lg border border-opacity-20 bg-gray-700 px-3">
+                    <input
+                      type="number"
+                      className="h-full min-w-[50px] border-none bg-transparent text-base font-normal leading-normal text-white shadow outline-none focus:border-transparent focus:outline-none focus:ring-0"
+                      placeholder={"0"}
+                      // value={value} TODO: change props to use control on input
+                      style={{
+                        WebkitAppearance: "none",
+                        MozAppearance: "textfield",
+                      }}
+                    />
+                    <div className="flex w-[100px] items-center justify-center gap-2.5 px-4 py-2">
+                      <button
+                        className="text-brandBlue-300 text-base font-normal leading-normal"
+                        onClick={() => null}
+                      >
                         max
+                      </button>
+                      <div className="relative h-6 w-6">
+                        <Image
+                          src={"/images/drex.png"}
+                          alt="logo"
+                          layout="fill"
+                          className="rounded-full object-cover"
+                        />
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-              <Button text="Supply [name]" />
+
+              <div className="flex w-full flex-col gap-2">
+                <div className=" flex justify-between text-white">
+                  <span>Supply APY:</span>
+                  <span>4.749%</span>
+                </div>
+                <div className="flex justify-between text-white">
+                  <span>Total Supplied:</span>
+                  <span>3712765.889</span>
+                </div>
+                <div className="flex justify-between text-white">
+                  <span>Total Borrowed:</span>
+                  <span>3711651.918</span>
+                </div>
+                <div className="flex justify-between text-white">
+                  <span>Utilization Rate:</span>
+                  <span>99.970%</span>
+                </div>
+              </div>
+
+              <Button
+                text="Supply DREX"
+                onClick={() => null}
+                isLoading={false}
+              />
             </div>
           </TabContent>
           <TabContent title="Withdraw">
-            {/* Conteúdo da aba Withdraw */}
+            <div className="flex h-full w-full flex-col items-center justify-start gap-6 pt-5">
+              <div className="flex h-full w-full items-start justify-start gap-3">
+                <div className="flex h-full w-full flex-col items-start justify-start gap-4">
+                  <div className="inline-flex items-start justify-start gap-6">
+                    <div className="text-base font-normal leading-normal text-gray-400">
+                      Wallet Balance: 96.29 DREX
+                    </div>
+                  </div>
+                  <div className="border-brandBlue-300 inline-flex w-full items-center justify-between rounded-lg border border-opacity-20 bg-gray-700 px-3">
+                    <input
+                      type="number"
+                      className="h-full min-w-[50px] border-none bg-transparent text-base font-normal leading-normal text-white shadow outline-none focus:border-transparent focus:outline-none focus:ring-0"
+                      placeholder={"0"}
+                      // value={value} TODO: change props to use control on input
+                      style={{
+                        WebkitAppearance: "none",
+                        MozAppearance: "textfield",
+                      }}
+                    />
+                    <div className="flex w-[100px] items-center justify-center gap-2.5 px-4 py-2">
+                      <button
+                        className="text-brandBlue-300 text-base font-normal leading-normal"
+                        onClick={() => null}
+                      >
+                        max
+                      </button>
+                      <div className="relative h-6 w-6">
+                        <Image
+                          src={"/images/drex.png"}
+                          alt="logo"
+                          layout="fill"
+                          className="rounded-full object-cover"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div className="border-brandBlue-300 inline-flex w-full items-center justify-between rounded-lg border border-opacity-20 bg-gray-700 px-3">
+                    <input
+                      type="number"
+                      className="h-full min-w-[50px] border-none bg-transparent text-base font-normal leading-normal text-white shadow outline-none focus:border-transparent focus:outline-none focus:ring-0"
+                      placeholder={"0"}
+                      // value={value} TODO: change props to use control on input
+                      style={{
+                        WebkitAppearance: "none",
+                        MozAppearance: "textfield",
+                      }}
+                    />
+                    <div className="flex w-[100px] items-center justify-center gap-2.5 px-4 py-2">
+                      <button
+                        className="text-brandBlue-300 text-base font-normal leading-normal"
+                        onClick={() => null}
+                      >
+                        max
+                      </button>
+                      <div className="relative h-6 w-6">
+                        <Image
+                          src={"/images/drex.png"}
+                          alt="logo"
+                          layout="fill"
+                          className="rounded-full object-cover"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex w-full flex-col gap-2">
+                <div className=" flex justify-between text-white">
+                  <span>Current Available USDC Liquidity:</span>
+                  <span>0</span>
+                </div>
+                <div className="flex justify-between text-white">
+                  <span>Total Supplied:</span>
+                  <span>3712765.889</span>
+                </div>
+                <div className="flex justify-between text-white">
+                  <span>Total Borrowed:</span>
+                  <span>3711651.918</span>
+                </div>
+                <div className="flex justify-between text-white">
+                  <span>Utilization Rate:</span>
+                  <span>99.970%</span>
+                </div>
+              </div>
+
+              <Button text="Withdraw" onClick={() => null} isLoading={false} />
+            </div>
+          </TabContent>
+          <TabContent title="Recall">
+            <div className="flex h-full w-full flex-col items-center justify-start gap-6 pt-5">
+              <div className="flex h-full w-full items-start justify-start gap-3">
+                <div className="flex h-full w-full flex-col items-start justify-start gap-4">
+                  <div className="inline-flex items-start justify-start gap-6">
+                    <div className="text-base font-normal leading-normal text-gray-400">
+                      Wallet Balance: 96.29 DREX
+                    </div>
+                  </div>
+                  <div className="border-brandBlue-300 inline-flex w-full items-center justify-between rounded-lg border border-opacity-20 bg-gray-700 px-3">
+                    <input
+                      type="number"
+                      className="h-full min-w-[50px] border-none bg-transparent text-base font-normal leading-normal text-white shadow outline-none focus:border-transparent focus:outline-none focus:ring-0"
+                      placeholder={"0"}
+                      // value={value} TODO: change props to use control on input
+                      style={{
+                        WebkitAppearance: "none",
+                        MozAppearance: "textfield",
+                      }}
+                    />
+                    <div className="flex w-[100px] items-center justify-center gap-2.5 px-4 py-2">
+                      <button
+                        className="text-brandBlue-300 text-base font-normal leading-normal"
+                        onClick={() => null}
+                      >
+                        max
+                      </button>
+                      <div className="relative h-6 w-6">
+                        <Image
+                          src={"/images/drex.png"}
+                          alt="logo"
+                          layout="fill"
+                          className="rounded-full object-cover"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div className="border-brandBlue-300 inline-flex w-full items-center justify-between rounded-lg border border-opacity-20 bg-gray-700 px-3">
+                    <input
+                      type="number"
+                      className="h-full min-w-[50px] border-none bg-transparent text-base font-normal leading-normal text-white shadow outline-none focus:border-transparent focus:outline-none focus:ring-0"
+                      placeholder={"0"}
+                      // value={value} TODO: change props to use control on input
+                      style={{
+                        WebkitAppearance: "none",
+                        MozAppearance: "textfield",
+                      }}
+                    />
+                    <div className="flex w-[100px] items-center justify-center gap-2.5 px-4 py-2">
+                      <button
+                        className="text-brandBlue-300 text-base font-normal leading-normal"
+                        onClick={() => null}
+                      >
+                        max
+                      </button>
+                      <div className="relative h-6 w-6">
+                        <Image
+                          src={"/images/drex.png"}
+                          alt="logo"
+                          layout="fill"
+                          className="rounded-full object-cover"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex w-full  text-white">Some text on here</div>
+
+              <Button text="Recall" onClick={() => null} isLoading={false} />
+            </div>
           </TabContent>
         </Tabs>
       );
@@ -73,43 +263,233 @@ export function LendingManage() {
       return (
         <Tabs>
           <TabContent title="Supply">
-            <div className="flex h-[300px] w-full flex-col items-center justify-start gap-6 pt-5">
-              <div className="flex h-full w-full items-start justify-start  gap-3">
-                <div className="border-brandBlue-300 flex h-16 w-20 rounded-full">
-                  <Image
-                    src={"/images/prana.png"}
-                    alt="logo"
-                    width={64}
-                    height={64}
-                    className="rounded-full"
-                    objectFit="cover"
-                  />
-                </div>
-                <div className=" flex h-full w-full flex-col items-start justify-start gap-1">
+            <div className="flex h-full w-full flex-col items-center justify-start gap-6 pt-5">
+              <div className="flex h-full w-full items-start justify-start gap-3">
+                <div className="flex h-full w-full flex-col items-start justify-start gap-1">
                   <div className="inline-flex items-start justify-start gap-6">
                     <div className="text-base font-normal leading-normal text-gray-400">
-                      Wallet Balance: 96.29 ETH
+                      Wallet Balance: 96.29 TSELIC
                     </div>
                   </div>
-                  <div className="border-brandBlue-300 inline-flex w-full items-start justify-start rounded-lg border border-opacity-20 bg-gray-700">
-                    <div className="flex h-10 shrink grow basis-0 items-center justify-start gap-2.5 px-[22px] py-2">
-                      <div className="min-w-[50px] text-base font-normal leading-normal text-white">
-                        1
-                      </div>
-                    </div>
-                    <div className="flex w-16 items-center justify-center gap-2.5 px-4 py-2">
-                      <div className="text-brandBlue-300 text-base font-normal leading-normal">
+                  <div className="border-brandBlue-300 inline-flex w-full items-center justify-between rounded-lg border border-opacity-20 bg-gray-700 px-3">
+                    <input
+                      type="number"
+                      className="h-full min-w-[50px] border-none bg-transparent text-base font-normal leading-normal text-white shadow outline-none focus:border-transparent focus:outline-none focus:ring-0"
+                      placeholder={"0"}
+                      // value={value} TODO: change props to use control on input
+                      style={{
+                        WebkitAppearance: "none",
+                        MozAppearance: "textfield",
+                      }}
+                    />
+                    <div className="flex w-[100px] items-center justify-center gap-2.5 px-4 py-2">
+                      <button
+                        className="text-brandBlue-300 text-base font-normal leading-normal"
+                        onClick={() => null}
+                      >
                         max
+                      </button>
+                      <div className="relative h-6 w-6">
+                        <Image
+                          src={"/images/tesouroSelic.png"}
+                          alt="logo"
+                          layout="fill"
+                          className="rounded-full object-cover"
+                        />
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-              <Button text="Supply [name]" />
+
+              <div className="flex w-full flex-col gap-2">
+                <div className=" flex justify-between text-white">
+                  <span>Supply APY:</span>
+                  <span>4.749%</span>
+                </div>
+                <div className="flex justify-between text-white">
+                  <span>Total Supplied:</span>
+                  <span>3712765.889</span>
+                </div>
+                <div className="flex justify-between text-white">
+                  <span>Total Borrowed:</span>
+                  <span>3711651.918</span>
+                </div>
+                <div className="flex justify-between text-white">
+                  <span>Utilization Rate:</span>
+                  <span>99.970%</span>
+                </div>
+              </div>
+
+              <Button
+                text="Supply TSELIC"
+                onClick={() => null}
+                isLoading={false}
+              />
             </div>
           </TabContent>
           <TabContent title="Withdraw">
-            {/* Conteúdo da aba Withdraw */}
+            <div className="flex h-full w-full flex-col items-center justify-start gap-6 pt-5">
+              <div className="flex h-full w-full items-start justify-start gap-3">
+                <div className="flex h-full w-full flex-col items-start justify-start gap-4">
+                  <div className="inline-flex items-start justify-start gap-6">
+                    <div className="text-base font-normal leading-normal text-gray-400">
+                      Wallet Balance: 96.29 TSELIC
+                    </div>
+                  </div>
+                  <div className="border-brandBlue-300 inline-flex w-full items-center justify-between rounded-lg border border-opacity-20 bg-gray-700 px-3">
+                    <input
+                      type="number"
+                      className="h-full min-w-[50px] border-none bg-transparent text-base font-normal leading-normal text-white shadow outline-none focus:border-transparent focus:outline-none focus:ring-0"
+                      placeholder={"0"}
+                      // value={value} TODO: change props to use control on input
+                      style={{
+                        WebkitAppearance: "none",
+                        MozAppearance: "textfield",
+                      }}
+                    />
+                    <div className="flex w-[100px] items-center justify-center gap-2.5 px-4 py-2">
+                      <button
+                        className="text-brandBlue-300 text-base font-normal leading-normal"
+                        onClick={() => null}
+                      >
+                        max
+                      </button>
+                      <div className="relative h-6 w-6">
+                        <Image
+                          src={"/images/tesouroSelic.png"}
+                          alt="logo"
+                          layout="fill"
+                          className="rounded-full object-cover"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div className="border-brandBlue-300 inline-flex w-full items-center justify-between rounded-lg border border-opacity-20 bg-gray-700 px-3">
+                    <input
+                      type="number"
+                      className="h-full min-w-[50px] border-none bg-transparent text-base font-normal leading-normal text-white shadow outline-none focus:border-transparent focus:outline-none focus:ring-0"
+                      placeholder={"0"}
+                      // value={value} TODO: change props to use control on input
+                      style={{
+                        WebkitAppearance: "none",
+                        MozAppearance: "textfield",
+                      }}
+                    />
+                    <div className="flex w-[100px] items-center justify-center gap-2.5 px-4 py-2">
+                      <button
+                        className="text-brandBlue-300 text-base font-normal leading-normal"
+                        onClick={() => null}
+                      >
+                        max
+                      </button>
+                      <div className="relative h-6 w-6">
+                        <Image
+                          src={"/images/tesouroSelic.png"}
+                          alt="logo"
+                          layout="fill"
+                          className="rounded-full object-cover"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex w-full flex-col gap-2">
+                <div className=" flex justify-between text-white">
+                  <span>Current Available USDC Liquidity:</span>
+                  <span>0</span>
+                </div>
+                <div className="flex justify-between text-white">
+                  <span>Total Supplied:</span>
+                  <span>3712765.889</span>
+                </div>
+                <div className="flex justify-between text-white">
+                  <span>Total Borrowed:</span>
+                  <span>3711651.918</span>
+                </div>
+                <div className="flex justify-between text-white">
+                  <span>Utilization Rate:</span>
+                  <span>99.970%</span>
+                </div>
+              </div>
+
+              <Button text="Withdraw" onClick={() => null} isLoading={false} />
+            </div>
+          </TabContent>
+          <TabContent title="Recall">
+            <div className="flex h-full w-full flex-col items-center justify-start gap-6 pt-5">
+              <div className="flex h-full w-full items-start justify-start gap-3">
+                <div className="flex h-full w-full flex-col items-start justify-start gap-4">
+                  <div className="inline-flex items-start justify-start gap-6">
+                    <div className="text-base font-normal leading-normal text-gray-400">
+                      Wallet Balance: 96.29 TSELIC
+                    </div>
+                  </div>
+                  <div className="border-brandBlue-300 inline-flex w-full items-center justify-between rounded-lg border border-opacity-20 bg-gray-700 px-3">
+                    <input
+                      type="number"
+                      className="h-full min-w-[50px] border-none bg-transparent text-base font-normal leading-normal text-white shadow outline-none focus:border-transparent focus:outline-none focus:ring-0"
+                      placeholder={"0"}
+                      // value={value} TODO: change props to use control on input
+                      style={{
+                        WebkitAppearance: "none",
+                        MozAppearance: "textfield",
+                      }}
+                    />
+                    <div className="flex w-[100px] items-center justify-center gap-2.5 px-4 py-2">
+                      <button
+                        className="text-brandBlue-300 text-base font-normal leading-normal"
+                        onClick={() => null}
+                      >
+                        max
+                      </button>
+                      <div className="relative h-6 w-6">
+                        <Image
+                          src={"/images/tesouroSelic.png"}
+                          alt="logo"
+                          layout="fill"
+                          className="rounded-full object-cover"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div className="border-brandBlue-300 inline-flex w-full items-center justify-between rounded-lg border border-opacity-20 bg-gray-700 px-3">
+                    <input
+                      type="number"
+                      className="h-full min-w-[50px] border-none bg-transparent text-base font-normal leading-normal text-white shadow outline-none focus:border-transparent focus:outline-none focus:ring-0"
+                      placeholder={"0"}
+                      // value={value} TODO: change props to use control on input
+                      style={{
+                        WebkitAppearance: "none",
+                        MozAppearance: "textfield",
+                      }}
+                    />
+                    <div className="flex w-[100px] items-center justify-center gap-2.5 px-4 py-2">
+                      <button
+                        className="text-brandBlue-300 text-base font-normal leading-normal"
+                        onClick={() => null}
+                      >
+                        max
+                      </button>
+                      <div className="relative h-6 w-6">
+                        <Image
+                          src={"/images/tesouroSelic.png"}
+                          alt="logo"
+                          layout="fill"
+                          className="rounded-full object-cover"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex w-full  text-white">Some text on here</div>
+
+              <Button text="Recall" onClick={() => null} isLoading={false} />
+            </div>
           </TabContent>
         </Tabs>
       );
@@ -118,43 +498,233 @@ export function LendingManage() {
       return (
         <Tabs>
           <TabContent title="Supply">
-            <div className="flex h-[300px] w-full flex-col items-center justify-start gap-6 pt-5">
-              <div className="flex h-full w-full items-start justify-start  gap-3">
-                <div className="border-brandBlue-300 flex h-16 w-20 rounded-full">
-                  <Image
-                    src={"/images/prana.png"}
-                    alt="logo"
-                    width={64}
-                    height={64}
-                    className="rounded-full"
-                    objectFit="cover"
-                  />
-                </div>
-                <div className=" flex h-full w-full flex-col items-start justify-start gap-1">
+            <div className="flex h-full w-full flex-col items-center justify-start gap-6 pt-5">
+              <div className="flex h-full w-full items-start justify-start gap-3">
+                <div className="flex h-full w-full flex-col items-start justify-start gap-1">
                   <div className="inline-flex items-start justify-start gap-6">
                     <div className="text-base font-normal leading-normal text-gray-400">
-                      Wallet Balance: 96.29 ETH
+                      Wallet Balance: 96.29 DREX
                     </div>
                   </div>
-                  <div className="border-brandBlue-300 inline-flex w-full items-start justify-start rounded-lg border border-opacity-20 bg-gray-700">
-                    <div className="flex h-10 shrink grow basis-0 items-center justify-start gap-2.5 px-[22px] py-2">
-                      <div className="min-w-[50px] text-base font-normal leading-normal text-white">
-                        1
-                      </div>
-                    </div>
-                    <div className="flex w-16 items-center justify-center gap-2.5 px-4 py-2">
-                      <div className="text-brandBlue-300 text-base font-normal leading-normal">
+                  <div className="border-brandBlue-300 inline-flex w-full items-center justify-between rounded-lg border border-opacity-20 bg-gray-700 px-3">
+                    <input
+                      type="number"
+                      className="h-full min-w-[50px] border-none bg-transparent text-base font-normal leading-normal text-white shadow outline-none focus:border-transparent focus:outline-none focus:ring-0"
+                      placeholder={"0"}
+                      // value={value} TODO: change props to use control on input
+                      style={{
+                        WebkitAppearance: "none",
+                        MozAppearance: "textfield",
+                      }}
+                    />
+                    <div className="flex w-[100px] items-center justify-center gap-2.5 px-4 py-2">
+                      <button
+                        className="text-brandBlue-300 text-base font-normal leading-normal"
+                        onClick={() => null}
+                      >
                         max
+                      </button>
+                      <div className="relative h-6 w-6">
+                        <Image
+                          src={"/images/drex.png"}
+                          alt="logo"
+                          layout="fill"
+                          className="rounded-full object-cover"
+                        />
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-              <Button text="Supply [name]" />
+
+              <div className="flex w-full flex-col gap-2">
+                <div className=" flex justify-between text-white">
+                  <span>Supply APY:</span>
+                  <span>4.749%</span>
+                </div>
+                <div className="flex justify-between text-white">
+                  <span>Total Supplied:</span>
+                  <span>3712765.889</span>
+                </div>
+                <div className="flex justify-between text-white">
+                  <span>Total Borrowed:</span>
+                  <span>3711651.918</span>
+                </div>
+                <div className="flex justify-between text-white">
+                  <span>Utilization Rate:</span>
+                  <span>99.970%</span>
+                </div>
+              </div>
+
+              <Button
+                text="Supply DREX"
+                onClick={() => null}
+                isLoading={false}
+              />
             </div>
           </TabContent>
           <TabContent title="Withdraw">
-            {/* Conteúdo da aba Withdraw */}
+            <div className="flex h-full w-full flex-col items-center justify-start gap-6 pt-5">
+              <div className="flex h-full w-full items-start justify-start gap-3">
+                <div className="flex h-full w-full flex-col items-start justify-start gap-4">
+                  <div className="inline-flex items-start justify-start gap-6">
+                    <div className="text-base font-normal leading-normal text-gray-400">
+                      Wallet Balance: 96.29 DREX
+                    </div>
+                  </div>
+                  <div className="border-brandBlue-300 inline-flex w-full items-center justify-between rounded-lg border border-opacity-20 bg-gray-700 px-3">
+                    <input
+                      type="number"
+                      className="h-full min-w-[50px] border-none bg-transparent text-base font-normal leading-normal text-white shadow outline-none focus:border-transparent focus:outline-none focus:ring-0"
+                      placeholder={"0"}
+                      // value={value} TODO: change props to use control on input
+                      style={{
+                        WebkitAppearance: "none",
+                        MozAppearance: "textfield",
+                      }}
+                    />
+                    <div className="flex w-[100px] items-center justify-center gap-2.5 px-4 py-2">
+                      <button
+                        className="text-brandBlue-300 text-base font-normal leading-normal"
+                        onClick={() => null}
+                      >
+                        max
+                      </button>
+                      <div className="relative h-6 w-6">
+                        <Image
+                          src={"/images/drex.png"}
+                          alt="logo"
+                          layout="fill"
+                          className="rounded-full object-cover"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div className="border-brandBlue-300 inline-flex w-full items-center justify-between rounded-lg border border-opacity-20 bg-gray-700 px-3">
+                    <input
+                      type="number"
+                      className="h-full min-w-[50px] border-none bg-transparent text-base font-normal leading-normal text-white shadow outline-none focus:border-transparent focus:outline-none focus:ring-0"
+                      placeholder={"0"}
+                      // value={value} TODO: change props to use control on input
+                      style={{
+                        WebkitAppearance: "none",
+                        MozAppearance: "textfield",
+                      }}
+                    />
+                    <div className="flex w-[100px] items-center justify-center gap-2.5 px-4 py-2">
+                      <button
+                        className="text-brandBlue-300 text-base font-normal leading-normal"
+                        onClick={() => null}
+                      >
+                        max
+                      </button>
+                      <div className="relative h-6 w-6">
+                        <Image
+                          src={"/images/drex.png"}
+                          alt="logo"
+                          layout="fill"
+                          className="rounded-full object-cover"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex w-full flex-col gap-2">
+                <div className=" flex justify-between text-white">
+                  <span>Current Available USDC Liquidity:</span>
+                  <span>0</span>
+                </div>
+                <div className="flex justify-between text-white">
+                  <span>Total Supplied:</span>
+                  <span>3712765.889</span>
+                </div>
+                <div className="flex justify-between text-white">
+                  <span>Total Borrowed:</span>
+                  <span>3711651.918</span>
+                </div>
+                <div className="flex justify-between text-white">
+                  <span>Utilization Rate:</span>
+                  <span>99.970%</span>
+                </div>
+              </div>
+
+              <Button text="Withdraw" onClick={() => null} isLoading={false} />
+            </div>
+          </TabContent>
+          <TabContent title="Recall">
+            <div className="flex h-full w-full flex-col items-center justify-start gap-6 pt-5">
+              <div className="flex h-full w-full items-start justify-start gap-3">
+                <div className="flex h-full w-full flex-col items-start justify-start gap-4">
+                  <div className="inline-flex items-start justify-start gap-6">
+                    <div className="text-base font-normal leading-normal text-gray-400">
+                      Wallet Balance: 96.29 DREX
+                    </div>
+                  </div>
+                  <div className="border-brandBlue-300 inline-flex w-full items-center justify-between rounded-lg border border-opacity-20 bg-gray-700 px-3">
+                    <input
+                      type="number"
+                      className="h-full min-w-[50px] border-none bg-transparent text-base font-normal leading-normal text-white shadow outline-none focus:border-transparent focus:outline-none focus:ring-0"
+                      placeholder={"0"}
+                      // value={value} TODO: change props to use control on input
+                      style={{
+                        WebkitAppearance: "none",
+                        MozAppearance: "textfield",
+                      }}
+                    />
+                    <div className="flex w-[100px] items-center justify-center gap-2.5 px-4 py-2">
+                      <button
+                        className="text-brandBlue-300 text-base font-normal leading-normal"
+                        onClick={() => null}
+                      >
+                        max
+                      </button>
+                      <div className="relative h-6 w-6">
+                        <Image
+                          src={"/images/drex.png"}
+                          alt="logo"
+                          layout="fill"
+                          className="rounded-full object-cover"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div className="border-brandBlue-300 inline-flex w-full items-center justify-between rounded-lg border border-opacity-20 bg-gray-700 px-3">
+                    <input
+                      type="number"
+                      className="h-full min-w-[50px] border-none bg-transparent text-base font-normal leading-normal text-white shadow outline-none focus:border-transparent focus:outline-none focus:ring-0"
+                      placeholder={"0"}
+                      // value={value} TODO: change props to use control on input
+                      style={{
+                        WebkitAppearance: "none",
+                        MozAppearance: "textfield",
+                      }}
+                    />
+                    <div className="flex w-[100px] items-center justify-center gap-2.5 px-4 py-2">
+                      <button
+                        className="text-brandBlue-300 text-base font-normal leading-normal"
+                        onClick={() => null}
+                      >
+                        max
+                      </button>
+                      <div className="relative h-6 w-6">
+                        <Image
+                          src={"/images/drex.png"}
+                          alt="logo"
+                          layout="fill"
+                          className="rounded-full object-cover"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex w-full  text-white">Some text on here</div>
+
+              <Button text="Recall" onClick={() => null} isLoading={false} />
+            </div>
           </TabContent>
         </Tabs>
       );
@@ -177,7 +747,7 @@ export function LendingManage() {
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
-      <div className="bg-primary h-[440px] w-[392px] rounded-lg p-6">
+      <div className="bg-primary h-full w-full rounded-lg px-10 py-6">
         {renderContent()}
       </div>
     </Modal>
