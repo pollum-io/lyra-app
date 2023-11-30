@@ -1,8 +1,16 @@
 import { useContractWrite, useContractRead, usePrepareContractWrite } from 'wagmi';
 import { BigNumberish } from 'ethers';
-import {abi as rBRLLABI } from '../contracts/rBRLLABI';
-import {abi as InterestRateModelABI } from '../contracts/InterestRateModelABI';
-import {rBRLLPool, InterestRateModel } from '../constant/contracts'
+import { abi as rBRLLABI } from '../contracts/rBRLLABI';
+import { abi as InterestRateModelABI } from '../contracts/InterestRateModelABI';
+import { rBRLLPool, InterestRateModel } from '../constant/contracts'
+
+
+
+interface HookReturnType {
+  data: string; // replace any with the actual type
+  isError: boolean;
+  isLoading: boolean;
+}
 
 export function useRBRLLPoolWrite(functionName: string, args?: any[]) {
   const { config } = usePrepareContractWrite({
@@ -65,6 +73,12 @@ export function useGetTotalBorrowed() {
   return useRBRLLPoolRead('totalBorrowrBRLL');
 }
 
+// Function to get total borrowed
+export function useGetTotalDepositedTSELIC() {
+  return useRBRLLPoolRead('totalDepositedTSELIC');
+}
+
+
 // Function to call flashLiquidateBorrow
 export function useFlashLiquidateBorrow(borrower: string, repayAmount: BigNumberish, tselicInMaximum: BigNumberish) {
   return useRBRLLPoolWrite('flashLiquidateBorrow', [borrower, repayAmount, tselicInMaximum]);
@@ -93,6 +107,11 @@ export function useGetDepositedTSELIC(userAddress: string) {
   return useRBRLLPoolRead('depositedTSELIC', [userAddress]);
 }
 
+// Function to get supplied DREX
+export function useGetSuppliedDREX(userAddress: string) {
+  return useRBRLLPoolRead('balanceOf', [userAddress]);
+}
+
 // Function to call borrowDREX
 export function useBorrowDREX(amount: BigNumberish) {
   return useRBRLLPoolWrite('borrowDREX', [amount]);
@@ -103,7 +122,7 @@ export function useGetUnitValue() {
   const { data, isError, isLoading } = useContractRead({
     address: InterestRateModel,
     abi: InterestRateModelABI,
-    functionName:'getUnitValue'
+    functionName: 'getUnitValue'
   });
 
   return { data, isError, isLoading };
@@ -114,7 +133,7 @@ export function useGetInterestRate() {
   const { data, isError, isLoading } = useContractRead({
     address: InterestRateModel,
     abi: InterestRateModelABI,
-    functionName:'getInterestRate'
+    functionName: 'getInterestRate'
   });
 
   return { data, isError, isLoading };

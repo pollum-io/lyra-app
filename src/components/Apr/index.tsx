@@ -55,7 +55,7 @@ export const Apr = ({ aprPercent = 0 }: { aprPercent: number }) => {
           {`${percent.toFixed(2)}%`}
         </div>
         <div className="text-center text-sm font-normal leading-tight text-white">
-          Net APR
+          APR Líquido
         </div>
       </div>
     </div>
