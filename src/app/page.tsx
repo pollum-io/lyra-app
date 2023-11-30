@@ -9,8 +9,18 @@ import { Card } from "@/components/Card";
 import { Apr } from "@/components/Apr";
 import { ProgressBar } from "@/components/ProgressBar";
 import { Lending } from "@/components/Lending";
+import { useStore } from "zustand";
+import {
+  useLendingModalBorrowDrex,
+  useLendingModalSupplyDrex,
+  useLendingModalSupplyTSelic,
+} from "@/stores/lendingModal";
 
 export default function HomePage() {
+  const { onOpen: onOpenSD } = useStore(useLendingModalSupplyDrex);
+  const { onOpen: onOpenST } = useStore(useLendingModalSupplyTSelic);
+  const { onOpen: onOpenBD } = useStore(useLendingModalBorrowDrex);
+
   return (
     <main>
       <section>
@@ -31,9 +41,41 @@ export default function HomePage() {
             </div>
             <Card text={"Borrow Balance"} value={"16,818.992"} isLeft />
           </div>
-          <div className="flex w-full flex-col items-center justify-center gap-7 lg:flex-row">
-            <Lending title="Supplied" />
-            <Lending title="Borrowed" />
+          <div className="flex w-full flex-col items-start justify-center gap-7 lg:flex-row">
+            <Lending
+              title="Supplied"
+              items={[
+                {
+                  title: "DREX",
+                  apr: "14.65%",
+                  liquidity: "$18.91",
+                  balance: "18.91 DREX",
+                  onManageClick: onOpenSD,
+                  imageUrl: "/images/drex.png",
+                },
+                {
+                  title: "TSELIC",
+                  apr: "14.65%",
+                  liquidity: "$18.91",
+                  balance: "18.91 TSELIC",
+                  onManageClick: onOpenST,
+                  imageUrl: "/images/tesouroSelic.png",
+                },
+              ]}
+            />
+            <Lending
+              title="Borrowed"
+              items={[
+                {
+                  title: "DREX",
+                  apr: "14.65%",
+                  liquidity: "$18.91",
+                  balance: "18.91 DREX",
+                  onManageClick: onOpenBD,
+                  imageUrl: "/images/drex.png",
+                },
+              ]}
+            />
           </div>
         </div>
       </section>

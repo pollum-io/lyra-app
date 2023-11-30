@@ -15,6 +15,7 @@ export default function Modal({
   containerStyle = "",
   contentContainerStyle = "",
   children,
+  onClose,
 }: ModalProps) {
   const transition = useTransition(isOpen, {
     config: { duration: 200 },
@@ -35,8 +36,29 @@ export default function Modal({
               className={`flex h-screen items-center justify-center max-[639px]:items-end ${containerStyle}`}
             >
               <div
-                className={`min-w-[280px] rounded-[20px] shadow-lg max-[639px]:min-w-[100%] ${contentContainerStyle}`}
+                className={`relative min-w-[280px] rounded-[20px] shadow-lg max-[639px]:min-w-[100%] ${contentContainerStyle}`}
               >
+                <button
+                  type="button"
+                  className="absolute right-4 top-7 inline-flex h-8 w-8 items-center justify-center rounded-lg bg-transparent text-sm text-gray-400 hover:bg-gray-200 hover:text-gray-900 dark:hover:bg-gray-600 dark:hover:text-white"
+                  onClick={onClose}
+                >
+                  <svg
+                    className="h-3 w-3"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 14 14"
+                  >
+                    <path
+                      stroke="currentColor"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
+                    />
+                  </svg>
+                </button>
                 {children}
               </div>
             </div>

@@ -45,7 +45,7 @@ export default function RootLayout({
             <Header />
             <main className="mt-[105px] flex-grow">{children}</main>
             <ConnectWallet />
-            <LendingManage />
+            <LendingManage  />
           </div>
         </Providers>
       </body>
