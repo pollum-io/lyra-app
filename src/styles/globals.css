@@ -130,3 +130,16 @@
     background-image: radial-gradient(60% 35% at 50% 0%, #6cf0db, transparent);
   }
 }
+
+@keyframes shimmer {
+  0% {
+    background-position: -700px 0;
+  }
+  100% {
+    background-position: 700px 0;
+  }
+}
+
+.animate-shimmer {
+  animation: shimmer 1.5s linear infinite;
+}
