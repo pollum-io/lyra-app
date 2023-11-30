@@ -126,9 +126,8 @@ export default function HomePage() {
     isError: isErrorSupplyInterestRate,
     isLoading: isLoadingSupplyInterestRate,
   } = getSupplyInterestRate(
-    (dataTotalSupplied as BigNumberish) || 0,
-    dataTotalBorrowed as BigNumberish
-  ) || 0;
+    (dataTotalSupplied) || 0,
+    dataTotalBorrowed || 0) ;
 
   const totalBorrowed = safeParseFloat(dataTotalBorrowed);
   const localDepositedTSELIC = safeParseFloat(depositedTSELIC);
@@ -209,7 +208,7 @@ export default function HomePage() {
           {address ? (
             <div className="flex w-full flex-col items-start justify-center gap-7 lg:flex-row">
               <Lending
-                title="Supplied"
+                title="Saldo em Empréstimo"
                 items={[
                   {
                     title: "DREX",
@@ -230,7 +229,7 @@ export default function HomePage() {
                 ]}
               />
               <Lending
-                title="Borrowed"
+                title="Emprestado"
                 items={[
                   {
                     title: "DREX",

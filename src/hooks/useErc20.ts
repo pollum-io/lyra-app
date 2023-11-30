@@ -1,15 +1,13 @@
 import { useContractWrite, useContractRead, usePrepareContractWrite } from 'wagmi';
-import { BigNumberish, constants } from 'ethers';
+import { BigNumberish, MaxUint256 } from 'ethers';
 import { abi as ERC20ABI } from '../contracts/ERC20ABI';
 import { DREX, TSELIC29, rBRLLPool } from '../constant/contracts'
 
 
-type EthereumAddress = `0x${string}`;
+export type EthereumAddress = `0x${string}`;
 type ERC20FunctionName = 'approve' | 'balanceOf' | 'totalSupply' | 'transfer' | 'transferFrom' | 'allowance' | 'name' | 'symbol' | 'decimals';
 type ERC20WriteArgs = [string, BigNumberish] | [string] | [string, string, BigNumberish];
-type ERC20ReadArgs = [string] | [];
-
-
+type ERC20ReadArgs = [string] | string[]
 interface ContractWriteHookReturn {
   write: () => void;
   data: any;
@@ -55,7 +53,13 @@ function createERC20Hooks(address: `0x${string}`) {
 
   // Function to approve spending of tokens
   function useApprove(): ContractWriteHookReturn {
-    return useERC20Write('approve', [rBRLLPool, constants.MaxUint256]);
+    return useERC20Write('approve', [rBRLLPool, MaxUint256]);
+  }
+  
+  // Function to get the approved token balance of a given address
+  function useAllowance(owner: EthereumAddress): ContractReadHookReturn<BigNumberish> {
+    const agrs = [owner, rBRLLPool ]
+    return useERC20Read('allowance', agrs);
   }
 
   // Function to get the token balance of a given address
@@ -63,13 +67,14 @@ function createERC20Hooks(address: `0x${string}`) {
     return useERC20Read('balanceOf', [owner]);
   }
 
-  return { useERC20Write, useERC20Read, useApprove, useBalanceOf };
+  return { useERC20Write, useERC20Read, useApprove, useAllowance, useBalanceOf };
 }
 
 export const {
   useERC20Write: useDREXWrite,
   useERC20Read: useDREXRead,
   useApprove: useApproveDREX,
+  useAllowance: useAllowanceDREX,
   useBalanceOf: useBalanceOfDREX
 } = createERC20Hooks(DREX);
 
@@ -77,5 +82,6 @@ export const {
   useERC20Write: useTSELICWrite,
   useERC20Read: useTSELICRead,
   useApprove: useApproveTSELIC,
+  useAllowance: useAllowanceTSELIC,
   useBalanceOf: useBalanceOfTSELIC
 } = createERC20Hooks(TSELIC29);

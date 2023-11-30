@@ -22,10 +22,10 @@ export const Lending = ({ title, items }: LendingProps) => {
       <div className="text-xl font-semibold leading-7">{title}</div>
       <div className="flex h-full w-full flex-col items-start justify-center gap-2">
         <div className="flex h-[58px] w-[535px] items-center justify-between px-4">
-          <div className="text-sm font-semibold">Asset</div>
+          <div className="text-sm font-semibold">Ativo</div>
           <div className="text-sm font-semibold">APR</div>
-          <div className="text-sm font-semibold">Liquidity</div>
-          <div className="text-sm font-semibold">Balance</div>
+          <div className="text-sm font-semibold">Liquidez</div>
+          <div className="text-sm font-semibold">Balanço</div>
           <div className="h-5 w-[34px]" />
         </div>
 
@@ -64,7 +64,7 @@ export const Lending = ({ title, items }: LendingProps) => {
             </div>
             <div className="flex flex-col items-end">
               <Button
-                text={"Manage"}
+                text={"Gerenciar"}
                 height="h-[16px]"
                 maxWidth="max-w-[55px]"
                 textSize="text-xs"
