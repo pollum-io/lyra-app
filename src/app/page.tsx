@@ -103,7 +103,7 @@ export default function HomePage() {
                 },
                 {
                   title: "TSELIC",
-                  apr: `${Number(dataInterestRate) / 10e5}%`,
+                  apr: `${Number(dataInterestRate || 0) / 10e5}%`,
                   liquidity: `R$ ${dataTotalDepositedTSELIC}`,
                   balance: `R$ ${dataDepositedTSELIC}`,
                   onManageClick: onOpenST,

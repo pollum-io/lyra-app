@@ -5,14 +5,16 @@ import {
   useLendingModalSupplyDrex,
   useLendingModalSupplyTSelic,
 } from "@/stores/lendingModal";
-import { useEffect } from "react";
+import { use, useEffect, useState } from "react";
 import { useStore } from "zustand";
 import Modal from "../Modal";
 import Tabs, { TabContent } from "../Tabs";
 import Image from "next/image";
 import { Button } from "../Button";
-
+import { useAccount } from "wagmi";
+import { useBalanceOfDREX, useBalanceOfTSELIC } from "../../hooks/useErc20";
 export function LendingManage() {
+  
   const { isOpen: isOpenSD, onClose: onCloseSD } = useStore(
     useLendingModalSupplyDrex
   );
@@ -23,6 +25,13 @@ export function LendingManage() {
     useLendingModalBorrowDrex
   );
 
+  const { address } = useAccount();
+  const { data: dataDrexBalance, isError: isDrexError, isLoading: isLoadingDrex } = useBalanceOfDREX(address as `0x${string}`);
+  const { data: dataTselicBalance, isError: isTselicError, isLoading: isLoadingTselic } = useBalanceOfTSELIC(address as `0x${string}`);
+  const drexBalance = Number(dataDrexBalance)/10**6;
+  const TselicBalance = Number(dataTselicBalance)/10**18;
+
+  
   const renderContent = () => {
     if (isOpenSD) {
       return (
@@ -33,7 +42,7 @@ export function LendingManage() {
                 <div className="flex h-full w-full flex-col items-start justify-start gap-1">
                   <div className="inline-flex items-start justify-start gap-6">
                     <div className="text-base font-normal leading-normal text-gray-400">
-                      Wallet Balance: 96.29 DREX
+                      Wallet Balance: {drexBalance} DREX
                     </div>
                   </div>
                   <div className="border-brandBlue-300 inline-flex w-full items-center justify-between rounded-lg border border-opacity-20 bg-gray-700 px-3">
@@ -99,7 +108,7 @@ export function LendingManage() {
                 <div className="flex h-full w-full flex-col items-start justify-start gap-4">
                   <div className="inline-flex items-start justify-start gap-6">
                     <div className="text-base font-normal leading-normal text-gray-400">
-                      Wallet Balance: 96.29 DREX
+                      Wallet Balance: {drexBalance} DREX
                     </div>
                   </div>
                   <div className="border-brandBlue-300 inline-flex w-full items-center justify-between rounded-lg border border-opacity-20 bg-gray-700 px-3">
@@ -189,7 +198,7 @@ export function LendingManage() {
                 <div className="flex h-full w-full flex-col items-start justify-start gap-4">
                   <div className="inline-flex items-start justify-start gap-6">
                     <div className="text-base font-normal leading-normal text-gray-400">
-                      Wallet Balance: 96.29 DREX
+                      Wallet Balance: {drexBalance} DREX
                     </div>
                   </div>
                   <div className="border-brandBlue-300 inline-flex w-full items-center justify-between rounded-lg border border-opacity-20 bg-gray-700 px-3">
@@ -268,7 +277,7 @@ export function LendingManage() {
                 <div className="flex h-full w-full flex-col items-start justify-start gap-1">
                   <div className="inline-flex items-start justify-start gap-6">
                     <div className="text-base font-normal leading-normal text-gray-400">
-                      Wallet Balance: 96.29 TSELIC
+                      Wallet Balance: {TselicBalance} TSELIC
                     </div>
                   </div>
                   <div className="border-brandBlue-300 inline-flex w-full items-center justify-between rounded-lg border border-opacity-20 bg-gray-700 px-3">
@@ -334,7 +343,7 @@ export function LendingManage() {
                 <div className="flex h-full w-full flex-col items-start justify-start gap-4">
                   <div className="inline-flex items-start justify-start gap-6">
                     <div className="text-base font-normal leading-normal text-gray-400">
-                      Wallet Balance: 96.29 TSELIC
+                      Wallet Balance: {TselicBalance} TSELIC
                     </div>
                   </div>
                   <div className="border-brandBlue-300 inline-flex w-full items-center justify-between rounded-lg border border-opacity-20 bg-gray-700 px-3">
@@ -424,7 +433,7 @@ export function LendingManage() {
                 <div className="flex h-full w-full flex-col items-start justify-start gap-4">
                   <div className="inline-flex items-start justify-start gap-6">
                     <div className="text-base font-normal leading-normal text-gray-400">
-                      Wallet Balance: 96.29 TSELIC
+                      Wallet Balance: {TselicBalance} TSELIC
                     </div>
                   </div>
                   <div className="border-brandBlue-300 inline-flex w-full items-center justify-between rounded-lg border border-opacity-20 bg-gray-700 px-3">
@@ -503,7 +512,7 @@ export function LendingManage() {
                 <div className="flex h-full w-full flex-col items-start justify-start gap-1">
                   <div className="inline-flex items-start justify-start gap-6">
                     <div className="text-base font-normal leading-normal text-gray-400">
-                      Wallet Balance: 96.29 DREX
+                      Wallet Balance: {drexBalance} DREX
                     </div>
                   </div>
                   <div className="border-brandBlue-300 inline-flex w-full items-center justify-between rounded-lg border border-opacity-20 bg-gray-700 px-3">
@@ -569,7 +578,7 @@ export function LendingManage() {
                 <div className="flex h-full w-full flex-col items-start justify-start gap-4">
                   <div className="inline-flex items-start justify-start gap-6">
                     <div className="text-base font-normal leading-normal text-gray-400">
-                      Wallet Balance: 96.29 DREX
+                      Wallet Balance: {drexBalance} DREX
                     </div>
                   </div>
                   <div className="border-brandBlue-300 inline-flex w-full items-center justify-between rounded-lg border border-opacity-20 bg-gray-700 px-3">
@@ -659,7 +668,7 @@ export function LendingManage() {
                 <div className="flex h-full w-full flex-col items-start justify-start gap-4">
                   <div className="inline-flex items-start justify-start gap-6">
                     <div className="text-base font-normal leading-normal text-gray-400">
-                      Wallet Balance: 96.29 DREX
+                      Wallet Balance: {drexBalance} DREX
                     </div>
                   </div>
                   <div className="border-brandBlue-300 inline-flex w-full items-center justify-between rounded-lg border border-opacity-20 bg-gray-700 px-3">
