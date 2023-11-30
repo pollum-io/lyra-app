@@ -12,7 +12,7 @@ import Tabs, { TabContent } from "../Tabs";
 import Image from "next/image";
 import { Button } from "../Button";
 import { useAccount } from "wagmi";
-import { useBalanceOfDREX, useBalanceOfTSELIC } from "../../hooks/useErc20";
+import { useBalanceOfDREX, useBalanceOfTSELIC, useApproveDREX} from "../../hooks/useErc20";
 export function LendingManage() {
   
   const { isOpen: isOpenSD, onClose: onCloseSD } = useStore(
@@ -24,13 +24,28 @@ export function LendingManage() {
   const { isOpen: isOpenBD, onClose: onCloseBD } = useStore(
     useLendingModalBorrowDrex
   );
-
+  const [isLoading, setLoading] = useState(true);
   const { address } = useAccount();
   const { data: dataDrexBalance, isError: isDrexError, isLoading: isLoadingDrex } = useBalanceOfDREX(address as `0x${string}`);
   const { data: dataTselicBalance, isError: isTselicError, isLoading: isLoadingTselic } = useBalanceOfTSELIC(address as `0x${string}`);
+  
+  const { write: writeApproveDREX, data: dataApproveDREX, isLoading: isLoadingApproveDREX, isSuccess: isSuccessApproveDREX, isError: isErrorApproveDREX } = useApproveDREX()
+  
   const drexBalance = Number(dataDrexBalance)/10**6;
   const TselicBalance = Number(dataTselicBalance)/10**18;
+  
 
+  useEffect(() => {
+    const loading = [
+      isLoadingDrex,
+      isLoadingTselic,
+    ].every((loading) => loading === false);
+
+    setLoading(!loading);
+  }, [
+    isLoadingDrex,
+      isLoadingTselic,
+  ]);
   
   const renderContent = () => {
     if (isOpenSD) {
@@ -42,7 +57,7 @@ export function LendingManage() {
                 <div className="flex h-full w-full flex-col items-start justify-start gap-1">
                   <div className="inline-flex items-start justify-start gap-6">
                     <div className="text-base font-normal leading-normal text-gray-400">
-                      Wallet Balance: {drexBalance} DREX
+                      Balanço: {drexBalance} DREX
                     </div>
                   </div>
                   <div className="border-brandBlue-300 inline-flex w-full items-center justify-between rounded-lg border border-opacity-20 bg-gray-700 px-3">
@@ -59,7 +74,7 @@ export function LendingManage() {
                     <div className="flex w-[100px] items-center justify-center gap-2.5 px-4 py-2">
                       <button
                         className="text-brandBlue-300 text-base font-normal leading-normal"
-                        onClick={() => null}
+                        onClick={writeApproveDREX}
                       >
                         max
                       </button>

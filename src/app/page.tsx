@@ -93,15 +93,16 @@ export default function HomePage() {
     isLoading: isLoadingSupplyInterestRate,
   } = getSupplyInterestRate( dataTotalSupplied as BigNumberish || 0 , dataTotalBorrowed as BigNumberish) || 0;
 
-  const availableToBorrow = (Number(dataDepositedTSELIC) * Number(dataUnitValue) -
-    Number(dataBorrowedAmount)).toFixed(2) || 0;
-
-  const borrowPercentual = (100 - Number(dataTotalBorrowed) / (Number(dataDepositedTSELIC) * Number(dataUnitValue))) || 0;
-      
   const totalBorrowed = safeParseFloat(dataTotalBorrowed);
   const depositedTSELIC = safeParseFloat(dataDepositedTSELIC);
   const unitValue = safeParseFloat(dataUnitValue);
+  const borrowedAmount = safeParseFloat(dataBorrowedAmount);
 
+  const availableToBorrow = (depositedTSELIC * unitValue -
+    borrowedAmount) || 0;
+
+  const borrowPercentual = (100 - totalBorrowed / (depositedTSELIC * unitValue)) || 0;
+      
   function safeParseFloat(value: unknown): number {
     if (typeof value === "string") {
       return parseFloat(value) || 0;
