@@ -92,14 +92,23 @@ export default function HomePage() {
   } = useGetSupplySR();
 
   const availableToBorrow =
-    Number(dataDepositedTSELIC) * Number(dataUnitValue) -
-    Number(dataBorrowedAmount);
+    Number(dataDepositedTSELIC || 0) * Number(dataUnitValue || 0) -
+    Number(dataBorrowedAmount || 0);
+
+  const totalBorrowed = safeParseFloat(dataTotalBorrowed);
+  const depositedTSELIC = safeParseFloat(dataDepositedTSELIC);
+  const unitValue = safeParseFloat(dataUnitValue);
 
   const borrowPercentual =
-    100 -
-    Number(dataTotalBorrowed) /
-      (Number(dataDepositedTSELIC) * Number(dataUnitValue));
-      
+    100 - (totalBorrowed / (depositedTSELIC * unitValue)) * 100;
+
+  function safeParseFloat(value: unknown): number {
+    if (typeof value === "string") {
+      return parseFloat(value) || 0;
+    }
+    return 0;
+  }
+
   useEffect(() => {
     const loading = [
       isLoadingTotalSupplied,
