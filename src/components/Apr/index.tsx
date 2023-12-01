@@ -1,11 +1,9 @@
 import { useState } from "react";
 
-export const Apr = ({ aprPercent = 0 }: { aprPercent: number }) => {
-  const [percent, setPercent] = useState(aprPercent);
-
+export const Apr = ({ aprPercent = 0, aprMax = 0 }: { aprPercent: number, aprMax:number }) => {
   const radius = 75;
   const circumference = 2 * Math.PI * radius;
-  const strokeDashoffset = circumference * (1 - percent / 100);
+  const strokeDashoffset = circumference * ((aprPercent/aprMax * 100 ));
 
   return (
     <div className=" flex h-[150px] w-[150px] items-center justify-center overflow-hidden rounded-full">
@@ -52,7 +50,7 @@ export const Apr = ({ aprPercent = 0 }: { aprPercent: number }) => {
       </svg>
       <div className="absolute inline-flex h-[52px] w-[72px] transform flex-col items-center justify-center">
         <div className="text-center text-2xl font-semibold leading-loose text-white">
-          {`${percent.toFixed(2)}%`}
+          {`${aprPercent.toFixed(2)}%`}
         </div>
         <div className="text-center text-sm font-normal leading-tight text-white">
           APR Líquido
