@@ -145,11 +145,22 @@ export function LendingManage() {
     isError: isErrorBorrowDREX,
   } = useBorrowDREX(drexamountsupply/2);
 
-
-
-
   const drexBalance = Number(dataDrexBalance) / 10 ** 6;
   const TselicBalance = Number(dataTselicBalance) / 10 ** 18;
+
+  const [valueTselic, setValueTselic] = useState(''); 
+  const [valueDREX, setValueDREX] = useState(''); 
+  const [error, setError] = useState(''); 
+  const [approvedAmountTselic, setApprovedAmountTselic] = useState(Number(dataAllowanceTSELIC));
+  console.log('Validando', approvedAmountTselic);
+  console.log('Check check', (Number(approvedAmountTselic) < Number(valueTselic)));
+  console.log('ValueTselic', valueTselic);
+ useEffect(() => {
+  console.log('ApprovedAmountTselic', Number(approvedAmountTselic));
+  console.log('ValueTSelic', Number(valueTselic));
+  setApprovedAmountTselic(Number(dataAllowanceTSELIC));
+}, [dataAllowanceTSELIC, isSuccessApproveTSELIC]);
+
 
   useEffect(() => {
     const loading = [isLoadingDrex, isLoadingTselic].every(
@@ -177,7 +188,16 @@ export function LendingManage() {
                       type="number"
                       className="h-full min-w-[50px] border-none bg-transparent text-base font-normal leading-normal text-white shadow outline-none focus:border-transparent focus:outline-none focus:ring-0"
                       placeholder={"0"}
-                      // value={value} TODO: change props to use control on input
+                      value={valueDREX}
+                      onChange={e => {
+                        const enteredValue = Number(e.target.value);
+                        if (enteredValue > drexBalance) {
+                          setError('Entered value is greater than current balance');
+                        } else {
+                          setError('');
+                          setValueDREX(e.target.value);
+                        }
+                      }}
                       style={{
                         WebkitAppearance: "none",
                         MozAppearance: "textfield",
@@ -186,7 +206,7 @@ export function LendingManage() {
                     <div className="flex w-[100px] items-center justify-center gap-2.5 px-4 py-2">
                       <button
                         className="text-brandBlue-300 text-base font-normal leading-normal"
-                        onClick={writeApproveDREX}
+                        onClick={() => setValueDREX(drexBalance.toString())}
                       >
                         max
                       </button>
@@ -200,6 +220,7 @@ export function LendingManage() {
                       </div>
                     </div>
                   </div>
+                  {error && <div className="text-red-500 text-sm">{error}</div>}
                 </div>
               </div>
 
@@ -423,7 +444,16 @@ export function LendingManage() {
                       type="number"
                       className="h-full min-w-[50px] border-none bg-transparent text-base font-normal leading-normal text-white shadow outline-none focus:border-transparent focus:outline-none focus:ring-0"
                       placeholder={"0"}
-                      // value={value} TODO: change props to use control on input
+                      value={valueTselic}
+                      onChange={e => {
+                        const enteredValue = Number(e.target.value);
+                        if (enteredValue > TselicBalance) {
+                          setError('Entered value is greater than current balance');
+                        } else {
+                          setError('');
+                          setValueTselic(e.target.value);
+                        }
+                      }}
                       style={{
                         WebkitAppearance: "none",
                         MozAppearance: "textfield",
@@ -432,7 +462,7 @@ export function LendingManage() {
                     <div className="flex w-[100px] items-center justify-center gap-2.5 px-4 py-2">
                       <button
                         className="text-brandBlue-300 text-base font-normal leading-normal"
-                        onClick={writeApproveTSELIC}
+                        onClick={() => setValueTselic(TselicBalance.toString())}
                       >
                         max
                       </button>
@@ -446,6 +476,7 @@ export function LendingManage() {
                       </div>
                     </div>
                   </div>
+                  {error && <div className="text-red-500 text-sm">{error}</div>}
                 </div>
               </div>
 
@@ -458,7 +489,15 @@ export function LendingManage() {
                 </div>
               </div>
 
-              <Button text="Depositar" onClick={writeSupplyTSELIC} isLoading={false} />
+              
+            {(Number(approvedAmountTselic) < Number(valueTselic)) ? (
+                <Button text="Approve" onClick={writeApproveTSELIC} isLoading={isLoadingApproveTSELIC} />
+                
+              ) : (
+                <Button text="Depositar" onClick={writeSupplyTSELIC} isLoading={false} />
+              )
+    }
+              {/* <Button text="Depositar" onClick={writeSupplyTSELIC} isLoading={false} /> */}
             </div>
           </TabContent>
           <TabContent title="Sacar">
