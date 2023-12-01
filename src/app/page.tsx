@@ -116,43 +116,59 @@ export default function HomePage() {
     }
   }, [address, dataDepositedTSELIC, dataSuppliedDREX, dataBorrowedAmount]);
 
-  const availableToBorrow =
-    ((Number(depositedTSELIC) * Number(dataUnitValue)) / 1e18 -
-      Number(borrowedAmount)) /
-    1e18;
-  const borrowPercentual = (
-    Number(borrowedAmount) /
-    ((Number(depositedTSELIC) * Number(dataUnitValue)) / 1e18)
-  ).toFixed(2);
+  const safeNumber = (value: BigNumberish) => {
+    const num = Number(value);
+    return isNaN(num) ? 0 : num;
+  };
 
-   // Balanços
-   const tselicBalance = (Number(depositedTSELIC) * Number(dataUnitValue)) / 1e36;
-   const drexBalance = Number(suppliedDREX) / 1e18;
-   // APRs
-   const tselicApr = Number(dataInterestRate || 0) / 10e5;
-   const drexSupplyApr = Number(dataSupplyInterestRate) / 1e6 * 99/100;  
-   const drexBorrowApr = Number(dataSupplyInterestRate) / 1e6;
-   
-   // Valores Emprestados
-   const borrowedDrex = Number(borrowedAmount) / 1e18;
- 
-   // Ganhos
-   const tselicYearlyGain = (tselicBalance * tselicApr) / 100;
-   const drexYearlyGain = (drexBalance * drexSupplyApr) / 100;
- 
-   // Custo
-   const borrowedYearlyCost = (borrowedDrex * drexBorrowApr) / 100;
- 
-   // Ganho Líquido
-   const yearlySuppliedGains = tselicYearlyGain + drexYearlyGain;
-   const netYearlyGain = yearlySuppliedGains - borrowedYearlyCost;  
- 
-   // Saldo Total
-   const totalDeposited = tselicBalance + drexBalance;
-    const maxAPR = ((yearlySuppliedGains / totalDeposited) * 100);
-   // Cálculo final do APR
-   const netApr = ((netYearlyGain / totalDeposited) * 100);
-    // console.log(netApr)
+  const tselicMultiplier =
+    (safeNumber(depositedTSELIC) * safeNumber(dataUnitValue as BigNumberish)) /
+    1e18;
+  const borrowedAmountNum = safeNumber(borrowedAmount);
+
+  // Validação para divisão por zero
+  const availableToBorrow =
+    tselicMultiplier === 0 ? 0 : (tselicMultiplier - borrowedAmountNum) / 1e18;
+
+  const borrowPercentual =
+    tselicMultiplier === 0
+      ? 0
+      : Number((borrowedAmountNum / tselicMultiplier).toFixed(2));
+
+  // Balanços
+  const tselicBalance = tselicMultiplier / 1e18;
+  const drexBalance = safeNumber(suppliedDREX) / 1e18;
+
+  // APRs
+  const tselicApr = safeNumber(dataInterestRate as BigNumberish) / 10e5;
+  const drexSupplyApr =
+    ((safeNumber(dataSupplyInterestRate as BigNumberish) / 1e6) * 99) / 100;
+  const drexBorrowApr =
+    safeNumber(dataSupplyInterestRate as BigNumberish) / 1e6;
+
+  // Valores Emprestados
+  const borrowedDrex = borrowedAmountNum / 1e18;
+
+  // Ganhos
+  const tselicYearlyGain = (tselicBalance * tselicApr) / 100;
+  const drexYearlyGain = (drexBalance * drexSupplyApr) / 100;
+
+  // Custo
+  const borrowedYearlyCost = (borrowedDrex * drexBorrowApr) / 100;
+
+  // Ganho Líquido
+  const yearlySuppliedGains = tselicYearlyGain + drexYearlyGain;
+  const netYearlyGain = yearlySuppliedGains - borrowedYearlyCost;
+
+  // Saldo Total
+  const totalDeposited = tselicBalance + drexBalance;
+  const maxAPR =
+    totalDeposited === 0 ? 0 : (yearlySuppliedGains / totalDeposited) * 100;
+
+  // Cálculo final do APR
+  const netApr =
+    totalDeposited === 0 ? 0 : (netYearlyGain / totalDeposited) * 100;
+
   useEffect(() => {
     const loading = [
       isLoadingTotalSupplied,
@@ -189,11 +205,10 @@ export default function HomePage() {
                 text={"Saldo em Depósito"}
                 value={
                   !isLoading
-                    ? `R$ ${(Number(suppliedDREX) / 1e18 + (
-                      (Number(depositedTSELIC) *
-                        Number(dataUnitValue)) /
-                      1e36
-                    )).toFixed(2)}`
+                    ? `R$ ${(
+                        Number(suppliedDREX) / 1e18 +
+                        (Number(depositedTSELIC) * Number(dataUnitValue)) / 1e36
+                      ).toFixed(2)}`
                     : "R$ 0"
                 }
               />
@@ -232,8 +247,13 @@ export default function HomePage() {
                 items={[
                   {
                     title: "DREX",
-                    apr: `${(Number(dataSupplyInterestRate) /1e6 * 99/100).toFixed(2)}%`,
-                    liquidity: `R$ ${(Number(dataTotalSupplied) / 1e18).toFixed(2)}`,
+                    apr: `${(
+                      ((Number(dataSupplyInterestRate) / 1e6) * 99) /
+                      100
+                    ).toFixed(2)}%`,
+                    liquidity: `R$ ${(Number(dataTotalSupplied) / 1e18).toFixed(
+                      2
+                    )}`,
                     balance: `R$ ${(Number(suppliedDREX) / 1e18).toFixed(2)}`,
                     onManageClick: onOpenSD,
                     imageUrl: "/images/drex.png",
