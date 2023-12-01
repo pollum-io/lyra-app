@@ -16,12 +16,12 @@ const mumbai = {
   },
   rpcUrls: {
     default: {
-      http: ["https://polygon-mumbai-pokt.nodies.app"],
-      webSocket: ["wss://polygon-mumbai-pokt.nodies.app/wss"],
+      http: ["https://polygon-mumbai-bor.publicnode.com/"],
+      webSocket: ["wss://polygon-mumbai-bor.publicnode.com/"],
     },
     public: {
-      http: ["https://polygon-mumbai-pokt.nodies.app"],
-      webSocket: ["wss://polygon-mumbai-pokt.nodies.app/wss"],
+      http: ["https://polygon-mumbai-bor.publicnode.com/"],
+      webSocket: ["wss://polygon-mumbai-bor.publicnode.com/"],
     },
   },
   testnet: false,

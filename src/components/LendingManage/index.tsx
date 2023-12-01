@@ -32,6 +32,8 @@ import {
   // useGetInterestRate,
   getSupplyInterestRate,
   useSupplyDREX,
+  useSupplyTSELIC,
+  useBorrowDREX
 } from "../../hooks/useRBLLPoolContract";
 
 export function LendingManage() {
@@ -117,13 +119,34 @@ export function LendingManage() {
     isError: isErrorApproveTSELIC,
   } = useApproveTSELIC();
 
-  // const {
-  //   write: writeSupplyDREX,
-  //   data: dataSupplyDREX,
-  //   isLoading: isLoadingSupplyDREX,
-  //   isSuccess: isSuccessSupplyDREX,
-  //   isError: isErrorSupplyDREX,
-  // } = useSupplyDREX();
+  const drexamountsupply = 100 * 1e6
+  const tselicamountsupply = 3 * 1e18
+  const {
+    write: writeSupplyDREX,
+    data: dataSupplyDREX,
+    isLoading: isLoadingSupplyDREX,
+    isSuccess: isSuccessSupplyDREX,
+    isError: isErrorSupplyDREX,
+  } = useSupplyDREX(drexamountsupply);
+
+  const {
+    write: writeSupplyTSELIC,
+    data: dataSupplyTSELIC,
+    isLoading: isLoadingSupplyTSELIC,
+    isSuccess: isSuccessSupplyTSELIC,
+    isError: isErrorSupplyTSELIC,
+  } = useSupplyTSELIC(tselicamountsupply);
+
+  const {
+    write: writeBorrowDREX,
+    data: dataBorrowDREX,
+    isLoading: isLoadingBorrowDREX,
+    isSuccess: isSuccessBorrowDREX,
+    isError: isErrorBorrowDREX,
+  } = useBorrowDREX(drexamountsupply/2);
+
+
+
 
   const drexBalance = Number(dataDrexBalance) / 10 ** 6;
   const TselicBalance = Number(dataTselicBalance) / 10 ** 18;
@@ -163,7 +186,7 @@ export function LendingManage() {
                     <div className="flex w-[100px] items-center justify-center gap-2.5 px-4 py-2">
                       <button
                         className="text-brandBlue-300 text-base font-normal leading-normal"
-                        onClick={() => null}
+                        onClick={writeApproveDREX}
                       >
                         max
                       </button>
@@ -208,7 +231,7 @@ export function LendingManage() {
                 </div>
               </div>
 
-              <Button text="Depositar" onClick={() => null} isLoading={false} />
+              <Button text="Depositar" onClick={writeSupplyDREX} isLoading={false} />
             </div>
           </TabContent>
           <TabContent title="Sacar">
@@ -409,7 +432,7 @@ export function LendingManage() {
                     <div className="flex w-[100px] items-center justify-center gap-2.5 px-4 py-2">
                       <button
                         className="text-brandBlue-300 text-base font-normal leading-normal"
-                        onClick={() => null}
+                        onClick={writeApproveTSELIC}
                       >
                         max
                       </button>
@@ -435,7 +458,7 @@ export function LendingManage() {
                 </div>
               </div>
 
-              <Button text="Depositar" onClick={() => null} isLoading={false} />
+              <Button text="Depositar" onClick={writeSupplyTSELIC} isLoading={false} />
             </div>
           </TabContent>
           <TabContent title="Sacar">
@@ -486,7 +509,7 @@ export function LendingManage() {
                   </span>
                 </div>
                 <div className="flex justify-between text-white">
-                  <span>DREX Emprestado:</span>
+                  <span>DREX em Empréstimo:</span>
                   <span>{!isLoading ? `${dataBorrowedAmount}` : "0"} DREX</span>
                 </div>
               </div>
@@ -547,7 +570,7 @@ export function LendingManage() {
                   </span>
                 </div>
                 <div className="flex justify-between text-white">
-                  <span>DREX Emprestado:</span>
+                  <span>DREX em Empréstimo:</span>
                   <span>{!isLoading ? `${dataBorrowedAmount}` : "0"} DREX</span>
                 </div>
                 <div className=" flex justify-between text-white">
@@ -563,7 +586,7 @@ export function LendingManage() {
               </div>
               <Button
                 text="Tomar Emprestimo"
-                onClick={() => null}
+                onClick={writeBorrowDREX}
                 isLoading={false}
               />
             </div>
@@ -611,7 +634,7 @@ export function LendingManage() {
 
               <div className="flex h-full w-full flex-col gap-2">
                 <div className="flex justify-between text-white">
-                  <span>DREX Emprestado:</span>
+                  <span>Passivo em DREX:</span>
                   <span>{!isLoading ? `${dataBorrowedAmount}` : "0"} DREX</span>
                 </div>
               </div>
