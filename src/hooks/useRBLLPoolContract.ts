@@ -123,6 +123,10 @@ export function useBorrowDREX(amount: BigNumberish) {
   return useRBRLLPoolWrite('borrowDREX', [amount]);
 }
 
+export function hasRole(role: string, userAddress: string) {
+  return useRBRLLPoolRead('hasRole', [role, userAddress]);
+}
+
 // Function to get the market price of TSELIC via Chainlink
 export function useGetUnitValue() {
   const { data, isError, isLoading } = useContractRead({
