@@ -38,9 +38,9 @@ export default function HomePage() {
   const { onOpen: onOpenST } = useStore(useLendingModalSupplyTSelic);
   const { onOpen: onOpenBD } = useStore(useLendingModalBorrowDrex);
 
-  const [depositedTSELIC, setDepositedTSELIC] = useState(null);
-  const [suppliedDREX, setSuppliedDREX] = useState(null);
-  const [borrowedAmount, setBorrowedAmount] = useState(null);
+  const [depositedTSELIC, setDepositedTSELIC] = useState(0);
+  const [suppliedDREX, setSuppliedDREX] = useState(0);
+  const [borrowedAmount, setBorrowedAmount] = useState(0);
 
   const [isLoading, setLoading] = useState(true);
   const { address } = useAccount();
@@ -92,9 +92,10 @@ export default function HomePage() {
 
   useEffect(() => {
     if (address) {
-      setDepositedTSELIC(dataDepositedTSELIC);
-      setSuppliedDREX(dataSuppliedDREX);
-      setBorrowedAmount(dataBorrowedAmount);
+      
+      setDepositedTSELIC(safeParseNumber(dataDepositedTSELIC));
+      setSuppliedDREX(safeParseNumber(dataSuppliedDREX));
+      setBorrowedAmount(safeParseNumber(dataBorrowedAmount));
     }
   }, [address, dataDepositedTSELIC, dataSuppliedDREX, dataBorrowedAmount]);
 
@@ -116,20 +117,18 @@ export default function HomePage() {
     isLoading: isLoadingSupplyInterestRate,
   } = getSupplyInterestRate(dataTotalSupplied || 0, dataTotalBorrowed || 0);
 
-  const totalBorrowed = safeParseFloat(dataTotalBorrowed);
-  const localDepositedTSELIC = safeParseFloat(depositedTSELIC);
-  const unitValue = safeParseFloat(dataUnitValue);
-  const localBorrowedAmount = safeParseFloat(borrowedAmount);
+  console.log(depositedTSELIC)
+  console.log(safeParseNumber(dataDepositedTSELIC))
+  console.log(dataDepositedTSELIC)
+  const availableToBorrow = (depositedTSELIC * safeParseNumber(dataUnitValue) / 1e18 - borrowedAmount) / 1e18
+  // depositedTSELIC * unitValue - localBorrowedAmount || 0;
 
-  const availableToBorrow =
-    localDepositedTSELIC * unitValue - localBorrowedAmount || 0;
+  const borrowPercentual = 100 - borrowedAmount / (depositedTSELIC * safeParseNumber(dataUnitValue));
 
-  const borrowPercentual =
-    100 - totalBorrowed / (localBorrowedAmount * unitValue) || 0;
 
-  function safeParseFloat(value: unknown): number {
+  function safeParseNumber(value: unknown): number {
     if (typeof value === "string") {
-      return parseFloat(value) || 0;
+      return Number(value) || 0;
     }
     return 0;
   }
