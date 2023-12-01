@@ -190,7 +190,7 @@ export default function HomePage() {
                 value={
                   !isLoading
                     ? `R$ ${(Number(suppliedDREX) / 1e18 + (
-                      (Number(dataTotalDepositedTSELIC) *
+                      (Number(depositedTSELIC) *
                         Number(dataUnitValue)) /
                       1e36
                     )).toFixed(2)}`
