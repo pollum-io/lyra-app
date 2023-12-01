@@ -2,7 +2,12 @@
 
 import { Button } from "@/components/Button";
 import Tabs, { TabContent } from "@/components/Tabs";
-import { EthereumAddress, useBalanceOfDREX, useAllowanceDREX, useApproveDREX } from "@/hooks/useErc20";
+import {
+  EthereumAddress,
+  useBalanceOfDREX,
+  useAllowanceDREX,
+  useApproveDREX,
+} from "@/hooks/useErc20";
 import {
   getSupplyInterestRate,
   useGetSuppliedDREX,
@@ -26,22 +31,35 @@ export const ContextSupplyDrex = ({
     isError: isErrorAllowanceDREX,
     isLoading: isLoadingAllowanceDREX,
   } = useAllowanceDREX(address as EthereumAddress);
-  const [approvedAmountDREX, setApprovedAmountDREX] = useState(dataAllowanceDREX);
+
+  const [approvedAmountDREX, setApprovedAmountDREX] =
+    useState(dataAllowanceDREX);
+
   const {
     data: dataDrexBalance,
     isError: isDrexError,
     isLoading: isLoadingDrex,
   } = useBalanceOfDREX(address as EthereumAddress);
-  const formattedTotalSupply = (Number(dataTotalSupplied) / 10 ** 18).toFixed(2);
-  const formattedTotalBorrowed = (Number(dataTotalBorrowed) / 10 ** 18).toFixed(2);
+
+  const formattedTotalSupply = (Number(dataTotalSupplied) / 10 ** 18).toFixed(
+    2
+  );
+
+  const formattedTotalBorrowed = (Number(dataTotalBorrowed) / 10 ** 18).toFixed(
+    2
+  );
+
   const {
     data: dataSuppliedDREX,
     isError: isErrorSuppliedDREX,
     isLoading: isLoadingSuppliedDREX,
   } = useGetSuppliedDREX(address as EthereumAddress);
-  const [dataSupplied, setDataSupplied] = useState(Number(dataSuppliedDREX)/10**18);
+  const [dataSupplied, setDataSupplied] = useState(
+    Number(dataSuppliedDREX) / 10 ** 18
+  );
 
   const drexBalance = Number(dataDrexBalance) / 10 ** 6;
+
   const drexamountsupply = 100 * 1e6;
   const [valueDREX, setValueDREX] = useState("");
   const [valueRBLL, setValueRBLL] = useState("");
@@ -56,21 +74,20 @@ export const ContextSupplyDrex = ({
 
   const handleApproveDREX = async () => {
     const { data, isError, isSuccess } = await useApproveDREX();
-    if(isError) {
+    if (isError) {
       //TODO return error
       alert("use rejected Transaction");
     }
-    console.log('Check what comes as data', data);
-    if(isSuccess) {
-      const {data } = useAllowanceDREX(address as EthereumAddress)
-      setApprovedAmountDREX(Number(data)/10**6);
+    console.log("Check what comes as data", data);
+    if (isSuccess) {
+      const { data } = useAllowanceDREX(address as EthereumAddress);
+      setApprovedAmountDREX(Number(data) / 10 ** 6);
     }
-  }
+  };
   const handleDepositDREX = async () => {
-     await useSupplyDREX(Number(valueDREX)*10**6);
-     //TODO update user deposited and wallet balance after write is sucesfull 
-  }
-
+    await useSupplyDREX(Number(valueDREX) * 10 ** 6);
+    //TODO update user deposited and wallet balance after write is sucesfull
+  };
 
   useEffect(() => {
     const loading = [
@@ -145,34 +162,36 @@ export const ContextSupplyDrex = ({
             </div>
             <div className="flex justify-between text-white">
               <span>Total Emprestado:</span>
-              <span>{!isLoading ? `R$ ${formattedTotalBorrowed}` : "R$ 0"}</span>
+              <span>
+                {!isLoading ? `R$ ${formattedTotalBorrowed}` : "R$ 0"}
+              </span>
             </div>
             <div className="flex justify-between text-white">
               <span>Taxa de Utilização:</span>
               <span>
                 {!isLoading
-                  ? `${
-                      ((Number(dataTotalBorrowed) / Number(dataTotalSupplied)) *
-                      100).toFixed(2)
-                    }`
+                  ? `${(
+                      (Number(dataTotalBorrowed) / Number(dataTotalSupplied)) *
+                      100
+                    ).toFixed(2)}`
                   : "0"}
                 %
               </span>
             </div>
           </div>
-        {Number(approvedAmountDREX) < Number(valueDREX) ? (
-          <Button
-            text="Depositar"
-            onClick={handleDepositDREX}
-            isLoading={false}
-          />
-        ) : (
-          <Button
-            text="Aprovar"
-            onClick={handleApproveDREX}
-            isLoading={false}
-          />
-        )}
+          {Number(approvedAmountDREX) < Number(valueDREX) ? (
+            <Button
+              text="Depositar"
+              onClick={handleDepositDREX}
+              isLoading={false}
+            />
+          ) : (
+            <Button
+              text="Aprovar"
+              onClick={handleApproveDREX}
+              isLoading={false}
+            />
+          )}
         </div>
       </TabContent>
       <TabContent title="Sacar">
@@ -213,7 +232,7 @@ export const ContextSupplyDrex = ({
                 </div>
               </div>
               <div className="border-brandBlue-300 inline-flex w-full items-center justify-between rounded-lg border border-opacity-20 bg-gray-700 px-3">
-              <input
+                <input
                   type="number"
                   className="h-full min-w-[50px] border-none bg-transparent text-base font-normal leading-normal text-white shadow outline-none focus:border-transparent focus:outline-none focus:ring-0"
                   placeholder={"0"}
@@ -243,9 +262,10 @@ export const ContextSupplyDrex = ({
               <span>Liquidez Disponível em DREX:</span>
               <span>
                 {!isLoading
-                  ? `R$ ${
-                      ((Number(dataTotalSupplied) - Number(dataTotalBorrowed))/10**18).toFixed(2)
-                    }`
+                  ? `R$ ${(
+                      (Number(dataTotalSupplied) - Number(dataTotalBorrowed)) /
+                      10 ** 18
+                    ).toFixed(2)}`
                   : "R$ 0"}
               </span>
             </div>
@@ -255,16 +275,18 @@ export const ContextSupplyDrex = ({
             </div>
             <div className="flex justify-between text-white">
               <span>Total Emprestado:</span>
-              <span>{!isLoading ? `R$ ${formattedTotalBorrowed}` : "R$ 0"}</span>
+              <span>
+                {!isLoading ? `R$ ${formattedTotalBorrowed}` : "R$ 0"}
+              </span>
             </div>
             <div className="flex justify-between text-white">
               <span>Taxa de Utilização:</span>
               <span>
                 {!isLoading
-                  ? `${
-                      ((Number(dataTotalBorrowed) / Number(dataTotalSupplied)) *
-                      100).toFixed(2)
-                    }`
+                  ? `${(
+                      (Number(dataTotalBorrowed) / Number(dataTotalSupplied)) *
+                      100
+                    ).toFixed(2)}`
                   : "0"}
                 %
               </span>

@@ -38,9 +38,9 @@ export default function HomePage() {
   const { onOpen: onOpenST } = useStore(useLendingModalSupplyTSelic);
   const { onOpen: onOpenBD } = useStore(useLendingModalBorrowDrex);
 
-  const [depositedTSELIC, setDepositedTSELIC] = useState("0");
-  const [suppliedDREX, setSuppliedDREX] = useState("0");
-  const [borrowedAmount, setBorrowedAmount] = useState("0");
+  const [depositedTSELIC, setDepositedTSELIC] = useState(null);
+  const [suppliedDREX, setSuppliedDREX] = useState(null);
+  const [borrowedAmount, setBorrowedAmount] = useState(null);
 
   const [isLoading, setLoading] = useState(true);
   const { address } = useAccount();
@@ -109,6 +109,16 @@ export default function HomePage() {
   } = getSupplyInterestRate(dataTotalSupplied || 0, dataTotalBorrowed || 0);
 
   useEffect(() => {
+    const allDataLoaded = [
+      dataDepositedTSELIC,
+      dataSuppliedDREX,
+      dataBorrowedAmount,
+    ].every((data) => data !== null);
+
+    setLoading(!allDataLoaded);
+  }, [dataDepositedTSELIC, dataSuppliedDREX, dataBorrowedAmount]);
+
+  useEffect(() => {
     if (address) {
       setDepositedTSELIC(dataDepositedTSELIC);
       setSuppliedDREX(dataSuppliedDREX);
@@ -116,7 +126,7 @@ export default function HomePage() {
     }
   }, [address, dataDepositedTSELIC, dataSuppliedDREX, dataBorrowedAmount]);
 
-  const safeNumber = (value: BigNumberish) => {
+  const safeNumber = (value: BigNumberish | null) => {
     const num = Number(value);
     return isNaN(num) ? 0 : num;
   };
@@ -170,7 +180,7 @@ export default function HomePage() {
     totalDeposited === 0 ? 0 : (netYearlyGain / totalDeposited) * 100;
 
   useEffect(() => {
-    const loading = [
+    const isAnyLoading = [
       isLoadingTotalSupplied,
       isLoadingTotalBorrowed,
       isLoadingDepositedTSELIC,
@@ -180,9 +190,9 @@ export default function HomePage() {
       isLoadingUnitValue,
       isLoadingInterestRate,
       isLoadingSupplyInterestRate,
-    ].every((loading) => loading === false);
+    ].some((loading) => loading);
 
-    setLoading(!loading);
+    setLoading(isAnyLoading);
   }, [
     isLoadingTotalSupplied,
     isLoadingTotalBorrowed,
@@ -195,23 +205,38 @@ export default function HomePage() {
     isLoadingSupplyInterestRate,
   ]);
 
+  const calculateValue = () => {
+    if (
+      isLoading ||
+      depositedTSELIC === null ||
+      suppliedDREX === null ||
+      dataUnitValue === null
+    ) {
+      return "R$ 0";
+    } else {
+      const drexBalance = Number(suppliedDREX) / 1e18;
+      const tselicBalance =
+        (Number(depositedTSELIC) * Number(dataUnitValue)) / 1e36;
+      return `R$ ${(drexBalance + tselicBalance).toFixed(2)}`;
+    }
+  };
+
+  const calculateLoanBalance = () => {
+    if (isLoading || borrowedAmount === null) {
+      return "R$ 0";
+    } else {
+      const loanBalance = Number(borrowedAmount) / 1e18;
+      return `R$ ${loanBalance.toFixed(2)}`;
+    }
+  };
+
   return (
     <main>
       <section>
         <div className="layout relative flex min-h-screen flex-col items-center justify-start gap-20 py-12 text-center">
           {address ? (
             <div className="flex h-full w-full items-end justify-between">
-              <Card
-                text={"Saldo em Depósito"}
-                value={
-                  !isLoading
-                    ? `R$ ${(
-                        Number(suppliedDREX) / 1e18 +
-                        (Number(depositedTSELIC) * Number(dataUnitValue)) / 1e36
-                      ).toFixed(2)}`
-                    : "R$ 0"
-                }
-              />
+              <Card text={"Saldo em Depósito"} value={calculateValue()} />
               <div className="flex h-full w-full flex-col items-center justify-center">
                 <Apr aprPercent={Number(netApr)} aprMax={Number(maxAPR)} />
                 <div className="relative mt-6 h-10 w-[482px]">
@@ -229,11 +254,7 @@ export default function HomePage() {
               </div>
               <Card
                 text={"Saldo em Empréstimo"}
-                value={
-                  !isLoading
-                    ? `R$ ${(Number(borrowedAmount) / 1e18).toFixed(2)}`
-                    : "R$ 0"
-                }
+                value={calculateLoanBalance()}
                 isLeft
               />
             </div>

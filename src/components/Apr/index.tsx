@@ -1,9 +1,34 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-export const Apr = ({ aprPercent = 0, aprMax = 0 }: { aprPercent: number, aprMax:number }) => {
+export const Apr = ({
+  aprPercent = 0,
+  aprMax = 0,
+}: {
+  aprPercent: number;
+  aprMax: number;
+}) => {
+  const [strokeDashoffset, setStrokeDashoffset] = useState(0);
+
   const radius = 75;
   const circumference = 2 * Math.PI * radius;
-  const strokeDashoffset = circumference * ((aprPercent/aprMax * 100 ));
+
+  const calculateStrokeDashoffset = () => {
+    if (
+      typeof aprPercent !== "number" ||
+      typeof aprMax !== "number" ||
+      aprMax === 0
+    ) {
+      setStrokeDashoffset(0);
+      return;
+    }
+
+    const newStrokeDashoffset = circumference * ((aprPercent / aprMax) * 100);
+    console.log('aprMax', aprMax)
+    console.log('aprPercent', aprPercent)
+    setStrokeDashoffset(newStrokeDashoffset);
+  };
+
+  useEffect(() => calculateStrokeDashoffset(), []);
 
   return (
     <div className=" flex h-[150px] w-[150px] items-center justify-center overflow-hidden rounded-full">
