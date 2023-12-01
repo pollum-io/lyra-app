@@ -125,6 +125,34 @@ export default function HomePage() {
     ((Number(depositedTSELIC) * Number(dataUnitValue)) / 1e18)
   ).toFixed(2);
 
+   // Balanços
+   const tselicBalance = (Number(depositedTSELIC) * Number(dataUnitValue)) / 1e36;
+   const drexBalance = Number(suppliedDREX) / 1e18;
+   // APRs
+   const tselicApr = Number(dataInterestRate || 0) / 10e5;
+   const drexSupplyApr = Number(dataSupplyInterestRate) / 1e6 * 99/100;  
+   const drexBorrowApr = Number(dataSupplyInterestRate) / 1e6;
+   
+   // Valores Emprestados
+   const borrowedDrex = Number(borrowedAmount) / 1e18;
+ 
+   // Ganhos
+   const tselicYearlyGain = (tselicBalance * tselicApr) / 100;
+   const drexYearlyGain = (drexBalance * drexSupplyApr) / 100;
+ 
+   // Custo
+   const borrowedYearlyCost = (borrowedDrex * drexBorrowApr) / 100;
+ 
+   // Ganho Líquido
+   const yearlySuppliedGains = tselicYearlyGain + drexYearlyGain;
+   const netYearlyGain = yearlySuppliedGains - borrowedYearlyCost;  
+ 
+   // Saldo Total
+   const totalDeposited = tselicBalance + drexBalance;
+    const maxAPR = ((yearlySuppliedGains / totalDeposited) * 100);
+   // Cálculo final do APR
+   const netApr = ((netYearlyGain / totalDeposited) * 100);
+    // console.log(netApr)
   useEffect(() => {
     const loading = [
       isLoadingTotalSupplied,
@@ -161,12 +189,16 @@ export default function HomePage() {
                 text={"Saldo em Depósito"}
                 value={
                   !isLoading
-                    ? `R$ ${(Number(suppliedDREX) / 1e18).toFixed(2)}`
+                    ? `R$ ${(Number(suppliedDREX) / 1e18 + (
+                      (Number(dataTotalDepositedTSELIC) *
+                        Number(dataUnitValue)) /
+                      1e36
+                    )).toFixed(2)}`
                     : "R$ 0"
                 }
               />
               <div className="flex h-full w-full flex-col items-center justify-center">
-                <Apr aprPercent={75} />
+                <Apr aprPercent={Number(netApr)} aprMax={Number(maxAPR)} />
                 <div className="relative mt-6 h-10 w-[482px]">
                   <ProgressBar progress={Number(borrowPercentual)} />
                   <div className="absolute left-[412px] top-[20px] text-sm font-normal leading-tight text-white">
@@ -200,12 +232,8 @@ export default function HomePage() {
                 items={[
                   {
                     title: "DREX",
-                    apr: `${(Number(dataSupplyInterestRate) / 1e6).toFixed(
-                      2
-                    )}%`,
-                    liquidity: `R$ ${(Number(dataTotalSupplied) / 1e18).toFixed(
-                      2
-                    )}`,
+                    apr: `${(Number(dataSupplyInterestRate) /1e6 * 99/100).toFixed(2)}%`,
+                    liquidity: `R$ ${(Number(dataTotalSupplied) / 1e18).toFixed(2)}`,
                     balance: `R$ ${(Number(suppliedDREX) / 1e18).toFixed(2)}`,
                     onManageClick: onOpenSD,
                     imageUrl: "/images/drex.png",
