@@ -38,9 +38,9 @@ export default function HomePage() {
   const { onOpen: onOpenST } = useStore(useLendingModalSupplyTSelic);
   const { onOpen: onOpenBD } = useStore(useLendingModalBorrowDrex);
 
-  const [depositedTSELIC, setDepositedTSELIC] = useState(0);
-  const [suppliedDREX, setSuppliedDREX] = useState(0);
-  const [borrowedAmount, setBorrowedAmount] = useState(0);
+  const [depositedTSELIC, setDepositedTSELIC] = useState("0");
+  const [suppliedDREX, setSuppliedDREX] = useState("0");
+  const [borrowedAmount, setBorrowedAmount] = useState("0");
 
   const [isLoading, setLoading] = useState(true);
   const { address } = useAccount();
@@ -90,15 +90,6 @@ export default function HomePage() {
     isLoading: isLoadingBorrowedAmount,
   } = useGetBorrowedAmount(address as EthereumAddress);
 
-  useEffect(() => {
-    if (address) {
-      
-      setDepositedTSELIC(safeParseNumber(dataDepositedTSELIC));
-      setSuppliedDREX(safeParseNumber(dataSuppliedDREX));
-      setBorrowedAmount(safeParseNumber(dataBorrowedAmount));
-    }
-  }, [address, dataDepositedTSELIC, dataSuppliedDREX, dataBorrowedAmount]);
-
   const {
     data: dataUnitValue,
     isError: isErrorUnitValue,
@@ -117,21 +108,17 @@ export default function HomePage() {
     isLoading: isLoadingSupplyInterestRate,
   } = getSupplyInterestRate(dataTotalSupplied || 0, dataTotalBorrowed || 0);
 
-  console.log(depositedTSELIC)
-  console.log(safeParseNumber(dataDepositedTSELIC))
-  console.log(dataDepositedTSELIC)
-  const availableToBorrow = (depositedTSELIC * safeParseNumber(dataUnitValue) / 1e18 - borrowedAmount) / 1e18
-  // depositedTSELIC * unitValue - localBorrowedAmount || 0;
-
-  const borrowPercentual = 100 - borrowedAmount / (depositedTSELIC * safeParseNumber(dataUnitValue));
-
-
-  function safeParseNumber(value: unknown): number {
-    if (typeof value === "string") {
-      return Number(value) || 0;
+  useEffect(() => {
+    if (address) {
+      
+      setDepositedTSELIC(dataDepositedTSELIC);
+      setSuppliedDREX(dataSuppliedDREX);
+      setBorrowedAmount(dataBorrowedAmount);
     }
-    return 0;
-  }
+  }, [address, dataDepositedTSELIC, dataSuppliedDREX, dataBorrowedAmount]);
+
+  const availableToBorrow = (Number(depositedTSELIC) * Number(dataUnitValue) / 1e18 - Number(borrowedAmount)) / 1e18
+  const borrowPercentual =  (Number(borrowedAmount) /(Number(depositedTSELIC) * Number(dataUnitValue)  / 1e18)).toFixed(2);
 
   useEffect(() => {
     const loading = [
