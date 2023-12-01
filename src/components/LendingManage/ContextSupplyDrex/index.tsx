@@ -26,7 +26,8 @@ export const ContextSupplyDrex = ({
     isError: isDrexError,
     isLoading: isLoadingDrex,
   } = useBalanceOfDREX(address as EthereumAddress);
-
+  const formattedTotalSupply = (Number(dataTotalSupplied) / 10 ** 18).toFixed(2);
+  const formattedTotalBorrowed = (Number(dataTotalBorrowed) / 10 ** 18).toFixed(2);
   const {
     data: dataSuppliedDREX,
     isError: isErrorSuppliedDREX,
@@ -122,19 +123,19 @@ export const ContextSupplyDrex = ({
             </div>
             <div className="flex justify-between text-white">
               <span>Total Depositado:</span>
-              <span>{!isLoading ? `R$ ${dataTotalSupplied}` : "R$ 0"}</span>
+              <span>{!isLoading ? `R$ ${formattedTotalSupply}` : "R$ 0"}</span>
             </div>
             <div className="flex justify-between text-white">
               <span>Total Emprestado:</span>
-              <span>{!isLoading ? `R$ ${dataTotalBorrowed}` : "R$ 0"}</span>
+              <span>{!isLoading ? `R$ ${formattedTotalBorrowed}` : "R$ 0"}</span>
             </div>
             <div className="flex justify-between text-white">
               <span>Taxa de Utilização:</span>
               <span>
                 {!isLoading
                   ? `${
-                      (Number(dataTotalSupplied) / Number(dataTotalBorrowed)) *
-                      100
+                      ((Number(dataTotalBorrowed) / Number(dataTotalSupplied)) *
+                      100).toFixed(2)
                     }`
                   : "0"}
                 %
