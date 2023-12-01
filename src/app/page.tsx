@@ -216,7 +216,7 @@ export default function HomePage() {
               />
             </div>
           ) : (
-            <div className="text-3xl">Por favor Connect sua wallet</div>
+            <div className="text-3xl">Por favor conecte sua wallet</div>
           )}
         </div>
       </section>
