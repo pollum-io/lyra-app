@@ -154,7 +154,7 @@ export default function HomePage() {
             <div className="flex h-full w-full items-end justify-between">
               <Card
                 text={"Saldo em Depósito"}
-                value={!isLoading ? `R$ ${Number(suppliedDREX) / 1e18}` : "R$ 0"}
+                value={!isLoading ? `R$ ${(Number(suppliedDREX) / 1e18).toFixed(2)}` : "R$ 0"}
               />
               <div className="flex h-full w-full flex-col items-center justify-center">
                 <Apr aprPercent={75} />
@@ -162,7 +162,7 @@ export default function HomePage() {
                   <ProgressBar progress={Number(borrowPercentual)} />
                   <div className="absolute left-[412px] top-[20px] text-sm font-normal leading-tight text-white">
                     {" "}
-                    {!isLoading ? `R$ ${availableToBorrow}` : "R$ 0"}
+                    {!isLoading ? `R$ ${Number(availableToBorrow).toFixed(2)}` : "R$ 0"}
                   </div>
                   <div className="absolute left-0 top-0 text-sm font-normal leading-tight text-white">
                     Limite de Empréstimo: {!isLoading ? borrowPercentual : 0}%
@@ -171,7 +171,7 @@ export default function HomePage() {
               </div>
               <Card
                 text={"Saldo em Empréstimo"}
-                value={!isLoading ? `R$ ${Number(borrowedAmount) / 1e18}` : "R$ 0"}
+                value={!isLoading ? `R$ ${(Number(borrowedAmount) / 1e18).toFixed(2)}` : "R$ 0"}
                 isLeft
               />
             </div>
@@ -181,21 +181,21 @@ export default function HomePage() {
           {address ? (
             <div className="flex w-full flex-col items-start justify-center gap-7 lg:flex-row">
               <Lending
-                title="Saldo em Empréstimo"
+                title="Depositado"
                 items={[
                   {
                     title: "DREX",
                     apr: `${(Number(dataSupplyInterestRate) /1e6).toFixed(2) }%`,
-                    liquidity: `R$ ${Number(dataTotalSupplied) / 1e18}`,
-                    balance: `R$ ${Number(suppliedDREX) / 1e18}`,
+                    liquidity: `R$ ${(Number(dataTotalSupplied) / 1e18).toFixed(2)}`,
+                    balance: `R$ ${(Number(suppliedDREX) / 1e18).toFixed(2)}`,
                     onManageClick: onOpenSD,
                     imageUrl: "/images/drex.png",
                   },
                   {
                     title: "TSELIC",
                     apr: `${Number(dataInterestRate || 0) / 10e5}%`,
-                    liquidity: `R$ ${(Number(dataTotalDepositedTSELIC) * Number(dataUnitValue) / 1e36).toFixed()}`,
-                    balance: `R$ ${(Number(depositedTSELIC)  * Number(dataUnitValue) / 1e36).toFixed()}`,
+                    liquidity: `R$ ${(Number(dataTotalDepositedTSELIC) * Number(dataUnitValue) / 1e36).toFixed(2)}`,
+                    balance: `R$ ${(Number(depositedTSELIC)  * Number(dataUnitValue) / 1e36).toFixed(2)}`,
                     onManageClick: onOpenST,
                     imageUrl: "/images/tesouroSelic.png",
                   },
@@ -207,8 +207,8 @@ export default function HomePage() {
                   {
                     title: "DREX",
                     apr: `${(Number(dataSupplyInterestRate)/1e6).toFixed(2) }%`,
-                    liquidity: `R$ ${Number(dataTotalBorrowed)/1e18}`,
-                    balance: `R$ ${Number(borrowedAmount)/1e18}`,
+                    liquidity: `R$ ${(Number(dataTotalBorrowed)/1e18).toFixed(2)}`,
+                    balance: `R$ ${(Number(borrowedAmount)/1e18).toFixed(2)}`,
                     onManageClick: onOpenBD,
                     imageUrl: "/images/drex.png",
                   },

@@ -33,7 +33,8 @@ import {
   getSupplyInterestRate,
   useSupplyDREX,
   useSupplyTSELIC,
-  useBorrowDREX
+  useBorrowDREX,
+  useRepayDREX
 } from "../../hooks/useRBLLPoolContract";
 
 export function LendingManage() {
@@ -145,6 +146,14 @@ export function LendingManage() {
     isError: isErrorBorrowDREX,
   } = useBorrowDREX(drexamountsupply/2);
 
+  // const {
+  //   write: writeRepayDREX,
+  //   data: dataRepayDREX,
+  //   isLoading: isLoadingRepayDREX,
+  //   isSuccess: isSuccessRepayDREX,
+  //   isError: isErrorRepayDREX,
+  // } = useRepayDREX();
+
   const drexBalance = Number(dataDrexBalance) / 10 ** 6;
   const TselicBalance = Number(dataTselicBalance) / 10 ** 18;
 
@@ -163,12 +172,36 @@ export function LendingManage() {
 
 
   useEffect(() => {
-    const loading = [isLoadingDrex, isLoadingTselic].every(
+    const loading = [
+      isLoadingDrex,
+      isLoadingTselic,
+      isSuccessApproveTSELIC,
+      isLoadingTotalSupplied,
+      isLoadingTotalBorrowed,
+      isLoadingSupplyInterestRate,
+      isLoadingSuppliedDREX,
+      isLoadingDepositedTSELIC,
+      isLoadingBorrowedAmount,
+      isLoadingAllowanceDREX,
+      isLoadingAllowanceTSELIC,
+    ].every(
       (loading) => loading === false
     );
 
     setLoading(!loading);
-  }, [isLoadingDrex, isLoadingTselic]);
+  }, [
+      isLoadingDrex,
+      isLoadingTselic,
+      isSuccessApproveTSELIC,
+      isLoadingTotalSupplied,
+      isLoadingTotalBorrowed,
+      isLoadingSupplyInterestRate,
+      isLoadingSuppliedDREX,
+      isLoadingDepositedTSELIC,
+      isLoadingBorrowedAmount,
+      isLoadingAllowanceDREX,
+      isLoadingAllowanceTSELIC,
+  ]);
 
   const renderContent = () => {
     if (isOpenSD) {
@@ -284,7 +317,7 @@ export function LendingManage() {
                       </button>
                       <div className="relative h-6 w-6">
                         <Image
-                          src={"/images/drex.png"}
+                          src={"/images/brll.png"}
                           alt="logo"
                           layout="fill"
                           className="rounded-full object-cover"
@@ -383,7 +416,7 @@ export function LendingManage() {
                       </button>
                       <div className="relative h-6 w-6">
                         <Image
-                          src={"/images/drex.png"}
+                          src={"/images/brll.png"}
                           alt="logo"
                           layout="fill"
                           className="rounded-full object-cover"
@@ -417,8 +450,8 @@ export function LendingManage() {
               </div>
 
               <div className="flex h-full w-full  text-white">
-                O recall instantâneo facilita a troca de garantias TSELIC por
-                DREX através do pool da Uniswap.
+                O recall instantâneo facilita a troca de garantias em TSELIC por
+                DREX através da Uniswap.
               </div>
 
               <Button text="Recall" onClick={() => null} isLoading={false} />
