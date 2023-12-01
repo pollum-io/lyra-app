@@ -28,7 +28,7 @@ import {
   useSupplyTSELIC,
   useBorrowDREX,
 } from "../../hooks/useRBLLPoolContract";
-import { ContextSupplyDrex } from "./ContextBorrowDrex";
+import { ContextSupplyDrex } from "./ContextSupplyDrex";
 
 export function LendingManage() {
   const { isOpen: isOpenSD, onClose: onCloseSD } = useStore(

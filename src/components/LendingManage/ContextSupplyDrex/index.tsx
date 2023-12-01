@@ -1,3 +1,5 @@
+"use client";
+
 import { Button } from "@/components/Button";
 import Tabs, { TabContent } from "@/components/Tabs";
 import { EthereumAddress, useBalanceOfDREX } from "@/hooks/useErc20";
@@ -10,7 +12,7 @@ import { BigNumberish } from "ethers";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 
-export const ContextBorrowDrex = ({
+export const ContextSupplyDrex = ({
   address,
   dataTotalSupplied,
   dataTotalBorrowed,
