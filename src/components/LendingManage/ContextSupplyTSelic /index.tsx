@@ -10,10 +10,12 @@ import {
   useGetBorrowedAmount,
   useGetDepositedTSELIC,
   useSupplyTSELIC,
+  useWithdrawTSELIC
 } from "@/hooks/useRBLLPoolContract";
 import { BigNumberish } from "ethers";
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import { useWaitForTransaction } from "wagmi";
 
 export const ContextSupplyTSelic = ({
   address,
@@ -22,24 +24,26 @@ export const ContextSupplyTSelic = ({
   address: string;
   dataTselicBalance: BigNumberish;
 }) => {
-  const tselicamountsupply = 3 * 1e18;
   const TselicBalance = Number(dataTselicBalance) / 10 ** 18;
   const [isLoading, setLoading] = useState(true);
   const [valueTselic, setValueTselic] = useState("");
+  const [valueWithdrawlTselic, setValueWithdrawlTselic] = useState("");
   const [error, setError] = useState("");
+  const [isLoadingTx, setLoadingTx] = useState(false);
+  const [transactionHash, setTransactionHash] = useState<EthereumAddress | undefined>(undefined);
 
   const {
     data: dataDepositedTSELIC,
     isError: isErrorDepositedTSELIC,
     isLoading: isLoadingDepositedTSELIC,
   } = useGetDepositedTSELIC(address as EthereumAddress);
-
+  const formattedDepositedTSELIC = Number(dataDepositedTSELIC) / 10 ** 18;
   const {
     data: dataBorrowedAmount,
     isError: isErrorBorrowedAmount,
     isLoading: isLoadingBorrowedAmount,
   } = useGetBorrowedAmount(address as EthereumAddress);
-
+  const formattedBorrowed = Number(dataBorrowedAmount) / 10 ** 18;
   const {
     data: dataAllowanceTSELIC,
     isError: isErrorAllowanceTSELIC,
@@ -60,11 +64,75 @@ export const ContextSupplyTSelic = ({
     isLoading: isLoadingSupplyTSELIC,
     isSuccess: isSuccessSupplyTSELIC,
     isError: isErrorSupplyTSELIC,
-  } = useSupplyTSELIC(tselicamountsupply);
+  } = useSupplyTSELIC(Number(valueTselic) == 0 ?  1: Number(valueTselic)*10**18);
+
+  const {
+    write: writeWithdrawTSELIC,
+    data: dataWithdrawTSELIC,
+    isLoading: isLoadingWithdrawTSELIC,
+    isSuccess: isSuccessWithdrawTSELIC,
+    isError: isErrorWithdrawTSELIC,
+  } = useWithdrawTSELIC(Number(valueTselic) == 0 ?  1: Number(valueWithdrawlTselic)*10**18);
 
   const [approvedAmountTselic, setApprovedAmountTselic] = useState(
-    Number(dataAllowanceTSELIC)
+    Number(dataAllowanceTSELIC)/10**18
   );
+  const transaction = useWaitForTransaction({
+    hash: transactionHash
+  });
+
+  useEffect(() => {
+    if(transaction.isSuccess) {
+      alert('Transaction is successfull');
+    }
+    if(transaction.isError && transactionHash !== "0x") {
+      alert(`Error in TX ${transaction.error}`);
+    }
+    setTransactionHash(undefined);
+    setLoadingTx(false);
+  }, [transaction.isSuccess,transaction.isError]);
+
+  useEffect(() => {
+    if(isSuccessApproveTSELIC) {
+      setTransactionHash(dataApproveTSELIC.hash);
+      setLoadingTx(true);
+      
+    }
+    if(isErrorApproveTSELIC) {
+      alert('Error in approving TSELIC');
+    }
+  }
+  , [isErrorApproveTSELIC, isSuccessApproveTSELIC]);
+
+  useEffect(() => {
+    if(Number(dataAllowanceTSELIC) !== approvedAmountTselic*10**18) {
+      setApprovedAmountTselic(Number(dataAllowanceTSELIC)/10**18);
+    }
+  }
+  , [dataAllowanceTSELIC]);
+
+  useEffect(() => {
+    if(isSuccessSupplyTSELIC) {
+      setTransactionHash(dataSupplyTSELIC.hash);
+      setLoadingTx(true); 
+    }
+    if(isErrorSupplyTSELIC) {
+      alert('Error in depositing TSELIC');
+    }
+  } , [isErrorSupplyTSELIC, isSuccessSupplyTSELIC]);
+
+
+useEffect(() => {
+  if(isSuccessWithdrawTSELIC) {
+    setTransactionHash(dataWithdrawTSELIC.hash);
+    setLoadingTx(true);
+    
+  }
+  if(isErrorWithdrawTSELIC) {
+    alert('Error in withdrawal DREX');
+  }
+}
+, [isErrorWithdrawTSELIC, isSuccessWithdrawTSELIC]);
 
   useEffect(() => {
     const loading = [isSuccessApproveTSELIC, isLoadingAllowanceTSELIC].every(
@@ -123,13 +191,14 @@ export const ContextSupplyTSelic = ({
                 </div>
               </div>
               {error && <div className="text-sm text-red-500">{error}</div>}
+              {isLoadingTx && <div className="text-sm text-green-500">Transação com hash {transactionHash} esta sendo processada</div>}
             </div>
           </div>
 
           <div className="flex h-full w-full flex-col gap-2">
             <div className=" flex justify-between text-white">
               <span>TSELIC Depositado:</span>
-              <span>{!isLoading ? `${dataDepositedTSELIC}` : "0"} TSELIC</span>
+              <span>{!isLoading ? `${formattedDepositedTSELIC}` : "0"} TSELIC</span>
             </div>
           </div>
 
@@ -143,10 +212,9 @@ export const ContextSupplyTSelic = ({
             <Button
               text="Depositar"
               onClick={writeSupplyTSELIC}
-              isLoading={false}
+              isLoading={isLoadingSupplyTSELIC}
             />
           )}
-          {/* <Button text="Depositar" onClick={writeSupplyTSELIC} isLoading={false} /> */}
         </div>
       </TabContent>
       <TabContent title="Sacar">
@@ -163,7 +231,7 @@ export const ContextSupplyTSelic = ({
                   type="number"
                   className="h-full min-w-[50px] border-none bg-transparent text-base font-normal leading-normal text-white shadow outline-none focus:border-transparent focus:outline-none focus:ring-0"
                   placeholder={"0"}
-                  // value={value} TODO: change props to use control on input
+                  value={valueWithdrawlTselic}
                   style={{
                     WebkitAppearance: "none",
                     MozAppearance: "textfield",
@@ -172,7 +240,7 @@ export const ContextSupplyTSelic = ({
                 <div className="flex w-[100px] items-center justify-center gap-2.5 px-4 py-2">
                   <button
                     className="text-brandBlue-300 text-base font-normal leading-normal"
-                    onClick={() => null}
+                    onClick={() => setValueWithdrawlTselic(formattedDepositedTSELIC.toString())}
                   >
                     max
                   </button>
@@ -188,18 +256,19 @@ export const ContextSupplyTSelic = ({
               </div>
             </div>
           </div>
+            {isLoadingTx && <div className="text-sm text-green-500">Transação com hash {transactionHash} esta sendo processada</div>}
 
           <div className="flex h-full w-full flex-col gap-2">
             <div className=" flex justify-between text-white">
               <span>TSELIC Depositado:</span>
-              <span>{!isLoading ? `${dataDepositedTSELIC}` : "0"} TSELIC</span>
+              <span>{!isLoading ? `${formattedDepositedTSELIC}` : "0"} TSELIC</span>
             </div>
             <div className="flex justify-between text-white">
               <span>DREX em Empréstimo:</span>
-              <span>{!isLoading ? `${dataBorrowedAmount}` : "0"} DREX</span>
+              <span>{!isLoading ? `${formattedBorrowed}` : "0"} DREX</span>
             </div>
           </div>
-          <Button text="Sacar" onClick={() => null} isLoading={false} />
+          <Button text="Sacar" onClick={writeWithdrawTSELIC} isLoading={isLoadingWithdrawTSELIC} />
         </div>
       </TabContent>
     </Tabs>
