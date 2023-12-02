@@ -7,9 +7,9 @@ import { rBRLLPool, InterestRateModel } from '../constant/contracts'
 type RBRLLPoolFunctionName = 'supplyDREX' | 'withdrawDREX' | 'withdrawAllDREX' | 'repayDREX' | 'repayAll' | 'flashLiquidateBorrow' | 'supplyTSELIC' | 'withdrawTSELIC' | 'withdrawAllTSELIC' | 'borrowDREX';
 type RBRLLPoolWriteArgs = BigNumberish[] | ['MAX'] | [string, BigNumberish, BigNumberish];
 
-interface ContractWriteHookReturn<T = BigNumberish> {
+interface ContractWriteHookReturn {
   write: () => void;
-  data: BigNumberish | undefined;
+  data: any;
   isLoading: boolean;
   isSuccess: boolean;
   isError: boolean;
@@ -31,9 +31,8 @@ export function useRBRLLPoolWrite(functionName: RBRLLPoolFunctionName, args?: RB
 
   const { write, data, isLoading, isSuccess, isError } = useContractWrite(config);
   const safeWrite = write ?? (() => { });
-  const safeData: BigNumberish | undefined = data as BigNumberish | undefined;
 
-  return { write: safeWrite, data: safeData, isLoading, isSuccess, isError };
+  return { write: safeWrite, data, isLoading, isSuccess, isError };
 }
 
 export function useRBRLLPoolRead<T = any>(functionName: string, args?: any[]): ContractReadHookReturn<T> {
@@ -42,6 +41,7 @@ export function useRBRLLPoolRead<T = any>(functionName: string, args?: any[]): C
     abi: rBRLLABI,
     functionName,
     args,
+    watch: true,
   });
 
   return { data: data as T, isError, isLoading };

@@ -20,8 +20,10 @@ import {
 } from "@/hooks/useRBLLPoolContract";
 import { BigNumberish } from "ethers";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 import { BORROWER, POOL_MANAGER_ROLE } from "@/constant/roles";
+// import { Loading } from "@/components/Loading";
+import { useWaitForTransaction } from "wagmi";
 export const ContextSupplyDrex = ({
   address,
   dataTotalSupplied,
@@ -38,7 +40,7 @@ export const ContextSupplyDrex = ({
   } = useAllowanceDREX(address as EthereumAddress);
 
   const [approvedAmountDREX, setApprovedAmountDREX] =
-    useState(dataAllowanceDREX);
+    useState(Number(dataAllowanceDREX)/10**6);
 
   const {
     data: dataDrexBalance,
@@ -59,9 +61,6 @@ export const ContextSupplyDrex = ({
     isError: isErrorSuppliedDREX,
     isLoading: isLoadingSuppliedDREX,
   } = useGetSuppliedDREX(address as EthereumAddress);
-  const [dataSupplied, setDataSupplied] = useState(
-    Number(dataSuppliedDREX) / 10 ** 18
-  );
 
   const {
     data: canRecall
@@ -69,49 +68,94 @@ export const ContextSupplyDrex = ({
 
   const drexBalance = Number(dataDrexBalance) / 10 ** 6;
 
-  const drexamountsupply = 100 * 1e6;
   const [valueDREX, setValueDREX] = useState("");
   const [valueRBLL, setValueRBLL] = useState("");
   const [valueToLiquidate, setValueToLiquidate] = useState("");
   const [error, setError] = useState("");
   const [isLoading, setLoading] = useState(true);
+  const [isLoadingTx, setLoadingTx] = useState(false);
+  const [transactionHash, setTransactionHash] = useState<EthereumAddress | undefined>(undefined);
+  const {write: writeApprove, data: dataApprove , isError: isErrorApprove, isSuccess: isSuccessApprove , isLoading: isLoadingApproval} = useApproveDREX();
 
+  const {write: writeDeposit, data: dataDeposit, isError: isErrorDeposit, isSuccess: isSuccessDeposit, isLoading: isLoadingDeposit} = useSupplyDREX(Number(valueDREX) == 0 ?  1: Number(valueDREX)*10**6);
+  const {write: writeWithdrawal, data: dataWithdrawal, isError: isErrorWithdrawal, isSuccess: isSucessWithdrawal, isLoading: isLoadingWithDrawal} = useWithdrawDREX(Number(valueRBLL)*10**6);
+  const {data: tSelicValue} = useGetUnitValue();
+  const {data: repayAmount} = useGetBorrowedAmount(BORROWER);
+  const tSelicValueBigNumber: BigNumberish = BigInt(Math.round(Number(tSelicValue)*0.9));
+  const {write: writeRecall, data: dataRecall, isError: isErrorRecall, isSuccess: isSucessRecall, isLoading: isLoadingRecall} = useFlashLiquidateBorrow(BORROWER,repayAmount,tSelicValueBigNumber);
   const {
     data: dataSupplyInterestRate,
     isError: isErrorSupplyInterestRate,
     isLoading: isLoadingSupplyInterestRate,
   } = getSupplyInterestRate(dataTotalSupplied || 0, dataTotalBorrowed || 0);
-  const handleApproveDREX = async () => {
-    const { data, isError, isSuccess } = await useApproveDREX();
-    if (isError) {
-      //TODO return error
-      alert("use rejected Transaction");
+
+  const transaction = useWaitForTransaction({
+    hash: transactionHash
+  });
+
+  useEffect(() => {
+    if(transaction.isSuccess) {
+      alert('Transaction is successfull');
     }
-    console.log("Check what comes as data", data);
-    if (isSuccess) {
-      const { data } = useAllowanceDREX(address as EthereumAddress);
-      setApprovedAmountDREX(Number(data) / 10 ** 6);
+    if(transaction.isError && transactionHash !== "0x") {
+      alert(`Error in TX ${transaction.error}`);
     }
-  };
-  const handleDepositDREX = async () => {
-     await useSupplyDREX(Number(valueDREX)*10**6);
-     //TODO update user deposited and wallet balance after write is sucesfull 
+    setTransactionHash(undefined);
+    setLoadingTx(false);
+  }, [transaction.isSuccess,transaction.isError]);
+
+useEffect(() => {
+  if(isSuccessApprove) {
+    setTransactionHash(dataApprove.hash);
+    setLoadingTx(true);
+    
   }
-
-  const handleWithdrawal = async () => {
-    const {data} = await useWithdrawDREX(Number(valueRBLL)*10**18);
-    console.log('Check what comes as data', data);
+  if(isErrorApprove) {
+    alert('Error in approving DREX');
   }
+}
+, [isErrorApprove, isSuccessApprove]);
 
-  const handleRecall = async () => {
-    const {data: tSelicValue} = await useGetUnitValue();
-    const tSelicValueBigNumber: BigNumberish = BigInt(Math.round(Number(tSelicValue)*0.9));
-    const {data: repayAmount} = await useGetBorrowedAmount(BORROWER);
-    const {data} = await useFlashLiquidateBorrow(BORROWER,repayAmount, tSelicValueBigNumber ); 
-    console.log('Check what comes as data', data);
+
+useEffect(() => {
+  if(isSuccessApprove) {
+    setTransactionHash(dataRecall.hash);
+    setLoadingTx(true);
+    
   }
+  if(isErrorApprove) {
+    alert('Error in recalling LOANS DREX');
+  }
+}
+, [isErrorRecall, isSucessRecall]);
 
+useEffect(() => {
+  if(isSucessWithdrawal) {
+    setTransactionHash(dataWithdrawal.hash);
+    setLoadingTx(true);
+    
+  }
+  if(isErrorWithdrawal) {
+    alert('Error in withdrawal DREX');
+  }
+}
+, [isErrorWithdrawal, isSucessWithdrawal]);
 
+useEffect(() => {
+  if(isSuccessDeposit) {
+    setTransactionHash(dataDeposit.hash);
+    setLoadingTx(true); 
+  }
+  if(isErrorDeposit) {
+    alert('Error in depositing DREX');
+  }
+} , [isErrorDeposit, isSuccessDeposit]);
+useEffect(() => {
+  if(Number(dataAllowanceDREX) !== approvedAmountDREX*10**6) {
+    setApprovedAmountDREX(Number(dataAllowanceDREX)/10**6);
+  }
+}
+, [dataAllowanceDREX]);
 
   useEffect(() => {
     const loading = [
@@ -172,6 +216,7 @@ export const ContextSupplyDrex = ({
                 </div>
               </div>
               {error && <div className="text-sm text-red-500">{error}</div>}
+              {isLoadingTx && <div className="text-sm text-green-500">Transaction of hash {transactionHash} is being processed</div>}
             </div>
           </div>
 
@@ -203,19 +248,19 @@ export const ContextSupplyDrex = ({
               </span>
             </div>
           </div>
-        {Number(approvedAmountDREX) < Number(valueDREX) ? (
+        {Number(approvedAmountDREX) >= Number(valueDREX) ? (
           <Button
             text="Depositar"
-            onClick={handleDepositDREX}
-            isLoading={false}
-            disabled={valueDREX === "" || Number(valueDREX) === 0}
+            onClick={writeDeposit}
+            isLoading={isLoadingDeposit}
+            disabled={valueDREX === "" || Number(valueDREX) === 0 || isLoadingTx}
           />
         ) : (
           <Button
             text="Aprovar"
-            onClick={handleApproveDREX}
-            isLoading={false}
-            disabled={valueDREX === "" || Number(valueDREX) === 0}
+            onClick={writeApprove}
+            isLoading={isLoadingApproval}
+            disabled={valueDREX === "" || Number(valueDREX) === 0 || isLoadingTx}
           />
         )}
         </div>
@@ -226,7 +271,7 @@ export const ContextSupplyDrex = ({
             <div className="flex h-full w-full flex-col items-start justify-start gap-4">
               <div className="inline-flex items-start justify-start gap-6">
                 <div className="text-base font-normal leading-normal text-gray-400">
-                  Balanço: {!isLoading ? `${dataSupplied.toFixed(2)}` : "0"} rBRLL
+                  Balanço: {!isLoading ? `${(Number(dataSuppliedDREX) / 10 ** 18).toFixed(2)}` : "0"} rBRLL
                 </div>
               </div>
               <div className="border-brandBlue-300 inline-flex w-full items-center justify-between rounded-lg border border-opacity-20 bg-gray-700 px-3">
@@ -237,7 +282,7 @@ export const ContextSupplyDrex = ({
                   value={valueRBLL}
                   onChange={(e) => {
                     const enteredValue = Number(e.target.value);
-                    if (enteredValue > dataSupplied) {
+                    if (enteredValue > Number(dataSuppliedDREX) / 10 ** 18) {
                       setError("Entered value is greater than current balance");
                     } else {
                       setError("");
@@ -252,7 +297,7 @@ export const ContextSupplyDrex = ({
                 <div className="flex w-[100px] items-center justify-center gap-2.5 px-4 py-2">
                   <button
                     className="text-brandBlue-300 text-base font-normal leading-normal"
-                    onClick={() => setValueRBLL(dataSupplied.toString())}
+                    onClick={() => setValueRBLL((Number(dataSuppliedDREX) / 10 ** 18).toString())}
                   >
                     max
                   </button>
@@ -291,7 +336,8 @@ export const ContextSupplyDrex = ({
               </div>
             </div>
           </div>
-
+          {error && <div className="text-sm text-red-500">{error}</div>}
+              {isLoadingTx && <div className="text-sm text-green-500">Transaction of hash {transactionHash} is being processed</div>}
           <div className="flex h-full w-full flex-col gap-2">
             <div className=" flex justify-between text-white">
               <span>Liquidez Disponível em DREX:</span>
@@ -328,7 +374,7 @@ export const ContextSupplyDrex = ({
             </div>
           </div>
 
-          <Button text="Sacar" onClick={handleWithdrawal} isLoading={false} disabled={valueRBLL === "" || Number(valueRBLL) === 0} />
+          <Button text="Sacar" onClick={writeWithdrawal} isLoading={isLoadingWithDrawal} disabled={valueRBLL === "" || Number(valueRBLL) === 0} />
         </div>
       </TabContent>
       <TabContent title="Recall">
@@ -345,7 +391,7 @@ export const ContextSupplyDrex = ({
             DREX através da Uniswap.
           </div>
 
-          <Button text="Recall" onClick={handleRecall} isLoading={false} disabled={!canRecall}/>
+          <Button text="Recall" onClick={writeRecall} isLoading={isLoadingRecall} disabled={!canRecall}/>
         </div>
       </TabContent>
     </Tabs>

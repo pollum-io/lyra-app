@@ -1,5 +1,5 @@
 import { useContractWrite, useContractRead, usePrepareContractWrite } from 'wagmi';
-import { BigNumberish, constants } from 'ethers';
+import { BigNumberish, MaxUint256 } from 'ethers';
 import { abi as ERC20ABI } from '../contracts/ERC20ABI';
 import { DREX, TSELIC29, rBRLLPool } from '../constant/contracts'
 
@@ -46,6 +46,7 @@ function createERC20Hooks(address: `0x${string}`) {
       abi: ERC20ABI,
       functionName,
       args,
+      watch: true,
     });
 
     return { data: data as T, isError, isLoading };
@@ -53,7 +54,7 @@ function createERC20Hooks(address: `0x${string}`) {
 
   // Function to approve spending of tokens
   function useApprove(): ContractWriteHookReturn {
-    return useERC20Write('approve', [rBRLLPool, constants.MaxUint256]);
+    return useERC20Write('approve', [rBRLLPool, MaxUint256]);
   }
 
   // Function to get the approved token balance of a given address
