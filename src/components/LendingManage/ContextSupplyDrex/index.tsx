@@ -78,11 +78,8 @@ export const ContextSupplyDrex = ({
   const {write: writeApprove, data: dataApprove , isError: isErrorApprove, isSuccess: isSuccessApprove , isLoading: isLoadingApproval} = useApproveDREX();
 
   const {write: writeDeposit, data: dataDeposit, isError: isErrorDeposit, isSuccess: isSuccessDeposit, isLoading: isLoadingDeposit} = useSupplyDREX(Number(valueDREX) == 0 ?  1: Number(valueDREX)*10**6);
-  const {write: writeWithdrawal, data: dataWithdrawal, isError: isErrorWithdrawal, isSuccess: isSucessWithdrawal, isLoading: isLoadingWithDrawal} = useWithdrawDREX(Number(valueRBLL)*10**6);
-  const {data: tSelicValue} = useGetUnitValue();
-  const {data: repayAmount} = useGetBorrowedAmount(BORROWER);
-  const tSelicValueBigNumber: BigNumberish = BigInt(Math.round(Number(tSelicValue)*0.9));
-  const {write: writeRecall, data: dataRecall, isError: isErrorRecall, isSuccess: isSucessRecall, isLoading: isLoadingRecall} = useFlashLiquidateBorrow(BORROWER,(Number(valueRBLL)*10**6),tSelicValueBigNumber);
+  const {write: writeWithdrawal, data: dataWithdrawal, isError: isErrorWithdrawal, isSuccess: isSucessWithdrawal, isLoading: isLoadingWithDrawal} = useWithdrawDREX((Number(valueRBLL)*10**6).toFixed());
+  const {write: writeRecall, data: dataRecall, isError: isErrorRecall, isSuccess: isSucessRecall, isLoading: isLoadingRecall} = useFlashLiquidateBorrow(BORROWER,(Number(valueRBLL)*10**6).toFixed(),3);
   const {
     data: dataSupplyInterestRate,
     isError: isErrorSupplyInterestRate,
