@@ -94,7 +94,7 @@ export const ContextSupplyTSelic = ({
                   onChange={(e) => {
                     const enteredValue = Number(e.target.value);
                     if (enteredValue > TselicBalance) {
-                      setError("Entered value is greater than current balance");
+                      setError("O valor inserido é maior que o saldo atual.");
                     } else {
                       setError("");
                       setValueTselic(e.target.value);

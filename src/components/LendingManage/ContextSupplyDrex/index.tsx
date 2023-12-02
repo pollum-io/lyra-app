@@ -82,7 +82,7 @@ export const ContextSupplyDrex = ({
   const {data: tSelicValue} = useGetUnitValue();
   const {data: repayAmount} = useGetBorrowedAmount(BORROWER);
   const tSelicValueBigNumber: BigNumberish = BigInt(Math.round(Number(tSelicValue)*0.9));
-  const {write: writeRecall, data: dataRecall, isError: isErrorRecall, isSuccess: isSucessRecall, isLoading: isLoadingRecall} = useFlashLiquidateBorrow(BORROWER,repayAmount,tSelicValueBigNumber);
+  const {write: writeRecall, data: dataRecall, isError: isErrorRecall, isSuccess: isSucessRecall, isLoading: isLoadingRecall} = useFlashLiquidateBorrow(BORROWER,(Number(valueRBLL)*10**6),tSelicValueBigNumber);
   const {
     data: dataSupplyInterestRate,
     isError: isErrorSupplyInterestRate,
@@ -187,7 +187,7 @@ useEffect(() => {
                   onChange={(e) => {
                     const enteredValue = Number(e.target.value);
                     if (enteredValue > drexBalance) {
-                      setError("Entered value is greater than current balance");
+                      setError("O valor inserido é maior que o saldo atual.");
                     } else {
                       setError("");
                       setValueDREX(e.target.value);
@@ -216,7 +216,7 @@ useEffect(() => {
                 </div>
               </div>
               {error && <div className="text-sm text-red-500">{error}</div>}
-              {isLoadingTx && <div className="text-sm text-green-500">Transaction of hash {transactionHash} is being processed</div>}
+              {isLoadingTx && <div className="text-sm text-green-500">Transação com hash {transactionHash} esta sendo processada</div>}
             </div>
           </div>
 
@@ -283,7 +283,7 @@ useEffect(() => {
                   onChange={(e) => {
                     const enteredValue = Number(e.target.value);
                     if (enteredValue > Number(dataSuppliedDREX) / 10 ** 18) {
-                      setError("Entered value is greater than current balance");
+                      setError("O valor inserido é maior que o saldo atual.");
                     } else {
                       setError("");
                       setValueRBLL(e.target.value);
@@ -337,10 +337,10 @@ useEffect(() => {
             </div>
           </div>
           {error && <div className="text-sm text-red-500">{error}</div>}
-              {isLoadingTx && <div className="text-sm text-green-500">Transaction of hash {transactionHash} is being processed</div>}
+              {isLoadingTx && <div className="text-sm text-green-500">Transação com hash {transactionHash} esta sendo processada</div>}
           <div className="flex h-full w-full flex-col gap-2">
             <div className=" flex justify-between text-white">
-              <span>Liquidez Disponível em DREX:</span>
+              <span>Liquidez Disponível:</span>
               <span>
                 {!isLoading
                   ? `R$ ${(
@@ -382,16 +382,80 @@ useEffect(() => {
           <div className="flex w-full items-start justify-start gap-3">
             <div className="flex h-full w-full flex-col items-start justify-start gap-4">
               <div className="inline-flex items-start justify-start gap-6">
+              <div className="text-base font-normal leading-normal text-gray-400">
+              Balanço: {!isLoading ? `${(Number(dataSuppliedDREX) / 10 ** 18).toFixed(2)}` : "0"} rBRLL
+                </div>
+              </div>
+              <div className="border-brandBlue-300 inline-flex w-full items-center justify-between rounded-lg border border-opacity-20 bg-gray-700 px-3">
+                <input
+                  type="number"
+                  className="h-full min-w-[50px] border-none bg-transparent text-base font-normal leading-normal text-white shadow outline-none focus:border-transparent focus:outline-none focus:ring-0"
+                  placeholder={"0"}
+                  value={valueRBLL}
+                  onChange={(e) => {
+                    const enteredValue = Number(e.target.value);
+                    if (enteredValue > Number(dataSuppliedDREX) / 10 ** 18) {
+                      setError("O valor inserido é maior que o saldo atual.");
+                    } else {
+                      setError("");
+                      setValueRBLL(e.target.value);
+                    }
+                  }}
+                  style={{
+                    WebkitAppearance: "none",
+                    MozAppearance: "textfield",
+                  }}
+                />
+                <div className="flex w-[100px] items-center justify-center gap-2.5 px-4 py-2">
+                  <button
+                    className="text-brandBlue-300 text-base font-normal leading-normal"
+                    onClick={() => setValueRBLL((Number(dataSuppliedDREX) / 10 ** 18).toString())}
+                  >
+                    max
+                  </button>
+                  <div className="relative h-6 w-6">
+                    <Image
+                      src={"/images/brll.png"}
+                      alt="logo"
+                      layout="fill"
+                      className="rounded-full object-cover"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div className="border-brandBlue-300 inline-flex w-full items-center justify-between rounded-lg border border-opacity-20 bg-gray-700 px-3">
+                <input
+                  type="number"
+                  className="h-full min-w-[50px] border-none bg-transparent text-base font-normal leading-normal text-white shadow outline-none focus:border-transparent focus:outline-none focus:ring-0"
+                  placeholder={"0"}
+                  value={valueRBLL} // Set this value to be the same as the first input
+                  readOnly // Makes this input read-only
+                  style={{
+                    WebkitAppearance: "none",
+                    MozAppearance: "textfield",
+                  }}
+                />
+                <div className="flex w-[100px] items-center justify-center gap-2.5 px-4 py-2">
+                  <div className="relative h-6 w-6">
+                    <Image
+                      src={"/images/drex.png"}
+                      alt="logo"
+                      layout="fill"
+                      className="rounded-full object-cover"
+                    />
+                  </div>
+                </div>
               </div>
             </div>
           </div>
-
+          {error && <div className="text-sm text-red-500">{error}</div>}
+              {isLoadingTx && <div className="text-sm text-green-500">Transação com hash {transactionHash} esta sendo processada</div>}
           <div className="flex h-full w-full  text-white">
             O recall instantâneo facilita a troca de garantias em TSELIC por
             DREX através da Uniswap.
           </div>
 
-          <Button text="Recall" onClick={writeRecall} isLoading={isLoadingRecall} disabled={!canRecall}/>
+          <Button text="Recall" onClick={writeRecall} isLoading={isLoadingRecall} disabled={!canRecall || valueRBLL === "" || Number(valueRBLL) === 0}/>
         </div>
       </TabContent>
     </Tabs>

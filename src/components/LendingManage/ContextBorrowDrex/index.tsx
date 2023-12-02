@@ -172,7 +172,7 @@ useEffect(() => {
                   onChange={(e) => {
                     const enteredValue = Number(e.target.value);
                     if (enteredValue > drexBalance) {
-                      setError("Entered value is greater than current balance");
+                      setError("O valor inserido é maior que o saldo atual.");
                     } else {
                       setError("");
                       setBorrowValue(enteredValue);
@@ -212,7 +212,7 @@ useEffect(() => {
             </div>
           </div>
           {error && <div className="text-sm text-red-500">{error}</div>}
-              {isLoadingTx && <div className="text-sm text-green-500">Transaction of hash {transactionHash} is being processed</div>}
+              {isLoadingTx && <div className="text-sm text-green-500">Transação com hash {transactionHash} esta sendo processada</div>}
           <div className="flex h-full w-full flex-col gap-2">
             <div className=" flex justify-between text-white">
               <span>TSELIC Depositado:</span>
@@ -265,7 +265,7 @@ useEffect(() => {
                   onChange={(e) => {
                     const enteredValue = Number(e.target.value);
                     if (enteredValue > drexBalance) {
-                      setError("Entered value is greater than current balance");
+                      setError("O valor inserido é maior que o saldo atual.");
                     } else {
                       setError("");
                       setRepayValue(enteredValue);
@@ -296,7 +296,7 @@ useEffect(() => {
             </div>
           </div>
           {error && <div className="text-sm text-red-500">{error}</div>}
-              {isLoadingTx && <div className="text-sm text-green-500">Transaction of hash {transactionHash} is being processed</div>}
+              {isLoadingTx && <div className="text-sm text-green-500">Transação com hash {transactionHash} esta sendo processada</div>}
           <div className="flex h-full w-full flex-col gap-2">
             <div className="flex justify-between text-white">
               <span>Passivo em DREX:</span>
