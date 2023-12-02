@@ -41,7 +41,7 @@ export function useRBRLLPoolRead<T = any>(functionName: string, args?: any[]): C
     abi: rBRLLABI,
     functionName,
     args,
-    watch: true,
+    watch:true
   });
 
   return { data: data as T, isError, isLoading };
@@ -126,16 +126,15 @@ export function useBorrowDREX(amount: BigNumberish) {
 export function hasRole(role: string, userAddress: string) {
   return useRBRLLPoolRead('hasRole', [role, userAddress]);
 }
-
 // Function to get the market price of TSELIC via Chainlink
-export function useGetUnitValue() {
+export function useGetUnitValue<T = any>(): ContractReadHookReturn<T> {
   const { data, isError, isLoading } = useContractRead({
     address: InterestRateModel,
     abi: InterestRateModelABI,
     functionName: 'getUnitValue'
   });
 
-  return { data, isError, isLoading };
+  return { data: data as T , isError, isLoading };
 }
 
 // Function to get Supply Secondly Rate

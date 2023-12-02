@@ -10,9 +10,10 @@ import {
   useGetUnitValue,
   useRepayDREX,
 } from "@/hooks/useRBLLPoolContract";
-import { BigNumberish } from "ethers";
+import { BigNumberish, parseUnits, formatUnits} from "ethers";
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import { useWaitForTransaction } from "wagmi";
 
 export const ContextBorrowDrex = ({
   address,
@@ -24,9 +25,15 @@ export const ContextBorrowDrex = ({
   dataTotalBorrowed: BigNumberish;
 }) => {
 
-  const [borrowValue, setBorrowValue] = useState("");
-  const [repayValue, setRepayValue] = useState("");
+  const [borrowValue, setBorrowValue] = useState(0);
+  const [repayValue, setRepayValue] = useState(0);
   const [error, setError] = useState("");
+  const [isLoadingTx, setLoadingTx] = useState(false);
+  const [transactionHash, setTransactionHash] = useState<EthereumAddress | undefined>(undefined);
+
+  const transaction = useWaitForTransaction({
+    hash: transactionHash
+  });
 
   const {
     data: dataDrexBalance,
@@ -57,31 +64,86 @@ export const ContextBorrowDrex = ({
     isError: isErrorAllowanceDREX,
     isLoading: isLoadingAllowanceDREX,
   } = useAllowanceDREX(address as EthereumAddress);
-  const [approvedAmountDREX, setApprovedAmountDREX] = useState(dataAllowanceDREX);
-  
-  const handleBorrowDREX = () => {
-    useBorrowDREX(borrowValue);
-   //TODO update user deposited and wallet balance after write is sucesfull 
- }
-  const handleRepayDREX = () => {
-    useRepayDREX(borrowValue);
-    //TODO update user deposited and wallet balance after write is sucesfull 
- }
- 
+
+  const {
+    write: writeBorrowDREX,
+    data: dataBorrowDREX,
+    isLoading: isLoadingBorrowDREX,
+    isSuccess: isSuccessBorrowDREX,
+    isError: isErrorBorrowDREX,
+  } = useBorrowDREX(parseUnits(borrowValue.toFixed(6), 6).toString());
+
+  const {
+    write: writeRepayDREX,
+    data: dataRepayDREX,
+    isLoading: isLoadingRepayDREX,
+    isSuccess: isSuccessRepayDREX,
+    isError: isErrorRepayDREX,
+  } = useRepayDREX(parseUnits(repayValue.toFixed(6), 6).toString());
+
+  const {
+    write: writeApproveDREX,
+    data: dataApproveDREX,
+    isLoading: isLoadingApproveDREX,
+    isSuccess: isSuccessApproveDREX,
+    isError: isErrorApproveDREX,
+  } = useApproveDREX();
+
+  useEffect(() => {
+    if(transaction.isSuccess) {
+      alert('Transaction is successfull');
+    }
+    if(transaction.isError && transactionHash !== "0x") {
+      alert(`Error in TX ${transaction.error}`);
+    }
+    setTransactionHash(undefined);
+    setLoadingTx(false);
+  }, [transaction.isSuccess,transaction.isError]);
+
+useEffect(() => {
+  if(isSuccessApproveDREX) {
+    setTransactionHash(dataApproveDREX.hash);
+    setLoadingTx(true);
+    
+  }
+  if(isErrorApproveDREX) {
+    alert('Error in approving DREX');
+  }
+}
+, [isErrorApproveDREX, isSuccessApproveDREX]);
+
+
+useEffect(() => {
+  if(isSuccessBorrowDREX) {
+    setTransactionHash(dataBorrowDREX.hash);
+    setLoadingTx(true);
+    
+  }
+  if(isErrorBorrowDREX) {
+    alert('Error in withdrawal DREX');
+  }
+}
+, [isErrorBorrowDREX, isSuccessBorrowDREX]);
+
+useEffect(() => {
+  if(isSuccessRepayDREX) {
+    setTransactionHash(dataRepayDREX.hash);
+    setLoadingTx(true); 
+  }
+  if(isErrorRepayDREX) {
+    alert('Error in depositing DREX');
+  }
+} , [isErrorRepayDREX, isSuccessRepayDREX]);
+
   const [isLoading, setLoading] = useState(true);
 
-  const handleApproveDREX =  () => {
-    const { data, isError, isSuccess } = useApproveDREX();
-    if(isError) {
-      //TODO return error
-      alert("use rejected Transaction");
-    }
-    console.log('Check what comes as data', data);
-    if(isSuccess) {
-      const {data } = useAllowanceDREX(address as EthereumAddress)
-      setApprovedAmountDREX(String(data));
-    }
-  }
+  const drexBalance =  Number(formatUnits(dataDrexBalance, 6)) || 0
+  const depositedTSELIC = Number(formatUnits(dataDepositedTSELIC,18) )|| 0
+  const borrowedAmount = Number(formatUnits(dataBorrowedAmount,18)) || 0
+  const unitValue = Number(formatUnits(dataUnitValue ,18)) || 0
+  const allowanceDREX = Number(formatUnits(dataAllowanceDREX,6)) || 0
+  const totalSupplied = Number(formatUnits(dataTotalSupplied ,18)) || 0
+  const totalBorrowed = Number(formatUnits(dataTotalBorrowed ,18)) || 0
 
   useEffect(() => {
     const loading = [isLoadingDrex, isLoadingDepositedTSELIC,isLoadingBorrowedAmount,isLoadingUnitValue].every(
@@ -99,22 +161,21 @@ export const ContextBorrowDrex = ({
             <div className="flex h-full w-full flex-col items-start justify-start gap-1">
               <div className="inline-flex items-start justify-start gap-6">
                 <div className="text-base font-normal leading-normal text-gray-400">
-                  Balanço: {!isLoading ? `${(Number(dataDrexBalance) /1e6).toFixed(2)}` : "0"} DREX
+                  Balanço: {!isLoading ? `${drexBalance.toFixed(2)}` : "0"} DREX
                 </div>
               </div>
               <div className="border-brandBlue-300 inline-flex w-full items-center justify-between rounded-lg border border-opacity-20 bg-gray-700 px-3">
                 <input
                   type="number"
                   className="h-full min-w-[50px] border-none bg-transparent text-base font-normal leading-normal text-white shadow outline-none focus:border-transparent focus:outline-none focus:ring-0"
-                  placeholder={"0"}
-                  value={Number(borrowValue)} 
+                  value={borrowValue} 
                   onChange={(e) => {
                     const enteredValue = Number(e.target.value);
-                    if (enteredValue > Number(dataDrexBalance) /1e6) {
+                    if (enteredValue > drexBalance) {
                       setError("Entered value is greater than current balance");
                     } else {
                       setError("");
-                      setBorrowValue(e.target.value);
+                      setBorrowValue(enteredValue);
                     }
                   }}
                   style={{
@@ -125,13 +186,14 @@ export const ContextBorrowDrex = ({
                 <div className="flex w-[100px] items-center justify-center gap-2.5 px-4 py-2">
                   <button
                     className="text-brandBlue-300 text-base font-normal leading-normal"
-                    onClick={() => (
-                      (Number(dataDepositedTSELIC) *
-                        Number(dataUnitValue)) /
-                      1e36 
-                    ) - (Number(dataBorrowedAmount) / 1e18) > ((Number(dataTotalSupplied) - Number(dataTotalBorrowed))/1e18) ? 
-                      setBorrowValue(((Number(dataTotalSupplied) - Number(dataTotalBorrowed))/1e12).toString()) 
-                      : setBorrowValue(((Number(dataDepositedTSELIC) * Number(dataUnitValue)) / 1e18 - (Number(dataBorrowedAmount)) / 1e12).toString())
+                    onClick={() => 
+                      ((depositedTSELIC *
+                        unitValue) 
+                     - borrowedAmount) > (totalSupplied - totalBorrowed) ? 
+                      setBorrowValue((totalSupplied - totalBorrowed)) 
+                      : setBorrowValue((((depositedTSELIC *
+                        unitValue) 
+                     - borrowedAmount) * 99/100))
                   }
                   >
                     max
@@ -149,30 +211,30 @@ export const ContextBorrowDrex = ({
               {error && <div className="text-sm text-red-500">{error}</div>}
             </div>
           </div>
-
+          {error && <div className="text-sm text-red-500">{error}</div>}
+              {isLoadingTx && <div className="text-sm text-green-500">Transaction of hash {transactionHash} is being processed</div>}
           <div className="flex h-full w-full flex-col gap-2">
             <div className=" flex justify-between text-white">
               <span>TSELIC Depositado:</span>
-              <span>{!isLoading ? `${(Number(dataDepositedTSELIC) / 1e18).toFixed(2)}` : "0"} TSELIC</span>
+              <span>{!isLoading ? `${(depositedTSELIC).toFixed(2)}` : "0"} TSELIC</span>
             </div>
             <div className=" flex justify-between text-white">
               <span>Valor em Reais:</span>
               <span>{!isLoading ? `R$ ${(
-                      (Number(dataDepositedTSELIC) *
-                        Number(dataUnitValue)) /
-                      1e36
+                      depositedTSELIC *
+                        unitValue
                     ).toFixed(2)}` : "R$ 0"}</span>
             </div>
             <div className="flex justify-between text-white">
               <span>DREX em Emprestado:</span>
-              <span>{!isLoading ? `${(Number(dataBorrowedAmount) / 1e18).toFixed(2)}` : "0"} DREX</span>
+              <span>{!isLoading ? `${(borrowedAmount).toFixed(2)}` : "0"} DREX</span>
             </div>
             <div className=" flex justify-between text-white">
               <span>Liquidez Disponível:</span>
               <span>
                 {!isLoading
                   ? `${
-                      ((Number(dataTotalSupplied) - Number(dataTotalBorrowed))/1e18).toFixed(2)
+                      (totalSupplied - totalBorrowed).toFixed(2)
                     }`
                   : "R$ 0"} DREX
               </span>
@@ -180,8 +242,9 @@ export const ContextBorrowDrex = ({
           </div>
           <Button
             text="Tomar Emprestimo"
-            onClick={handleBorrowDREX}
-            isLoading={false}
+            onClick={writeBorrowDREX}
+            disabled={(borrowValue > (totalSupplied - totalBorrowed) || borrowValue > (((depositedTSELIC * unitValue) - borrowedAmount) * 99/100) || isLoadingTx)}
+            isLoading={isLoadingBorrowDREX}
           />
         </div>
       </TabContent>
@@ -191,22 +254,21 @@ export const ContextBorrowDrex = ({
             <div className="flex h-full w-full flex-col items-start justify-start gap-1">
               <div className="inline-flex items-start justify-start gap-6">
                 <div className="text-base font-normal leading-normal text-gray-400">
-                  Balanço: {!isLoading ? `${(Number(dataDrexBalance) / 1e6).toFixed(2)}` : "0"} DREX
+                  Balanço: {!isLoading ? `${(drexBalance).toFixed(2)}` : "0"} DREX
                 </div>
               </div>
               <div className="border-brandBlue-300 inline-flex w-full items-center justify-between rounded-lg border border-opacity-20 bg-gray-700 px-3">
                 <input
                   type="number"
                   className="h-full min-w-[50px] border-none bg-transparent text-base font-normal leading-normal text-white shadow outline-none focus:border-transparent focus:outline-none focus:ring-0"
-                  placeholder={"0"}
-                  value={Number(repayValue)} 
+                  value={repayValue} 
                   onChange={(e) => {
                     const enteredValue = Number(e.target.value);
-                    if (enteredValue > Number(dataDrexBalance)) {
+                    if (enteredValue > drexBalance) {
                       setError("Entered value is greater than current balance");
                     } else {
                       setError("");
-                      setRepayValue(e.target.value);
+                      setRepayValue(enteredValue);
                     }
                   }}
                   style={{
@@ -217,7 +279,7 @@ export const ContextBorrowDrex = ({
                 <div className="flex w-[100px] items-center justify-center gap-2.5 px-4 py-2">
                   <button
                     className="text-brandBlue-300 text-base font-normal leading-normal"
-                    onClick={() => setRepayValue((Number(dataBorrowedAmount)/1e12).toFixed())}
+                    onClick={() => setRepayValue(borrowedAmount)}
                   >
                     max
                   </button>
@@ -233,25 +295,27 @@ export const ContextBorrowDrex = ({
               </div>
             </div>
           </div>
-
+          {error && <div className="text-sm text-red-500">{error}</div>}
+              {isLoadingTx && <div className="text-sm text-green-500">Transaction of hash {transactionHash} is being processed</div>}
           <div className="flex h-full w-full flex-col gap-2">
             <div className="flex justify-between text-white">
               <span>Passivo em DREX:</span>
-              <span>{!isLoading ? `${(Number(dataBorrowedAmount) / 1e18).toFixed(2)}` : "0"} DREX</span>
+              <span>{!isLoading ? `${(borrowedAmount).toFixed(2)}` : "0"} DREX</span>
             </div>
           </div>
 
-          {Number(approvedAmountDREX) < Number(dataDrexBalance) ? (
+          {(allowanceDREX < drexBalance) ? (
           <Button
-            text="Depositar"
-            onClick={handleRepayDREX}
-            isLoading={false}
+            text="Approvar"
+            onClick={writeApproveDREX}
+            isLoading={isLoadingApproveDREX}
           />
         ) : (
           <Button
             text="Quitar Emprestimo"
-            onClick={handleApproveDREX}
-            isLoading={false}
+            onClick={writeRepayDREX}
+            isLoading={isLoadingRepayDREX}
+            disabled={repayValue > drexBalance || repayValue > borrowedAmount || isLoadingTx}
           />
         )}
         </div>

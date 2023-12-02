@@ -46,7 +46,7 @@ function createERC20Hooks(address: `0x${string}`) {
       abi: ERC20ABI,
       functionName,
       args,
-      watch: true,
+      watch: true
     });
 
     return { data: data as T, isError, isLoading };
