@@ -304,7 +304,7 @@ useEffect(() => {
             </div>
           </div>
 
-          {(allowanceDREX < drexBalance) ? (
+          {(allowanceDREX <= repayValue) ? (
           <Button
             text="Approvar"
             onClick={writeApproveDREX}
