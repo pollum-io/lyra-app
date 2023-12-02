@@ -220,7 +220,7 @@ useEffect(() => {
           <div className="flex h-full w-full flex-col gap-2">
             <div className=" flex justify-between text-white">
               <span>APY de Deposito:</span>
-              <span>{Number(dataSupplyInterestRate || 0) / 10e5}%</span>
+              <span>{(Number(dataSupplyInterestRate || 0) / 10e5).toFixed(2)}%</span>
             </div>
             <div className="flex justify-between text-white">
               <span>Total Depositado:</span>

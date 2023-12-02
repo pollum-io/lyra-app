@@ -9,7 +9,7 @@ import { useEffect, useState } from "react";
 import { useStore } from "zustand";
 import Modal from "../Modal";
 import { useAccount } from "wagmi";
-import { EthereumAddress, useBalanceOfTSELIC } from "../../hooks/useErc20";
+import { EthereumAddress } from "../../hooks/useErc20";
 import {
   useGetTotalSupplied,
   useGetTotalBorrowed,
@@ -32,12 +32,6 @@ export function LendingManage() {
   const { address } = useAccount();
 
   const {
-    data: dataTselicBalance,
-    isError: isTselicError,
-    isLoading: isLoadingTselic,
-  } = useBalanceOfTSELIC(address as EthereumAddress);
-
-  const {
     data: dataTotalSupplied,
     isError: isErrorTotalSupplied,
     isLoading: isLoadingTotalSupplied,
@@ -51,13 +45,12 @@ export function LendingManage() {
 
   useEffect(() => {
     const loading = [
-      isLoadingTselic,
       isLoadingTotalSupplied,
       isLoadingTotalBorrowed,
     ].every((loading) => loading === false);
 
     setLoading(!loading);
-  }, [isLoadingTselic, isLoadingTotalSupplied, isLoadingTotalBorrowed]);
+  }, [isLoadingTotalSupplied, isLoadingTotalBorrowed]);
 
   const renderContent = () => {
     if (isOpenSD) {
@@ -73,7 +66,6 @@ export function LendingManage() {
       return (
         <ContextSupplyTSelic
           address={address as EthereumAddress}
-          dataTselicBalance={dataTselicBalance}
         />
       );
     } else if (isOpenBD) {

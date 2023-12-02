@@ -5,6 +5,7 @@ import {
   EthereumAddress,
   useAllowanceTSELIC,
   useApproveTSELIC,
+  useBalanceOfTSELIC
 } from "@/hooks/useErc20";
 import {
   useGetBorrowedAmount,
@@ -19,31 +20,37 @@ import { useWaitForTransaction } from "wagmi";
 
 export const ContextSupplyTSelic = ({
   address,
-  dataTselicBalance,
 }: {
   address: string;
-  dataTselicBalance: BigNumberish;
 }) => {
-  const TselicBalance = Number(dataTselicBalance) / 10 ** 18;
   const [isLoading, setLoading] = useState(true);
   const [valueTselic, setValueTselic] = useState("");
   const [valueWithdrawlTselic, setValueWithdrawlTselic] = useState("");
   const [error, setError] = useState("");
   const [isLoadingTx, setLoadingTx] = useState(false);
   const [transactionHash, setTransactionHash] = useState<EthereumAddress | undefined>(undefined);
+  
+  const {
+    data: dataTselicBalance,
+    isError: isTselicError,
+    isLoading: isLoadingTselic,
+  } = useBalanceOfTSELIC(address as EthereumAddress);
+  const formattedTselicBalance = Number(dataTselicBalance) / 10 ** 18;
 
   const {
     data: dataDepositedTSELIC,
     isError: isErrorDepositedTSELIC,
     isLoading: isLoadingDepositedTSELIC,
   } = useGetDepositedTSELIC(address as EthereumAddress);
-  const formattedDepositedTSELIC = Number(dataDepositedTSELIC) / 10 ** 18;
+  const formattedDepositedTSELIC = Number(dataDepositedTSELIC) / 10**18
+
   const {
     data: dataBorrowedAmount,
     isError: isErrorBorrowedAmount,
     isLoading: isLoadingBorrowedAmount,
   } = useGetBorrowedAmount(address as EthereumAddress);
   const formattedBorrowed = Number(dataBorrowedAmount) / 10 ** 18;
+  
   const {
     data: dataAllowanceTSELIC,
     isError: isErrorAllowanceTSELIC,
@@ -135,12 +142,12 @@ useEffect(() => {
 , [isErrorWithdrawTSELIC, isSuccessWithdrawTSELIC]);
 
   useEffect(() => {
-    const loading = [isSuccessApproveTSELIC, isLoadingAllowanceTSELIC].every(
+    const loading = [isLoadingTselic,  isLoadingDepositedTSELIC, isLoadingBorrowedAmount, isLoadingAllowanceTSELIC].every(
       (loading) => loading === false
     );
 
     setLoading(!loading);
-  }, [isSuccessApproveTSELIC, isLoadingAllowanceTSELIC]);
+  }, [isLoadingTselic,  isLoadingDepositedTSELIC, isLoadingBorrowedAmount, isLoadingAllowanceTSELIC]);
 
   return (
     <Tabs>
@@ -150,7 +157,7 @@ useEffect(() => {
             <div className="flex h-full w-full flex-col items-start justify-start gap-1">
               <div className="inline-flex items-start justify-start gap-6">
                 <div className="text-base font-normal leading-normal text-gray-400">
-                  Balanço: {!isLoading ? `${TselicBalance}` : "0"} TSELIC
+                  Balanço: {!isLoading ? `${formattedTselicBalance}` : "0"} TSELIC
                 </div>
               </div>
               <div className="border-brandBlue-300 inline-flex w-full items-center justify-between rounded-lg border border-opacity-20 bg-gray-700 px-3">
@@ -161,7 +168,7 @@ useEffect(() => {
                   value={valueTselic}
                   onChange={(e) => {
                     const enteredValue = Number(e.target.value);
-                    if (enteredValue > TselicBalance) {
+                    if (enteredValue > formattedTselicBalance) {
                       setError("O valor inserido é maior que o saldo atual.");
                     } else {
                       setError("");
@@ -176,7 +183,7 @@ useEffect(() => {
                 <div className="flex w-[100px] items-center justify-center gap-2.5 px-4 py-2">
                   <button
                     className="text-brandBlue-300 text-base font-normal leading-normal"
-                    onClick={() => setValueTselic(TselicBalance.toString())}
+                    onClick={() => setValueTselic(formattedTselicBalance.toString())}
                   >
                     max
                   </button>
@@ -223,7 +230,7 @@ useEffect(() => {
             <div className="flex h-full w-full flex-col items-start justify-start gap-4">
               <div className="inline-flex items-start justify-start gap-6">
                 <div className="text-base font-normal leading-normal text-gray-400">
-                  Balanço: {!isLoading ? `${TselicBalance}` : "0"} TSELIC
+                  Balanço: {!isLoading ? `${formattedTselicBalance}` : "0"} TSELIC
                 </div>
               </div>
               <div className="border-brandBlue-300 inline-flex w-full items-center justify-between rounded-lg border border-opacity-20 bg-gray-700 px-3">
