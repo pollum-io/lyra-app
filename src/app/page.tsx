@@ -255,7 +255,7 @@ export default function HomePage() {
                 <Apr aprPercent={Number(netApr)} aprMax={Number(maxAPR)} />
                 <div className="relative mt-6 h-10 w-[482px]">
                   <ProgressBar progress={Number(borrowPercentual)} />
-                  <div className="absolute left-[412px] top-[20px] text-sm font-normal leading-tight text-white">
+                  <div className="absolute left-[20px] top-[20px] w-full text-right text-sm font-normal leading-tight text-white">
                     {" "}
                     {!isLoading
                       ? `R$ ${Number(availableToBorrow).toFixed(2)}`
