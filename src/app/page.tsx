@@ -143,7 +143,7 @@ export default function HomePage() {
   const borrowPercentual =
     tselicMultiplier === 0
       ? 0
-      : Number((borrowedAmountNum / tselicMultiplier).toFixed(2));
+      : (Number((borrowedAmountNum / tselicMultiplier) * 100).toFixed(2));
 
   // Balanços
   const tselicBalance = tselicMultiplier / 1e18;

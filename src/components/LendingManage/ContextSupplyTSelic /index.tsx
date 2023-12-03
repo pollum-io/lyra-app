@@ -273,6 +273,15 @@ export const ContextSupplyTSelic = ({ address }: { address: string }) => {
                   className="h-full min-w-[50px] border-none bg-transparent text-base font-normal leading-normal text-white shadow outline-none focus:border-transparent focus:outline-none focus:ring-0"
                   placeholder={"0"}
                   value={valueWithdrawlTselic}
+                  onChange={(e) => {
+                    const enteredValue = Number(e.target.value);
+                    if (enteredValue > formattedDepositedTSELIC) {
+                      setError("O valor inserido é maior que o saldo atual.");
+                    } else {
+                      setError("");
+                      setValueWithdrawlTselic(e.target.value);
+                    }
+                  }}
                   style={{
                     WebkitAppearance: "none",
                     MozAppearance: "textfield",
