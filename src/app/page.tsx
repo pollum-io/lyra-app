@@ -235,9 +235,23 @@ export default function HomePage() {
       <section>
         <div className="layout relative flex min-h-screen flex-col items-center justify-start gap-20 py-12 text-center">
           {address ? (
-            <div className="flex h-full w-full items-end justify-between">
+            <div className="flex h-full w-full flex-col items-center justify-between gap-10 lg:flex-row lg:items-end">
+              <div className="flex h-full w-full flex-col items-center justify-center lg:hidden">
+                <Apr aprPercent={Number(netApr)} aprMax={Number(maxAPR)} />
+                <div className="relative mt-6 h-10 w-[382px] lg:w-[482px]">
+                  <ProgressBar progress={Number(borrowPercentual)} />
+                  <div className="absolute top-[0px] w-full text-right text-sm font-normal leading-tight text-white lg:left-[412px] lg:top-[20px]">
+                    {!isLoading
+                      ? `R$ ${Number(availableToBorrow).toFixed(2)}`
+                      : "R$ 0"}
+                  </div>
+                  <div className="absolute left-0 top-0 text-sm font-normal leading-tight text-white">
+                    Limite de Empréstimo: {!isLoading ? borrowPercentual : 0}%
+                  </div>
+                </div>
+              </div>
               <Card text={"Saldo em Depósito"} value={calculateValue()} />
-              <div className="flex h-full w-full flex-col items-center justify-center">
+              <div className="hidden h-full w-full flex-col items-center justify-center lg:flex">
                 <Apr aprPercent={Number(netApr)} aprMax={Number(maxAPR)} />
                 <div className="relative mt-6 h-10 w-[482px]">
                   <ProgressBar progress={Number(borrowPercentual)} />
@@ -315,7 +329,7 @@ export default function HomePage() {
               />
             </div>
           ) : (
-            <div className="text-3xl">Por favor conecte sua wallet</div>
+            <div className="text-3xl">Por favor conecte sua carteira</div>
           )}
         </div>
       </section>

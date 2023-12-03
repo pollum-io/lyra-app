@@ -44,10 +44,9 @@ export function LendingManage() {
   } = useGetTotalBorrowed();
 
   useEffect(() => {
-    const loading = [
-      isLoadingTotalSupplied,
-      isLoadingTotalBorrowed,
-    ].every((loading) => loading === false);
+    const loading = [isLoadingTotalSupplied, isLoadingTotalBorrowed].every(
+      (loading) => loading === false
+    );
 
     setLoading(!loading);
   }, [isLoadingTotalSupplied, isLoadingTotalBorrowed]);
@@ -63,11 +62,7 @@ export function LendingManage() {
       );
     } else if (isOpenST) {
       // Renderizar conteúdo para SupplyTSelic
-      return (
-        <ContextSupplyTSelic
-          address={address as EthereumAddress}
-        />
-      );
+      return <ContextSupplyTSelic address={address as EthereumAddress} />;
     } else if (isOpenBD) {
       // Renderizar conteúdo para BorrowDrex
       return (
@@ -96,7 +91,7 @@ export function LendingManage() {
 
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
-      <div className="bg-primary h-full w-full max-w-[400px] rounded-lg px-10 py-6 ">
+      <div className="bg-primary h-full w-full rounded-lg px-10 py-6 lg:max-w-[400px] ">
         {renderContent()}
       </div>
     </Modal>

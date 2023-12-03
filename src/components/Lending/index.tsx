@@ -21,7 +21,7 @@ export const Lending = ({ title, items }: LendingProps) => {
     <div className="flex h-full w-full flex-col items-start justify-center">
       <div className="text-xl font-semibold leading-7">{title}</div>
       <div className="flex h-full w-full flex-col items-start justify-center gap-2">
-        <div className="flex h-[58px] w-[535px] items-center justify-between px-4">
+        <div className="flex h-[58px] w-full max-w-[535px] items-center justify-between px-4">
           <div className="text-sm font-semibold">Ativo</div>
           <div className="text-sm font-semibold">APR</div>
           <div className="text-sm font-semibold">Liquidez</div>
@@ -32,7 +32,7 @@ export const Lending = ({ title, items }: LendingProps) => {
         {items.map((item, index) => (
           <div
             key={index}
-            className="border-brandBlue-300 bg-primary flex h-[58px] w-[535px] items-center justify-between rounded-xl border border-opacity-30 px-4"
+            className="border-brandBlue-300 bg-primary flex h-[58px] w-full max-w-[535px] items-center justify-between rounded-xl border border-opacity-30 px-4"
           >
             <div className="flex items-center gap-4">
               <div className="relative h-9 w-9">
@@ -44,21 +44,23 @@ export const Lending = ({ title, items }: LendingProps) => {
                 />
               </div>
               <div className="flex flex-col items-start justify-start">
-                <div className="text-sm font-semibold text-white">
+                <div className="text-xs font-semibold text-white lg:text-sm">
                   {item.title}
                 </div>
               </div>
             </div>
             <div className="flex flex-col items-end">
-              <div className="text-sm font-medium text-white">{item.apr}</div>
+              <div className="text-xs font-medium text-white lg:text-sm">
+                {item.apr}
+              </div>
             </div>
             <div className="flex flex-col items-end">
-              <div className="text-sm font-medium text-white">
+              <div className="text-xs font-medium text-white lg:text-sm">
                 {item.liquidity}
               </div>
             </div>
             <div className="flex flex-col items-end">
-              <div className="text-sm font-medium text-white">
+              <div className="text-xs font-medium text-white lg:text-sm">
                 {item.balance}
               </div>
             </div>
@@ -66,7 +68,7 @@ export const Lending = ({ title, items }: LendingProps) => {
               <Button
                 text={"Gerenciar"}
                 height="h-[16px]"
-                maxWidth="max-w-[55px]"
+                maxWidth="max-w-[60px]"
                 textSize="text-xs"
                 onClick={item.onManageClick}
               />

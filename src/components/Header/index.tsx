@@ -56,7 +56,7 @@ export const Header = () => {
           </Link>
         </div>
 
-        <div className="hidden min-w-[212px] lg:flex">
+        <div className="flex min-w-[212px]">
           {isClient &&
             (!isConnected ? (
               <button
