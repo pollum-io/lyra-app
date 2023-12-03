@@ -204,7 +204,7 @@ export const ContextBorrowDrex = ({
                     MozAppearance: "textfield",
                   }}
                 />
-                <div className="flex w-[100px] items-center justify-center gap-2.5 px-4 py-2">
+                <div className="flex w-[130px] items-center justify-center gap-2.5 p-2">
                   <button
                     className="text-brandBlue-300 text-base font-normal leading-normal"
                     onClick={() =>
@@ -228,6 +228,7 @@ export const ContextBorrowDrex = ({
                       className="rounded-full object-cover"
                     />
                   </div>
+                  <div className="text-xs">DREX</div>
                 </div>
               </div>
               {error && <ToastNotification message={`${error}`} type="error" />}
@@ -315,7 +316,7 @@ export const ContextBorrowDrex = ({
                     MozAppearance: "textfield",
                   }}
                 />
-                <div className="flex w-[100px] items-center justify-center gap-2.5 px-4 py-2">
+                <div className="flex w-[130px] items-center justify-center gap-2.5 p-2">
                   <button
                     className="text-brandBlue-300 text-base font-normal leading-normal"
                     onClick={() => setRepayValue(borrowedAmount)}
@@ -330,6 +331,7 @@ export const ContextBorrowDrex = ({
                       className="rounded-full object-cover"
                     />
                   </div>
+                  <div className="text-xs">DREX</div>
                 </div>
               </div>
             </div>

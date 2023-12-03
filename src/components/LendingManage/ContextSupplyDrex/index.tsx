@@ -232,7 +232,7 @@ export const ContextSupplyDrex = ({
                     MozAppearance: "textfield",
                   }}
                 />
-                <div className="flex w-[100px] items-center justify-center gap-2.5 px-4 py-2">
+                <div className="flex w-[130px] items-center justify-center gap-2.5 p-2">
                   <button
                     className="text-brandBlue-300 text-base font-normal leading-normal"
                     onClick={() => setValueDREX(drexBalance.toString())}
@@ -247,6 +247,7 @@ export const ContextSupplyDrex = ({
                       className="rounded-full object-cover"
                     />
                   </div>
+                  <div className="text-xs">DREX</div>
                 </div>
               </div>
               {error && <ToastNotification message={`${error}`} type="error" />}
@@ -348,7 +349,7 @@ export const ContextSupplyDrex = ({
                     MozAppearance: "textfield",
                   }}
                 />
-                <div className="flex w-[100px] items-center justify-center gap-2.5 px-4 py-2">
+                <div className="flex w-[130px] items-center justify-center gap-2.5 p-2">
                   <button
                     className="text-brandBlue-300 text-base font-normal leading-normal"
                     onClick={() =>
@@ -367,6 +368,7 @@ export const ContextSupplyDrex = ({
                       className="rounded-full object-cover"
                     />
                   </div>
+                  <div className="text-xs">rBRLL</div>
                 </div>
               </div>
               <div className="border-brandBlue-300 inline-flex w-full items-center justify-between rounded-lg border border-opacity-20 bg-gray-700 px-3">
@@ -381,7 +383,7 @@ export const ContextSupplyDrex = ({
                     MozAppearance: "textfield",
                   }}
                 />
-                <div className="flex w-[100px] items-center justify-center gap-2.5 px-4 py-2">
+                <div className="flex w-[130px] items-center justify-end gap-2.5 p-2">
                   <div className="relative h-6 w-6">
                     <Image
                       src={"/images/drex.png"}
@@ -390,6 +392,7 @@ export const ContextSupplyDrex = ({
                       className="rounded-full object-cover"
                     />
                   </div>
+                  <div className="text-xs">DREX</div>
                 </div>
               </div>
             </div>
@@ -481,7 +484,7 @@ export const ContextSupplyDrex = ({
                     MozAppearance: "textfield",
                   }}
                 />
-                <div className="flex w-[100px] items-center justify-center gap-2.5 px-4 py-2">
+                <div className="flex w-[130px] items-center justify-center gap-2.5 p-2">
                   <button
                     className="text-brandBlue-300 text-base font-normal leading-normal"
                     onClick={() =>
@@ -500,6 +503,7 @@ export const ContextSupplyDrex = ({
                       className="rounded-full object-cover"
                     />
                   </div>
+                  <div className="text-xs">rBRLL</div>
                 </div>
               </div>
               <div className="border-brandBlue-300 inline-flex w-full items-center justify-between rounded-lg border border-opacity-20 bg-gray-700 px-3">
@@ -514,7 +518,7 @@ export const ContextSupplyDrex = ({
                     MozAppearance: "textfield",
                   }}
                 />
-                <div className="flex w-[100px] items-center justify-center gap-2.5 px-4 py-2">
+                <div className="flex w-[130px] items-center justify-end gap-2.5 p-2">
                   <div className="relative h-6 w-6">
                     <Image
                       src={"/images/drex.png"}
@@ -523,6 +527,7 @@ export const ContextSupplyDrex = ({
                       className="rounded-full object-cover"
                     />
                   </div>
+                  <div className="text-xs">DREX</div>
                 </div>
               </div>
             </div>

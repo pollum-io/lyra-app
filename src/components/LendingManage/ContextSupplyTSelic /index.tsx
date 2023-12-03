@@ -197,7 +197,7 @@ export const ContextSupplyTSelic = ({ address }: { address: string }) => {
                     MozAppearance: "textfield",
                   }}
                 />
-                <div className="flex w-[100px] items-center justify-center gap-2.5 px-4 py-2">
+                <div className="flex w-[130px] items-center justify-center gap-2.5 p-2">
                   <button
                     className="text-brandBlue-300 text-base font-normal leading-normal"
                     onClick={() =>
@@ -214,6 +214,7 @@ export const ContextSupplyTSelic = ({ address }: { address: string }) => {
                       className="rounded-full object-cover"
                     />
                   </div>
+                  <div className="text-xs">TSELIC</div>
                 </div>
               </div>
 
@@ -259,7 +260,7 @@ export const ContextSupplyTSelic = ({ address }: { address: string }) => {
       <TabContent title="Sacar">
         <div className="flex h-[400px] w-full flex-col items-center justify-start gap-6 pt-5">
           <div className="flex w-full items-start justify-start gap-3">
-            <div className="flex h-full w-full flex-col items-start justify-start gap-4">
+            <div className="flex h-full w-full flex-col items-start justify-start gap-1">
               <div className="inline-flex items-start justify-start gap-6">
                 <div className="text-base font-normal leading-normal text-gray-400">
                   Balanço: {!isLoading ? `${formattedTselicBalance}` : "0"}{" "}
@@ -277,7 +278,7 @@ export const ContextSupplyTSelic = ({ address }: { address: string }) => {
                     MozAppearance: "textfield",
                   }}
                 />
-                <div className="flex w-[100px] items-center justify-center gap-2.5 px-4 py-2">
+                <div className="flex w-[130px] items-center justify-center gap-2.5 p-2">
                   <button
                     className="text-brandBlue-300 text-base font-normal leading-normal"
                     onClick={() =>
@@ -296,6 +297,7 @@ export const ContextSupplyTSelic = ({ address }: { address: string }) => {
                       className="rounded-full object-cover"
                     />
                   </div>
+                  <div className="text-xs">TSELIC</div>
                 </div>
               </div>
             </div>
