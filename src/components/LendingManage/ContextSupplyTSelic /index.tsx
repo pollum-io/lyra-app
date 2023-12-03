@@ -1,35 +1,34 @@
 "use Client";
 import { Button } from "@/components/Button";
 import Tabs, { TabContent } from "@/components/Tabs";
+import ToastNotification from "@/components/Toast";
 import {
   EthereumAddress,
   useAllowanceTSELIC,
   useApproveTSELIC,
-  useBalanceOfTSELIC
+  useBalanceOfTSELIC,
 } from "@/hooks/useErc20";
 import {
   useGetBorrowedAmount,
   useGetDepositedTSELIC,
   useSupplyTSELIC,
-  useWithdrawTSELIC
+  useWithdrawTSELIC,
 } from "@/hooks/useRBLLPoolContract";
 import { BigNumberish } from "ethers";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useWaitForTransaction } from "wagmi";
 
-export const ContextSupplyTSelic = ({
-  address,
-}: {
-  address: string;
-}) => {
+export const ContextSupplyTSelic = ({ address }: { address: string }) => {
   const [isLoading, setLoading] = useState(true);
   const [valueTselic, setValueTselic] = useState("");
   const [valueWithdrawlTselic, setValueWithdrawlTselic] = useState("");
   const [error, setError] = useState("");
   const [isLoadingTx, setLoadingTx] = useState(false);
-  const [transactionHash, setTransactionHash] = useState<EthereumAddress | undefined>(undefined);
-  
+  const [transactionHash, setTransactionHash] = useState<
+    EthereumAddress | undefined
+  >(undefined);
+
   const {
     data: dataTselicBalance,
     isError: isTselicError,
@@ -42,7 +41,7 @@ export const ContextSupplyTSelic = ({
     isError: isErrorDepositedTSELIC,
     isLoading: isLoadingDepositedTSELIC,
   } = useGetDepositedTSELIC(address as EthereumAddress);
-  const formattedDepositedTSELIC = Number(dataDepositedTSELIC) / 10**18
+  const formattedDepositedTSELIC = Number(dataDepositedTSELIC) / 10 ** 18;
 
   const {
     data: dataBorrowedAmount,
@@ -50,7 +49,7 @@ export const ContextSupplyTSelic = ({
     isLoading: isLoadingBorrowedAmount,
   } = useGetBorrowedAmount(address as EthereumAddress);
   const formattedBorrowed = Number(dataBorrowedAmount) / 10 ** 18;
-  
+
   const {
     data: dataAllowanceTSELIC,
     isError: isErrorAllowanceTSELIC,
@@ -71,7 +70,9 @@ export const ContextSupplyTSelic = ({
     isLoading: isLoadingSupplyTSELIC,
     isSuccess: isSuccessSupplyTSELIC,
     isError: isErrorSupplyTSELIC,
-  } = useSupplyTSELIC(Number(valueTselic) == 0 ?  1: Number(valueTselic)*10**18);
+  } = useSupplyTSELIC(
+    Number(valueTselic) == 0 ? 1 : Number(valueTselic) * 10 ** 18
+  );
 
   const {
     write: writeWithdrawTSELIC,
@@ -79,75 +80,90 @@ export const ContextSupplyTSelic = ({
     isLoading: isLoadingWithdrawTSELIC,
     isSuccess: isSuccessWithdrawTSELIC,
     isError: isErrorWithdrawTSELIC,
-  } = useWithdrawTSELIC(Number(valueTselic) == 0 ?  1: Number(valueWithdrawlTselic)*10**18);
+  } = useWithdrawTSELIC(
+    Number(valueTselic) == 0 ? 1 : Number(valueWithdrawlTselic) * 10 ** 18
+  );
 
   const [approvedAmountTselic, setApprovedAmountTselic] = useState(
-    Number(dataAllowanceTSELIC)/10**18
+    Number(dataAllowanceTSELIC) / 10 ** 18
   );
   const transaction = useWaitForTransaction({
-    hash: transactionHash
+    hash: transactionHash,
   });
 
   useEffect(() => {
-    if(transaction.isSuccess) {
-      alert('Transaction is successfull');
+    if (transaction.isSuccess) {
+      // alert("Transaction is successfull");
+      <ToastNotification
+        message={"Transaction is successfull"}
+        type="success"
+      />;
     }
-    if(transaction.isError && transactionHash !== "0x") {
-      alert(`Error in TX ${transaction.error}`);
+    if (transaction.isError && transactionHash !== "0x") {
+      // alert(`Error in TX ${transaction.error}`);
+      <ToastNotification
+        message={`Error in TX ${transaction.error}`}
+        type="error"
+      />;
     }
     setTransactionHash(undefined);
     setLoadingTx(false);
-  }, [transaction.isSuccess,transaction.isError]);
+  }, [transaction.isSuccess, transaction.isError]);
 
   useEffect(() => {
-    if(isSuccessApproveTSELIC) {
+    if (isSuccessApproveTSELIC) {
       setTransactionHash(dataApproveTSELIC.hash);
       setLoadingTx(true);
-      
     }
-    if(isErrorApproveTSELIC) {
-      alert('Error in approving TSELIC');
+    if (isErrorApproveTSELIC) {
+      // alert("Error in approving TSELIC");
+      <ToastNotification message={"Error in approving TSELIC"} type="error" />;
     }
-  }
-  , [isErrorApproveTSELIC, isSuccessApproveTSELIC]);
+  }, [isErrorApproveTSELIC, isSuccessApproveTSELIC]);
 
   useEffect(() => {
-    if(Number(dataAllowanceTSELIC) !== approvedAmountTselic*10**18) {
-      setApprovedAmountTselic(Number(dataAllowanceTSELIC)/10**18);
+    if (Number(dataAllowanceTSELIC) !== approvedAmountTselic * 10 ** 18) {
+      setApprovedAmountTselic(Number(dataAllowanceTSELIC) / 10 ** 18);
     }
-  }
-  , [dataAllowanceTSELIC]);
+  }, [dataAllowanceTSELIC]);
 
   useEffect(() => {
-    if(isSuccessSupplyTSELIC) {
+    if (isSuccessSupplyTSELIC) {
       setTransactionHash(dataSupplyTSELIC.hash);
-      setLoadingTx(true); 
+      setLoadingTx(true);
     }
-    if(isErrorSupplyTSELIC) {
-      alert('Error in depositing TSELIC');
+    if (isErrorSupplyTSELIC) {
+      // alert("Error in depositing TSELIC");
+      <ToastNotification message={"Error in depositing TSELIC"} type="error" />;
     }
-  } , [isErrorSupplyTSELIC, isSuccessSupplyTSELIC]);
-
-
-useEffect(() => {
-  if(isSuccessWithdrawTSELIC) {
-    setTransactionHash(dataWithdrawTSELIC.hash);
-    setLoadingTx(true);
-    
-  }
-  if(isErrorWithdrawTSELIC) {
-    alert('Error in withdrawal DREX');
-  }
-}
-, [isErrorWithdrawTSELIC, isSuccessWithdrawTSELIC]);
+  }, [isErrorSupplyTSELIC, isSuccessSupplyTSELIC]);
 
   useEffect(() => {
-    const loading = [isLoadingTselic,  isLoadingDepositedTSELIC, isLoadingBorrowedAmount, isLoadingAllowanceTSELIC].every(
-      (loading) => loading === false
-    );
+    if (isSuccessWithdrawTSELIC) {
+      setTransactionHash(dataWithdrawTSELIC.hash);
+      setLoadingTx(true);
+    }
+    if (isErrorWithdrawTSELIC) {
+      // alert("Error in withdrawal DREX");
+      <ToastNotification message={"Error in withdrawal DREX"} type="error" />;
+    }
+  }, [isErrorWithdrawTSELIC, isSuccessWithdrawTSELIC]);
+
+  useEffect(() => {
+    const loading = [
+      isLoadingTselic,
+      isLoadingDepositedTSELIC,
+      isLoadingBorrowedAmount,
+      isLoadingAllowanceTSELIC,
+    ].every((loading) => loading === false);
 
     setLoading(!loading);
-  }, [isLoadingTselic,  isLoadingDepositedTSELIC, isLoadingBorrowedAmount, isLoadingAllowanceTSELIC]);
+  }, [
+    isLoadingTselic,
+    isLoadingDepositedTSELIC,
+    isLoadingBorrowedAmount,
+    isLoadingAllowanceTSELIC,
+  ]);
 
   return (
     <Tabs>
@@ -157,7 +173,8 @@ useEffect(() => {
             <div className="flex h-full w-full flex-col items-start justify-start gap-1">
               <div className="inline-flex items-start justify-start gap-6">
                 <div className="text-base font-normal leading-normal text-gray-400">
-                  Balanço: {!isLoading ? `${formattedTselicBalance}` : "0"} TSELIC
+                  Balanço: {!isLoading ? `${formattedTselicBalance}` : "0"}{" "}
+                  TSELIC
                 </div>
               </div>
               <div className="border-brandBlue-300 inline-flex w-full items-center justify-between rounded-lg border border-opacity-20 bg-gray-700 px-3">
@@ -183,7 +200,9 @@ useEffect(() => {
                 <div className="flex w-[100px] items-center justify-center gap-2.5 px-4 py-2">
                   <button
                     className="text-brandBlue-300 text-base font-normal leading-normal"
-                    onClick={() => setValueTselic(formattedTselicBalance.toString())}
+                    onClick={() =>
+                      setValueTselic(formattedTselicBalance.toString())
+                    }
                   >
                     max
                   </button>
@@ -197,15 +216,28 @@ useEffect(() => {
                   </div>
                 </div>
               </div>
-              {error && <div className="text-sm text-red-500">{error}</div>}
-              {isLoadingTx && <div className="text-sm text-green-500">Transação com hash {transactionHash} esta sendo processada</div>}
+
+              {error && <ToastNotification message={`${error}`} type="error" />}
+              {isLoadingTx && (
+                <ToastNotification
+                  message={`Transação com hash ${
+                    transactionHash &&
+                    `${transactionHash.slice(0, 6)}...${transactionHash.slice(
+                      -4
+                    )}`
+                  } esta sendo processada`}
+                  type="success"
+                />
+              )}
             </div>
           </div>
 
           <div className="flex h-full w-full flex-col gap-2">
             <div className=" flex justify-between text-white">
               <span>TSELIC Depositado:</span>
-              <span>{!isLoading ? `${formattedDepositedTSELIC}` : "0"} TSELIC</span>
+              <span>
+                {!isLoading ? `${formattedDepositedTSELIC}` : "0"} TSELIC
+              </span>
             </div>
           </div>
 
@@ -230,7 +262,8 @@ useEffect(() => {
             <div className="flex h-full w-full flex-col items-start justify-start gap-4">
               <div className="inline-flex items-start justify-start gap-6">
                 <div className="text-base font-normal leading-normal text-gray-400">
-                  Balanço: {!isLoading ? `${formattedTselicBalance}` : "0"} TSELIC
+                  Balanço: {!isLoading ? `${formattedTselicBalance}` : "0"}{" "}
+                  TSELIC
                 </div>
               </div>
               <div className="border-brandBlue-300 inline-flex w-full items-center justify-between rounded-lg border border-opacity-20 bg-gray-700 px-3">
@@ -247,7 +280,11 @@ useEffect(() => {
                 <div className="flex w-[100px] items-center justify-center gap-2.5 px-4 py-2">
                   <button
                     className="text-brandBlue-300 text-base font-normal leading-normal"
-                    onClick={() => setValueWithdrawlTselic(formattedDepositedTSELIC.toString())}
+                    onClick={() =>
+                      setValueWithdrawlTselic(
+                        formattedDepositedTSELIC.toString()
+                      )
+                    }
                   >
                     max
                   </button>
@@ -263,19 +300,33 @@ useEffect(() => {
               </div>
             </div>
           </div>
-            {isLoadingTx && <div className="text-sm text-green-500">Transação com hash {transactionHash} esta sendo processada</div>}
+          {isLoadingTx && (
+            <ToastNotification
+              message={`Transação com hash ${
+                transactionHash &&
+                `${transactionHash.slice(0, 6)}...${transactionHash.slice(-4)}`
+              } esta sendo processada`}
+              type="success"
+            />
+          )}
 
           <div className="flex h-full w-full flex-col gap-2">
             <div className=" flex justify-between text-white">
               <span>TSELIC Depositado:</span>
-              <span>{!isLoading ? `${formattedDepositedTSELIC}` : "0"} TSELIC</span>
+              <span>
+                {!isLoading ? `${formattedDepositedTSELIC}` : "0"} TSELIC
+              </span>
             </div>
             <div className="flex justify-between text-white">
               <span>DREX em Empréstimo:</span>
               <span>{!isLoading ? `${formattedBorrowed}` : "0"} DREX</span>
             </div>
           </div>
-          <Button text="Sacar" onClick={writeWithdrawTSELIC} isLoading={isLoadingWithdrawTSELIC} />
+          <Button
+            text="Sacar"
+            onClick={writeWithdrawTSELIC}
+            isLoading={isLoadingWithdrawTSELIC}
+          />
         </div>
       </TabContent>
     </Tabs>
