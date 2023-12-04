@@ -54,7 +54,7 @@ export const Apr = ({
       </svg>
       <div className="absolute inline-flex h-[52px] w-[72px] transform flex-col items-center justify-center">
         <div className="text-center text-2xl font-semibold leading-loose text-white">
-          {`${aprPercent.toFixed(2)}%`}
+          {`${aprPercent.toLocaleString('pt-BR',{minimumFractionDigits: 2, maximumFractionDigits:2, })}%`}
         </div>
         <div className="text-center text-sm font-normal leading-tight text-white">
           APR Líquido

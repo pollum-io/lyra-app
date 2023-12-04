@@ -203,7 +203,7 @@ export const ContextBorrowDrex = ({
             <div className="flex h-full w-full flex-col items-start justify-start gap-1">
               <div className="inline-flex items-start justify-start gap-6">
                 <div className="text-base font-normal leading-normal text-gray-400">
-                  Balanço: {!isLoading ? `${drexBalance.toFixed(2)}` : "0"} DREX
+                  Balanço: {!isLoading ? `${drexBalance.toLocaleString('pt-BR',{minimumFractionDigits: 2, maximumFractionDigits:2, })}` : "0"} DREX
                 </div>
               </div>
               <div className="border-brandBlue-300 inline-flex w-full items-center justify-between rounded-lg border border-opacity-20 bg-gray-700 px-3">
@@ -258,28 +258,28 @@ export const ContextBorrowDrex = ({
             <div className=" flex justify-between text-white">
               <span>TSELIC Depositado:</span>
               <span>
-                {!isLoading ? `${depositedTSELIC.toFixed(2)}` : "0"} TSELIC
+                {!isLoading ? `${depositedTSELIC.toLocaleString('pt-BR',{minimumFractionDigits: 2, maximumFractionDigits:2, })}` : "0"} TSELIC
               </span>
             </div>
             <div className=" flex justify-between text-white">
               <span>Valor em Reais:</span>
               <span>
                 {!isLoading
-                  ? `R$ ${(depositedTSELIC * unitValue).toFixed(2)}`
+                  ? `R$ ${(depositedTSELIC * unitValue).toLocaleString('pt-BR',{minimumFractionDigits: 2, maximumFractionDigits:2, })}`
                   : "R$ 0"}
               </span>
             </div>
             <div className="flex justify-between text-white">
               <span>DREX em Emprestado:</span>
               <span>
-                {!isLoading ? `${borrowedAmount.toFixed(2)}` : "0"} DREX
+                {!isLoading ? `${borrowedAmount.toLocaleString('pt-BR',{minimumFractionDigits: 2, maximumFractionDigits:2, })}` : "0"} DREX
               </span>
             </div>
             <div className=" flex justify-between text-white">
               <span>Liquidez Disponível:</span>
               <span>
                 {!isLoading
-                  ? `${(totalSupplied - totalBorrowed).toFixed(2)}`
+                  ? `${(totalSupplied - totalBorrowed).toLocaleString('pt-BR',{minimumFractionDigits: 2, maximumFractionDigits:2, })}`
                   : "R$ 0"}{" "}
                 DREX
               </span>
@@ -304,7 +304,7 @@ export const ContextBorrowDrex = ({
             <div className="flex h-full w-full flex-col items-start justify-start gap-1">
               <div className="inline-flex items-start justify-start gap-6">
                 <div className="text-base font-normal leading-normal text-gray-400">
-                  Balanço: {!isLoading ? `${drexBalance.toFixed(2)}` : "0"} DREX
+                  Balanço: {!isLoading ? `${drexBalance.toLocaleString('pt-BR',{minimumFractionDigits: 2, maximumFractionDigits:2, })}` : "0"} DREX
                 </div>
               </div>
               <div className="border-brandBlue-300 inline-flex w-full items-center justify-between rounded-lg border border-opacity-20 bg-gray-700 px-3">
@@ -348,9 +348,9 @@ export const ContextBorrowDrex = ({
           </div>
           <div className="flex h-full w-full flex-col gap-2">
             <div className="flex justify-between text-white">
-              <span>Passivo em DREX:</span>
+              <span>Passivo:</span>
               <span>
-                {!isLoading ? `${borrowedAmount.toFixed(2)}` : "0"} DREX
+                {!isLoading ? `${borrowedAmount.toLocaleString('pt-BR',{minimumFractionDigits: 2, maximumFractionDigits:2, })}` : "0"} DREX
               </span>
             </div>
           </div>

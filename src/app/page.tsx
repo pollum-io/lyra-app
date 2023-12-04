@@ -143,7 +143,12 @@ export default function HomePage() {
   const borrowPercentual =
     tselicMultiplier === 0
       ? 0
+<<<<<<< Updated upstream
       : Number((borrowedAmountNum / tselicMultiplier) * 100).toFixed(2);
+=======
+      : (Number((borrowedAmountNum / tselicMultiplier) * 100).toLocaleString('pt-BR',{minimumFractionDigits: 2,
+        maximumFractionDigits:2, }));
+>>>>>>> Stashed changes
 
   // Balanços
   const tselicBalance = tselicMultiplier / 1e18;
@@ -217,7 +222,8 @@ export default function HomePage() {
       const drexBalance = Number(suppliedDREX) / 1e18;
       const tselicBalance =
         (Number(depositedTSELIC) * Number(dataUnitValue)) / 1e36;
-      return `R$ ${(drexBalance + tselicBalance).toFixed(2)}`;
+      return `R$ ${(drexBalance + tselicBalance).toLocaleString('pt-BR',{minimumFractionDigits: 2,
+        maximumFractionDigits:2, })}`;
     }
   };
 
@@ -226,7 +232,8 @@ export default function HomePage() {
       return "R$ 0";
     } else {
       const loanBalance = Number(borrowedAmount) / 1e18;
-      return `R$ ${loanBalance.toFixed(2)}`;
+      return `R$ ${loanBalance.toLocaleString('pt-BR',{minimumFractionDigits: 2,
+        maximumFractionDigits:2, })}`;
     }
   };
 
@@ -242,7 +249,8 @@ export default function HomePage() {
                   <ProgressBar progress={Number(borrowPercentual)} />
                   <div className="absolute top-[0px] w-full text-right text-sm font-normal leading-tight text-white lg:left-[412px] lg:top-[20px]">
                     {!isLoading
-                      ? `R$ ${Number(availableToBorrow).toFixed(2)}`
+                      ? `R$ ${Number(availableToBorrow).toLocaleString('pt-BR',{minimumFractionDigits: 2,
+        maximumFractionDigits:2, })}`
                       : "R$ 0"}
                   </div>
                   <div className="absolute left-0 top-0 text-sm font-normal leading-tight text-white">
@@ -258,7 +266,7 @@ export default function HomePage() {
                   <div className="absolute left-[20px] top-[20px] w-full text-right text-sm font-normal leading-tight text-white">
                     {" "}
                     {!isLoading
-                      ? `R$ ${Number(availableToBorrow).toFixed(2)}`
+                      ? `R$ ${Number(availableToBorrow).toLocaleString()}`
                       : "R$ 0"}
                   </div>
                   <div className="absolute left-0 top-0 text-sm font-normal leading-tight text-white">
@@ -285,26 +293,30 @@ export default function HomePage() {
                     apr: `${(
                       ((Number(dataSupplyInterestRate) / 1e6) * 99) /
                       100
-                    ).toFixed(2)}%`,
-                    liquidity: `R$ ${(Number(dataTotalSupplied) / 1e18).toFixed(
-                      2
-                    )}`,
-                    balance: `R$ ${(Number(suppliedDREX) / 1e18).toFixed(2)}`,
+                    ).toLocaleString('pt-BR',{minimumFractionDigits: 2,
+        maximumFractionDigits:2, })}%`,
+                    liquidity: `R$ ${(Number(dataTotalSupplied) / 1e18).toLocaleString('pt-BR',{minimumFractionDigits: 2,
+                      maximumFractionDigits:2, })}`,
+                    balance: `R$ ${(Number(suppliedDREX) / 1e18).toLocaleString('pt-BR',{minimumFractionDigits: 2,
+        maximumFractionDigits:2, })}`,
                     onManageClick: onOpenSD,
                     imageUrl: "/images/drex.png",
                   },
                   {
                     title: "TSELIC",
-                    apr: `${Number(dataInterestRate || 0) / 10e5}%`,
+                    apr: `${(Number(dataInterestRate || 0) / 10e5).toLocaleString('pt-BR',{minimumFractionDigits: 2,
+                      maximumFractionDigits:2, })}%`,
                     liquidity: `R$ ${(
                       (Number(dataTotalDepositedTSELIC) *
                         Number(dataUnitValue)) /
                       1e36
-                    ).toFixed(2)}`,
+                    ).toLocaleString('pt-BR',{minimumFractionDigits: 2,
+        maximumFractionDigits:2, })}`,
                     balance: `R$ ${(
                       (Number(depositedTSELIC) * Number(dataUnitValue)) /
                       1e36
-                    ).toFixed(2)}`,
+                    ).toLocaleString('pt-BR',{minimumFractionDigits: 2,
+        maximumFractionDigits:2, })}`,
                     onManageClick: onOpenST,
                     imageUrl: "/images/tesouroSelic.png",
                   },
@@ -315,13 +327,12 @@ export default function HomePage() {
                 items={[
                   {
                     title: "DREX",
-                    apr: `${(Number(dataSupplyInterestRate) / 1e6).toFixed(
-                      2
-                    )}%`,
-                    liquidity: `R$ ${(Number(dataTotalBorrowed) / 1e18).toFixed(
-                      2
-                    )}`,
-                    balance: `R$ ${(Number(borrowedAmount) / 1e18).toFixed(2)}`,
+                    apr: `${(Number(dataSupplyInterestRate) / 1e6).toLocaleString('pt-BR',{minimumFractionDigits: 2,
+                      maximumFractionDigits:2, })}%`,
+                    liquidity: `R$ ${(Number(dataTotalBorrowed) / 1e18).toLocaleString('pt-BR',{minimumFractionDigits: 2,
+                      maximumFractionDigits:2, })}`,
+                    balance: `R$ ${(Number(borrowedAmount) / 1e18).toLocaleString('pt-BR',{minimumFractionDigits: 2,
+        maximumFractionDigits:2, })}`,
                     onManageClick: onOpenBD,
                     imageUrl: "/images/drex.png",
                   },
