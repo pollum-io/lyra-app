@@ -220,7 +220,14 @@ export const ContextBorrowDrex = ({
                   value={borrowValue}
                   onChange={(e) => {
                     const enteredValue = Number(e.target.value);
-                    if (enteredValue > drexBalance) {
+                    if (enteredValue > (depositedTSELIC * unitValue - borrowedAmount >
+                      totalSupplied - totalBorrowed
+                        ? totalSupplied - totalBorrowed
+                        : (
+                            ((depositedTSELIC * unitValue - borrowedAmount) *
+                              99) /
+                              100
+                          ))) {
                       setError("O valor inserido é maior que o saldo atual.");
                     } else {
                       setError("");
