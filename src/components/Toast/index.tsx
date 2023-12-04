@@ -1,18 +1,20 @@
-import React, { useState, useEffect } from "react";
+"use client";
+
+import React, { useEffect } from "react";
 
 const ToastNotification = ({
   message,
   type,
+  onClose,
 }: {
   message: string;
   type?: string;
+  onClose: () => void;
 }) => {
-  const [show, setShow] = useState(true);
-
   useEffect(() => {
-    const timer = setTimeout(() => setShow(false), 5000);
+    const timer = setTimeout(onClose, 5000);
     return () => clearTimeout(timer);
-  }, []);
+  }, [onClose]);
 
   const borderColor =
     type === "success"
@@ -21,15 +23,13 @@ const ToastNotification = ({
       ? "border-red"
       : "border-orange";
 
-  if (!show) return null;
-
   return (
     <div
-      className={`fixed right-5 top-14 z-30 border p-4 ${borderColor} bg-primary rounded-xl shadow-lg`}
+      className={`fixed right-5 top-14 z-40 border p-4 ${borderColor} bg-primary rounded-xl shadow-lg`}
     >
       <div className="flex h-full max-w-[400px] items-center justify-between gap-4">
         <span>{message}</span>
-        <button onClick={() => setShow(false)}>
+        <button onClick={onClose}>
           <svg
             className="h-3 w-3"
             aria-hidden="true"

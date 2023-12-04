@@ -22,6 +22,7 @@ import { useEffect, useState } from "react";
 import { BORROWER, POOL_MANAGER_ROLE } from "@/constant/roles";
 import { useWaitForTransaction } from "wagmi";
 import ToastNotification from "@/components/Toast";
+import { useToastStore } from "@/stores/toast";
 export const ContextSupplyDrex = ({
   address,
   dataTotalSupplied,
@@ -125,15 +126,13 @@ export const ContextSupplyDrex = ({
 
   useEffect(() => {
     if (transaction.isSuccess) {
-      // alert("Transaction is successfull");
-      <ToastNotification message="Transaction is successfull" type="sucess" />;
-    }
-    if (transaction.isError && transactionHash !== "0x") {
-      // alert(`Error in TX ${transaction.error}`);
-      <ToastNotification
-        message={`Error in TX ${transaction.error}`}
-        type="error"
-      />;
+      useToastStore
+        .getState()
+        .showToast("Transação feita com sucesso", "success");
+    } else if (transaction.isError && transactionHash !== "0x") {
+      useToastStore
+        .getState()
+        .showToast(`Erro na TX: ${transaction.error}`, "error");
     }
     setTransactionHash(undefined);
     setLoadingTx(false);
@@ -143,10 +142,12 @@ export const ContextSupplyDrex = ({
     if (isSuccessApprove) {
       setTransactionHash(dataApprove.hash);
       setLoadingTx(true);
+      useToastStore
+        .getState()
+        .showToast("Aprovação feita com sucesso DREX", "success");
     }
     if (isErrorApprove) {
-      <ToastNotification message={"Error in approving DREX"} type="error" />;
-      // alert("Error in approving DREX");
+      useToastStore.getState().showToast("Erro ao aprovar DREX", "error");
     }
   }, [isErrorApprove, isSuccessApprove]);
 
@@ -154,13 +155,12 @@ export const ContextSupplyDrex = ({
     if (isSuccessApprove) {
       setTransactionHash(dataRecall.hash);
       setLoadingTx(true);
+      useToastStore
+        .getState()
+        .showToast("Aprovação feita com sucesso", "success");
     }
     if (isErrorApprove) {
-      <ToastNotification
-        message={"Error in recalling LOANS DREX"}
-        type="error"
-      />;
-      // alert("Error in recalling LOANS DREX");
+      useToastStore.getState().showToast("Erro ao aprovar DREX", "error");
     }
   }, [isErrorRecall, isSucessRecall]);
 
@@ -168,10 +168,10 @@ export const ContextSupplyDrex = ({
     if (isSucessWithdrawal) {
       setTransactionHash(dataWithdrawal.hash);
       setLoadingTx(true);
+      useToastStore.getState().showToast("Saque feito com sucesso", "success");
     }
     if (isErrorWithdrawal) {
-      <ToastNotification message={"Error in withdrawal DREX"} type="error" />;
-      // alert("Error in withdrawal DREX");
+      useToastStore.getState().showToast("Erro ao sacar DREX", "error");
     }
   }, [isErrorWithdrawal, isSucessWithdrawal]);
 
@@ -179,12 +179,15 @@ export const ContextSupplyDrex = ({
     if (isSuccessDeposit) {
       setTransactionHash(dataDeposit.hash);
       setLoadingTx(true);
+      useToastStore
+        .getState()
+        .showToast("Deposito feito com sucesso", "success");
     }
     if (isErrorDeposit) {
-      <ToastNotification message={"Error in depositing DREX"} type="error" />;
-      // alert("Error in depositing DREX");
+      useToastStore.getState().showToast("Erro ao depositar DREX", "error");
     }
   }, [isErrorDeposit, isSuccessDeposit]);
+
   useEffect(() => {
     if (Number(dataAllowanceDREX) !== approvedAmountDREX * 10 ** 6) {
       setApprovedAmountDREX(Number(dataAllowanceDREX) / 10 ** 6);
@@ -200,6 +203,24 @@ export const ContextSupplyDrex = ({
 
     setLoading(!loading);
   }, [isLoadingDrex, isLoadingSupplyInterestRate, isLoadingSuppliedDREX]);
+
+  useEffect(() => {
+    if (error) {
+      useToastStore.getState().showToast(`${error}`, "error");
+    }
+
+    if (isLoadingTx) {
+      useToastStore
+        .getState()
+        .showToast(
+          `Transação com hash ${
+            transactionHash &&
+            `${transactionHash.slice(0, 6)}...${transactionHash.slice(-4)}`
+          } esta sendo processada`,
+          "success"
+        );
+    }
+  }, [error, isLoadingTx]);
 
   return (
     <Tabs>
@@ -250,18 +271,6 @@ export const ContextSupplyDrex = ({
                   <div className="text-xs">DREX</div>
                 </div>
               </div>
-              {error && <ToastNotification message={`${error}`} type="error" />}
-              {isLoadingTx && (
-                <ToastNotification
-                  message={`Transação com hash ${
-                    transactionHash &&
-                    `${transactionHash.slice(0, 6)}...${transactionHash.slice(
-                      -4
-                    )}`
-                  } esta sendo processada`}
-                  type="success"
-                />
-              )}
             </div>
           </div>
 
@@ -397,16 +406,6 @@ export const ContextSupplyDrex = ({
               </div>
             </div>
           </div>
-          {error && <ToastNotification message={`${error}`} type="error" />}
-          {isLoadingTx && (
-            <ToastNotification
-              message={`Transação com hash ${
-                transactionHash &&
-                `${transactionHash.slice(0, 6)}...${transactionHash.slice(-4)}`
-              } esta sendo processada`}
-              type="success"
-            />
-          )}
           <div className="flex h-full w-full flex-col gap-2">
             <div className=" flex justify-between text-white">
               <span>Liquidez Disponível:</span>
@@ -532,16 +531,6 @@ export const ContextSupplyDrex = ({
               </div>
             </div>
           </div>
-          {error && <ToastNotification message={`${error}`} type="error" />}
-          {isLoadingTx && (
-            <ToastNotification
-              message={`Transação com hash ${
-                transactionHash &&
-                `${transactionHash.slice(0, 6)}...${transactionHash.slice(-4)}`
-              } esta sendo processada`}
-              type="success"
-            />
-          )}
           <div className="flex h-full w-full  text-white">
             O recall instantâneo facilita a troca de garantias em TSELIC por
             DREX através da Uniswap.

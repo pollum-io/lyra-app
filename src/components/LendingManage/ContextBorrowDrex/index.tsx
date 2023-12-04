@@ -16,6 +16,7 @@ import {
   useGetUnitValue,
   useRepayDREX,
 } from "@/hooks/useRBLLPoolContract";
+import { useToastStore } from "@/stores/toast";
 import { BigNumberish, parseUnits, formatUnits } from "ethers";
 import Image from "next/image";
 import { useEffect, useState } from "react";
@@ -98,18 +99,14 @@ export const ContextBorrowDrex = ({
 
   useEffect(() => {
     if (transaction.isSuccess) {
-      // alert("Transaction is successfull");
-      <ToastNotification
-        message={"Transaction is successfull"}
-        type="sucess"
-      />;
+      useToastStore
+        .getState()
+        .showToast("Transação feita com sucesso", "success");
     }
     if (transaction.isError && transactionHash !== "0x") {
-      // alert(`Error in TX ${transaction.error}`);
-      <ToastNotification
-        message={`Error in TX ${transaction.error}`}
-        type="error"
-      />;
+      useToastStore
+        .getState()
+        .showToast(`Erro na TX: ${transaction.error}`, "error");
     }
     setTransactionHash(undefined);
     setLoadingTx(false);
@@ -119,10 +116,12 @@ export const ContextBorrowDrex = ({
     if (isSuccessApproveDREX) {
       setTransactionHash(dataApproveDREX.hash);
       setLoadingTx(true);
+      useToastStore
+        .getState()
+        .showToast("Aprovação feita com sucesso DREX", "success");
     }
     if (isErrorApproveDREX) {
-      <ToastNotification message="Error in approving DREX" type="error" />;
-      // alert("Error in approving DREX");
+      useToastStore.getState().showToast("Erro ao aprovar DREX", "error");
     }
   }, [isErrorApproveDREX, isSuccessApproveDREX]);
 
@@ -130,10 +129,12 @@ export const ContextBorrowDrex = ({
     if (isSuccessBorrowDREX) {
       setTransactionHash(dataBorrowDREX.hash);
       setLoadingTx(true);
+      useToastStore
+        .getState()
+        .showToast("Empréstimo feito com sucesso", "success");
     }
     if (isErrorBorrowDREX) {
-      // alert("Error in withdrawal DREX");
-      <ToastNotification message="Error in withdrawal DREX" type="error" />;
+      useToastStore.getState().showToast("Erro ao Emprestar DREX", "error");
     }
   }, [isErrorBorrowDREX, isSuccessBorrowDREX]);
 
@@ -141,10 +142,12 @@ export const ContextBorrowDrex = ({
     if (isSuccessRepayDREX) {
       setTransactionHash(dataRepayDREX.hash);
       setLoadingTx(true);
+      useToastStore
+        .getState()
+        .showToast("Dívida quitada com sucesso", "success");
     }
     if (isErrorRepayDREX) {
-      <ToastNotification message="Error in depositing DREX" type="error" />;
-      // alert("Error in depositing DREX");
+      useToastStore.getState().showToast("Erro ao depositar DREX", "error");
     }
   }, [isErrorRepayDREX, isSuccessRepayDREX]);
 
@@ -173,6 +176,24 @@ export const ContextBorrowDrex = ({
     isLoadingBorrowedAmount,
     isLoadingUnitValue,
   ]);
+
+  useEffect(() => {
+    if (error) {
+      useToastStore.getState().showToast(`${error}`, "error");
+    }
+
+    if (isLoadingTx) {
+      useToastStore
+        .getState()
+        .showToast(
+          `Transação com hash ${
+            transactionHash &&
+            `${transactionHash.slice(0, 6)}...${transactionHash.slice(-4)}`
+          } esta sendo processada`,
+          "success"
+        );
+    }
+  }, [error, isLoadingTx]);
 
   return (
     <Tabs>
@@ -231,19 +252,8 @@ export const ContextBorrowDrex = ({
                   <div className="text-xs">DREX</div>
                 </div>
               </div>
-              {error && <ToastNotification message={`${error}`} type="error" />}
             </div>
           </div>
-          {error && <ToastNotification message={`${error}`} type="error" />}
-          {isLoadingTx && (
-            <ToastNotification
-              message={`Transação com hash ${
-                transactionHash &&
-                `${transactionHash.slice(0, 6)}...${transactionHash.slice(-4)}`
-              } esta sendo processada`}
-              type="success"
-            />
-          )}
           <div className="flex h-full w-full flex-col gap-2">
             <div className=" flex justify-between text-white">
               <span>TSELIC Depositado:</span>
@@ -336,16 +346,6 @@ export const ContextBorrowDrex = ({
               </div>
             </div>
           </div>
-          {error && <ToastNotification message={`${error}`} type="error" />}
-          {isLoadingTx && (
-            <ToastNotification
-              message={`Transação com hash ${
-                transactionHash &&
-                `${transactionHash.slice(0, 6)}...${transactionHash.slice(-4)}`
-              } esta sendo processada`}
-              type="success"
-            />
-          )}
           <div className="flex h-full w-full flex-col gap-2">
             <div className="flex justify-between text-white">
               <span>Passivo em DREX:</span>

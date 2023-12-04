@@ -14,6 +14,7 @@ import {
   useSupplyTSELIC,
   useWithdrawTSELIC,
 } from "@/hooks/useRBLLPoolContract";
+import { useToastStore } from "@/stores/toast";
 import { BigNumberish } from "ethers";
 import Image from "next/image";
 import { useEffect, useState } from "react";
@@ -93,18 +94,14 @@ export const ContextSupplyTSelic = ({ address }: { address: string }) => {
 
   useEffect(() => {
     if (transaction.isSuccess) {
-      // alert("Transaction is successfull");
-      <ToastNotification
-        message={"Transaction is successfull"}
-        type="success"
-      />;
+      useToastStore
+        .getState()
+        .showToast("Transação feita com sucesso", "success");
     }
     if (transaction.isError && transactionHash !== "0x") {
-      // alert(`Error in TX ${transaction.error}`);
-      <ToastNotification
-        message={`Error in TX ${transaction.error}`}
-        type="error"
-      />;
+      useToastStore
+        .getState()
+        .showToast(`Erro na TX: ${transaction.error}`, "error");
     }
     setTransactionHash(undefined);
     setLoadingTx(false);
@@ -114,10 +111,12 @@ export const ContextSupplyTSelic = ({ address }: { address: string }) => {
     if (isSuccessApproveTSELIC) {
       setTransactionHash(dataApproveTSELIC.hash);
       setLoadingTx(true);
+      useToastStore
+        .getState()
+        .showToast("Aprovação feita com sucesso TSELIC", "success");
     }
     if (isErrorApproveTSELIC) {
-      // alert("Error in approving TSELIC");
-      <ToastNotification message={"Error in approving TSELIC"} type="error" />;
+      useToastStore.getState().showToast("Erro ao aprovar TSELIC", "error");
     }
   }, [isErrorApproveTSELIC, isSuccessApproveTSELIC]);
 
@@ -131,10 +130,12 @@ export const ContextSupplyTSelic = ({ address }: { address: string }) => {
     if (isSuccessSupplyTSELIC) {
       setTransactionHash(dataSupplyTSELIC.hash);
       setLoadingTx(true);
+      useToastStore
+        .getState()
+        .showToast("Aprovação feita com sucesso TSELIC", "success");
     }
     if (isErrorSupplyTSELIC) {
-      // alert("Error in depositing TSELIC");
-      <ToastNotification message={"Error in depositing TSELIC"} type="error" />;
+      useToastStore.getState().showToast("Erro ao aprovar TSELIC", "error");
     }
   }, [isErrorSupplyTSELIC, isSuccessSupplyTSELIC]);
 
@@ -142,10 +143,10 @@ export const ContextSupplyTSelic = ({ address }: { address: string }) => {
     if (isSuccessWithdrawTSELIC) {
       setTransactionHash(dataWithdrawTSELIC.hash);
       setLoadingTx(true);
+      useToastStore.getState().showToast("Saque feito com sucesso", "success");
     }
     if (isErrorWithdrawTSELIC) {
-      // alert("Error in withdrawal DREX");
-      <ToastNotification message={"Error in withdrawal DREX"} type="error" />;
+      useToastStore.getState().showToast("Erro ao sacar TSELIC", "error");
     }
   }, [isErrorWithdrawTSELIC, isSuccessWithdrawTSELIC]);
 
@@ -164,6 +165,24 @@ export const ContextSupplyTSelic = ({ address }: { address: string }) => {
     isLoadingBorrowedAmount,
     isLoadingAllowanceTSELIC,
   ]);
+
+  useEffect(() => {
+    if (error) {
+      useToastStore.getState().showToast(`${error}`, "error");
+    }
+
+    if (isLoadingTx) {
+      useToastStore
+        .getState()
+        .showToast(
+          `Transação com hash ${
+            transactionHash &&
+            `${transactionHash.slice(0, 6)}...${transactionHash.slice(-4)}`
+          } esta sendo processada`,
+          "success"
+        );
+    }
+  }, [error, isLoadingTx]);
 
   return (
     <Tabs>
@@ -217,19 +236,6 @@ export const ContextSupplyTSelic = ({ address }: { address: string }) => {
                   <div className="text-xs">TSELIC</div>
                 </div>
               </div>
-
-              {error && <ToastNotification message={`${error}`} type="error" />}
-              {isLoadingTx && (
-                <ToastNotification
-                  message={`Transação com hash ${
-                    transactionHash &&
-                    `${transactionHash.slice(0, 6)}...${transactionHash.slice(
-                      -4
-                    )}`
-                  } esta sendo processada`}
-                  type="success"
-                />
-              )}
             </div>
           </div>
 
@@ -311,16 +317,6 @@ export const ContextSupplyTSelic = ({ address }: { address: string }) => {
               </div>
             </div>
           </div>
-          {isLoadingTx && (
-            <ToastNotification
-              message={`Transação com hash ${
-                transactionHash &&
-                `${transactionHash.slice(0, 6)}...${transactionHash.slice(-4)}`
-              } esta sendo processada`}
-              type="success"
-            />
-          )}
-
           <div className="flex h-full w-full flex-col gap-2">
             <div className=" flex justify-between text-white">
               <span>TSELIC Depositado:</span>
@@ -330,7 +326,9 @@ export const ContextSupplyTSelic = ({ address }: { address: string }) => {
             </div>
             <div className="flex justify-between text-white">
               <span>DREX em Empréstimo:</span>
-              <span>{!isLoading ? `${formattedBorrowed.toFixed(2)}` : "0"} DREX</span>
+              <span>
+                {!isLoading ? `${formattedBorrowed.toFixed(2)}` : "0"} DREX
+              </span>
             </div>
           </div>
           <Button
