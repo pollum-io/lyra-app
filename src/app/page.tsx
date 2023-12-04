@@ -32,6 +32,7 @@ import {
 import { BigNumberish } from "ethers";
 import { InfoHeaderSkeleton } from "@/components/Skeletons/InfoHeaderSkeleton";
 import { EthereumAddress } from "@/hooks/useErc20";
+import { useIsMobile } from "@/hooks/useIsMobile";
 
 export default function HomePage() {
   const { onOpen: onOpenSD } = useStore(useLendingModalSupplyDrex);
@@ -236,6 +237,8 @@ export default function HomePage() {
     }
   };
 
+  const isMobile = useIsMobile();
+
   return (
     <main>
       <section>
@@ -243,7 +246,9 @@ export default function HomePage() {
           {address ? (
             <div className="flex h-full w-full flex-col items-center justify-between gap-10 lg:flex-row lg:items-end">
               <div className="flex h-full w-full flex-col items-center justify-center lg:hidden">
-                <Apr aprPercent={Number(netApr)} aprMax={Number(maxAPR)} />
+                {isMobile && (
+                  <Apr aprPercent={Number(netApr)} aprMax={Number(maxAPR)} />
+                )}
                 <div className="relative mt-6 h-10 w-full max-w-[382px]">
                   <ProgressBar progress={Number(borrowPercentual)} />
                   <div className="absolute top-[0px] w-full text-right text-sm font-normal leading-tight text-white">
