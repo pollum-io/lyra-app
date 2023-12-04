@@ -143,8 +143,7 @@ export default function HomePage() {
   const borrowPercentual =
     tselicMultiplier === 0
       ? 0
-      : (Number((borrowedAmountNum / tselicMultiplier) * 100).toLocaleString('pt-BR',{minimumFractionDigits: 2,
-        maximumFractionDigits:2, }));
+      : (Number((borrowedAmountNum / tselicMultiplier) * 100).toFixed(2));
 
   // Balanços
   const tselicBalance = tselicMultiplier / 1e18;
@@ -250,7 +249,8 @@ export default function HomePage() {
                       : "R$ 0"}
                   </div>
                   <div className="absolute left-0 top-0 text-sm font-normal leading-tight text-white">
-                    Limite de Empréstimo: {!isLoading ? borrowPercentual : 0}%
+                    Limite de Empréstimo: {!isLoading ? Number(borrowPercentual).toLocaleString('pt-BR',{minimumFractionDigits: 2,
+        maximumFractionDigits:2, }) : 0}%
                   </div>
                 </div>
               </div>
@@ -266,7 +266,8 @@ export default function HomePage() {
                       : "R$ 0"}
                   </div>
                   <div className="absolute left-0 top-0 text-sm font-normal leading-tight text-white">
-                    Limite de Empréstimo: {!isLoading ? borrowPercentual : 0}%
+                    Limite de Empréstimo: {!isLoading ? Number(borrowPercentual).toLocaleString('pt-BR',{minimumFractionDigits: 2,
+        maximumFractionDigits:2, }) : 0}%
                   </div>
                 </div>
               </div>
