@@ -276,7 +276,7 @@ export const ContextSupplyDrex = ({
 
           <div className="flex h-full w-full flex-col gap-2">
             <div className=" flex justify-between text-white">
-              <span>APY de Deposito:</span>
+              <span>APR de Deposito:</span>
               <span>
                 {(Number(dataSupplyInterestRate || 0) / 10e5).toLocaleString('pt-BR',{minimumFractionDigits: 2, maximumFractionDigits:2, })}%
               </span>
