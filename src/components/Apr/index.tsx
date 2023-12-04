@@ -7,7 +7,7 @@ export const Apr = ({
 }) => {
   const radius = 75;
   const circumference = 2 * Math.PI * radius;
-  const strokeDashoffset = circumference * (1 - ((aprPercent / aprMax) * 100));
+  const strokeDashoffset = circumference * (1-(aprPercent / aprMax));
 
   return (
     <div className=" flex h-[150px] w-[150px] items-center justify-center overflow-hidden rounded-full">
