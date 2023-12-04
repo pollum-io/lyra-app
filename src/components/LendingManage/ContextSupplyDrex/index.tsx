@@ -92,7 +92,7 @@ export const ContextSupplyDrex = ({
     isError: isErrorDeposit,
     isSuccess: isSuccessDeposit,
     isLoading: isLoadingDeposit,
-  } = useSupplyDREX(Number(valueDREX) == 0 ? 1 : Number(valueDREX) * 10 ** 6);
+  } = useSupplyDREX(Number(valueDREX) * 10 ** 6);
 
   const {
     write: writeWithdrawal,

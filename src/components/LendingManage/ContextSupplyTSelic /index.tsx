@@ -72,7 +72,7 @@ export const ContextSupplyTSelic = ({ address }: { address: string }) => {
     isSuccess: isSuccessSupplyTSELIC,
     isError: isErrorSupplyTSELIC,
   } = useSupplyTSELIC(
-    Number(valueTselic) == 0 ? 1 : Number(valueTselic) * 10 ** 18
+    Number(valueTselic) * 10 ** 18
   );
 
   const {
@@ -82,7 +82,7 @@ export const ContextSupplyTSelic = ({ address }: { address: string }) => {
     isSuccess: isSuccessWithdrawTSELIC,
     isError: isErrorWithdrawTSELIC,
   } = useWithdrawTSELIC(
-    Number(valueTselic) == 0 ? 1 : Number(valueWithdrawlTselic) * 10 ** 18
+    Number(valueWithdrawlTselic) * 10 ** 18
   );
 
   const [approvedAmountTselic, setApprovedAmountTselic] = useState(
