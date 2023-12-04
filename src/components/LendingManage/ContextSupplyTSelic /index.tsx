@@ -326,13 +326,7 @@ export const ContextSupplyTSelic = ({ address }: { address: string }) => {
             </div>
             <div className="flex justify-between text-white">
               <span>DREX em Empréstimo:</span>
-<<<<<<< Updated upstream
-              <span>
-                {!isLoading ? `${formattedBorrowed.toFixed(2)}` : "0"} DREX
-              </span>
-=======
               <span>{!isLoading ? `${formattedBorrowed.toLocaleString('pt-BR',{minimumFractionDigits: 2, maximumFractionDigits:2, })}` : "0"} DREX</span>
->>>>>>> Stashed changes
             </div>
           </div>
           <Button
