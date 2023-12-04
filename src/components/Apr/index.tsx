@@ -7,7 +7,7 @@ export const Apr = ({
 }) => {
   const radius = 75;
   const circumference = 2 * Math.PI * radius;
-  const strokeDashoffset = circumference * ((aprPercent / aprMax) * 100);
+  const strokeDashoffset = circumference / ((aprPercent / aprMax) * 100);
 
   return (
     <div className=" flex h-[150px] w-[150px] items-center justify-center overflow-hidden rounded-full">
@@ -52,9 +52,12 @@ export const Apr = ({
           transform="rotate(-90 75 75)"
         />
       </svg>
-      <div className="absolute inline-flex h-[52px] w-[72px] transform flex-col items-center justify-center">
+      <div className="absolute inline-flex h-[52px] w-full max-w-[72px] transform flex-col items-center justify-center">
         <div className="text-center text-2xl font-semibold leading-loose text-white">
-          {`${aprPercent.toLocaleString('pt-BR',{minimumFractionDigits: 2, maximumFractionDigits:2, })}%`}
+          {`${aprPercent.toLocaleString("pt-BR", {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+          })}%`}
         </div>
         <div className="text-center text-sm font-normal leading-tight text-white">
           APR Líquido

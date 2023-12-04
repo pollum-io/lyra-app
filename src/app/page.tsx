@@ -143,7 +143,7 @@ export default function HomePage() {
   const borrowPercentual =
     tselicMultiplier === 0
       ? 0
-      : (Number((borrowedAmountNum / tselicMultiplier) * 100).toFixed(2));
+      : Number((borrowedAmountNum / tselicMultiplier) * 100).toFixed(2);
 
   // Balanços
   const tselicBalance = tselicMultiplier / 1e18;
@@ -217,8 +217,10 @@ export default function HomePage() {
       const drexBalance = Number(suppliedDREX) / 1e18;
       const tselicBalance =
         (Number(depositedTSELIC) * Number(dataUnitValue)) / 1e36;
-      return `R$ ${(drexBalance + tselicBalance).toLocaleString('pt-BR',{minimumFractionDigits: 2,
-        maximumFractionDigits:2, })}`;
+      return `R$ ${(drexBalance + tselicBalance).toLocaleString("pt-BR", {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      })}`;
     }
   };
 
@@ -227,50 +229,69 @@ export default function HomePage() {
       return "R$ 0";
     } else {
       const loanBalance = Number(borrowedAmount) / 1e18;
-      return `R$ ${loanBalance.toLocaleString('pt-BR',{minimumFractionDigits: 2,
-        maximumFractionDigits:2, })}`;
+      return `R$ ${loanBalance.toLocaleString("pt-BR", {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      })}`;
     }
   };
 
   return (
     <main>
       <section>
-        <div className="layout relative flex min-h-screen flex-col items-center justify-start gap-20 py-12 text-center">
+        <div className="layout relative flex min-h-screen flex-col items-center justify-start gap-20 text-center">
           {address ? (
             <div className="flex h-full w-full flex-col items-center justify-between gap-10 lg:flex-row lg:items-end">
               <div className="flex h-full w-full flex-col items-center justify-center lg:hidden">
                 <Apr aprPercent={Number(netApr)} aprMax={Number(maxAPR)} />
-                <div className="relative mt-6 h-10 w-[382px] lg:w-[482px]">
+                <div className="relative mt-6 h-10 w-full max-w-[382px]">
                   <ProgressBar progress={Number(borrowPercentual)} />
-                  <div className="absolute top-[0px] w-full text-right text-sm font-normal leading-tight text-white lg:left-[412px] lg:top-[20px]">
+                  <div className="absolute top-[0px] w-full text-right text-sm font-normal leading-tight text-white">
                     {!isLoading
-                      ? `R$ ${Number(availableToBorrow).toLocaleString('pt-BR',{minimumFractionDigits: 2,
-        maximumFractionDigits:2, })}`
+                      ? `R$ ${Number(availableToBorrow).toLocaleString(
+                          "pt-BR",
+                          { minimumFractionDigits: 2, maximumFractionDigits: 2 }
+                        )}`
                       : "R$ 0"}
                   </div>
                   <div className="absolute left-0 top-0 text-sm font-normal leading-tight text-white">
-                    Limite de Empréstimo: {!isLoading ? Number(borrowPercentual).toLocaleString('pt-BR',{minimumFractionDigits: 2,
-        maximumFractionDigits:2, }) : 0}%
+                    Limite de Empréstimo:{" "}
+                    {!isLoading
+                      ? Number(borrowPercentual).toLocaleString("pt-BR", {
+                          minimumFractionDigits: 2,
+                          maximumFractionDigits: 2,
+                        })
+                      : 0}
+                    %
                   </div>
                 </div>
               </div>
               <Card text={"Saldo em Depósito"} value={calculateValue()} />
               <div className="hidden h-full w-full flex-col items-center justify-center lg:flex">
                 <Apr aprPercent={Number(netApr)} aprMax={Number(maxAPR)} />
-                <div className="relative mt-6 h-10 w-[482px]">
+                <div className="relative mt-6 h-10 w-full max-w-[382px]">
                   <ProgressBar progress={Number(borrowPercentual)} />
-                  <div className="absolute left-[20px] top-[20px] w-full text-right text-sm font-normal leading-tight text-white">
-                    {" "}
+                  <div className="absolute top-[0px] w-full text-right text-sm font-normal leading-tight text-white">
                     {!isLoading
-                      ? `R$ ${Number(availableToBorrow).toLocaleString()}`
+                      ? `R$ ${Number(availableToBorrow).toLocaleString(
+                          "pt-BR",
+                          { minimumFractionDigits: 2, maximumFractionDigits: 2 }
+                        )}`
                       : "R$ 0"}
                   </div>
                   <div className="absolute left-0 top-0 text-sm font-normal leading-tight text-white">
-                    Limite de Empréstimo: {!isLoading ? Number(borrowPercentual).toLocaleString('pt-BR',{minimumFractionDigits: 2,
-        maximumFractionDigits:2, }) : 0}%
+                    Limite de Empréstimo:{" "}
+                    {!isLoading
+                      ? Number(borrowPercentual).toLocaleString("pt-BR", {
+                          minimumFractionDigits: 2,
+                          maximumFractionDigits: 2,
+                        })
+                      : 0}
+                    %
                   </div>
                 </div>
               </div>
+
               <Card
                 text={"Saldo em Empréstimo"}
                 value={calculateLoanBalance()}
@@ -290,30 +311,46 @@ export default function HomePage() {
                     apr: `${(
                       ((Number(dataSupplyInterestRate) / 1e6) * 99) /
                       100
-                    ).toLocaleString('pt-BR',{minimumFractionDigits: 2,
-        maximumFractionDigits:2, })}%`,
-                    liquidity: `R$ ${(Number(dataTotalSupplied) / 1e18).toLocaleString('pt-BR',{minimumFractionDigits: 2,
-                      maximumFractionDigits:2, })}`,
-                    balance: `R$ ${(Number(suppliedDREX) / 1e18).toLocaleString('pt-BR',{minimumFractionDigits: 2,
-        maximumFractionDigits:2, })}`,
+                    ).toLocaleString("pt-BR", {
+                      minimumFractionDigits: 2,
+                      maximumFractionDigits: 2,
+                    })}%`,
+                    liquidity: `R$ ${(
+                      Number(dataTotalSupplied) / 1e18
+                    ).toLocaleString("pt-BR", {
+                      minimumFractionDigits: 2,
+                      maximumFractionDigits: 2,
+                    })}`,
+                    balance: `R$ ${(Number(suppliedDREX) / 1e18).toLocaleString(
+                      "pt-BR",
+                      { minimumFractionDigits: 2, maximumFractionDigits: 2 }
+                    )}`,
                     onManageClick: onOpenSD,
                     imageUrl: "/images/drex.png",
                   },
                   {
                     title: "TSELIC",
-                    apr: `${(Number(dataInterestRate || 0) / 10e5).toLocaleString('pt-BR',{minimumFractionDigits: 2,
-                      maximumFractionDigits:2, })}%`,
+                    apr: `${(
+                      Number(dataInterestRate || 0) / 10e5
+                    ).toLocaleString("pt-BR", {
+                      minimumFractionDigits: 2,
+                      maximumFractionDigits: 2,
+                    })}%`,
                     liquidity: `R$ ${(
                       (Number(dataTotalDepositedTSELIC) *
                         Number(dataUnitValue)) /
                       1e36
-                    ).toLocaleString('pt-BR',{minimumFractionDigits: 2,
-        maximumFractionDigits:2, })}`,
+                    ).toLocaleString("pt-BR", {
+                      minimumFractionDigits: 2,
+                      maximumFractionDigits: 2,
+                    })}`,
                     balance: `R$ ${(
                       (Number(depositedTSELIC) * Number(dataUnitValue)) /
                       1e36
-                    ).toLocaleString('pt-BR',{minimumFractionDigits: 2,
-        maximumFractionDigits:2, })}`,
+                    ).toLocaleString("pt-BR", {
+                      minimumFractionDigits: 2,
+                      maximumFractionDigits: 2,
+                    })}`,
                     onManageClick: onOpenST,
                     imageUrl: "/images/tesouroSelic.png",
                   },
@@ -324,12 +361,24 @@ export default function HomePage() {
                 items={[
                   {
                     title: "DREX",
-                    apr: `${(Number(dataSupplyInterestRate) / 1e6).toLocaleString('pt-BR',{minimumFractionDigits: 2,
-                      maximumFractionDigits:2, })}%`,
-                    liquidity: `R$ ${(Number(dataTotalBorrowed) / 1e18).toLocaleString('pt-BR',{minimumFractionDigits: 2,
-                      maximumFractionDigits:2, })}`,
-                    balance: `R$ ${(Number(borrowedAmount) / 1e18).toLocaleString('pt-BR',{minimumFractionDigits: 2,
-        maximumFractionDigits:2, })}`,
+                    apr: `${(
+                      Number(dataSupplyInterestRate) / 1e6
+                    ).toLocaleString("pt-BR", {
+                      minimumFractionDigits: 2,
+                      maximumFractionDigits: 2,
+                    })}%`,
+                    liquidity: `R$ ${(
+                      Number(dataTotalBorrowed) / 1e18
+                    ).toLocaleString("pt-BR", {
+                      minimumFractionDigits: 2,
+                      maximumFractionDigits: 2,
+                    })}`,
+                    balance: `R$ ${(
+                      Number(borrowedAmount) / 1e18
+                    ).toLocaleString("pt-BR", {
+                      minimumFractionDigits: 2,
+                      maximumFractionDigits: 2,
+                    })}`,
                     onManageClick: onOpenBD,
                     imageUrl: "/images/drex.png",
                   },
