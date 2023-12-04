@@ -111,7 +111,7 @@ export const ContextSupplyDrex = ({
   } = useFlashLiquidateBorrow(
     BORROWER,
     (Number(valueRBLL) * 10 ** 6).toFixed(),
-    3
+    4 * 10 ** 6
   );
 
   const {
