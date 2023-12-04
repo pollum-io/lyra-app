@@ -192,7 +192,13 @@ export const ContextSupplyTSelic = ({ address }: { address: string }) => {
             <div className="flex h-full w-full flex-col items-start justify-start gap-1">
               <div className="inline-flex items-start justify-start gap-6">
                 <div className="text-base font-normal leading-normal text-gray-400">
-                  Balanço: {!isLoading ? `${Number(formattedTselicBalance).toLocaleString('pt-BR',{minimumFractionDigits: 2, maximumFractionDigits:2, })}` : "0"}{" "}
+                  Balanço:{" "}
+                  {!isLoading
+                    ? `${Number(formattedTselicBalance).toLocaleString(
+                        "pt-BR",
+                        { minimumFractionDigits: 2, maximumFractionDigits: 2 }
+                      )}`
+                    : "0"}{" "}
                   TSELIC
                 </div>
               </div>
@@ -269,7 +275,13 @@ export const ContextSupplyTSelic = ({ address }: { address: string }) => {
             <div className="flex h-full w-full flex-col items-start justify-start gap-1">
               <div className="inline-flex items-start justify-start gap-6">
                 <div className="text-base font-normal leading-normal text-gray-400">
-                  Balanço: {!isLoading ? `${Number(formattedTselicBalance).toLocaleString('pt-BR',{minimumFractionDigits: 2, maximumFractionDigits:2, })}` : "0"}{" "}
+                  Balanço:{" "}
+                  {!isLoading
+                    ? `${Number(formattedTselicBalance).toLocaleString(
+                        "pt-BR",
+                        { minimumFractionDigits: 2, maximumFractionDigits: 2 }
+                      )}`
+                    : "0"}{" "}
                   TSELIC
                 </div>
               </div>
@@ -326,7 +338,15 @@ export const ContextSupplyTSelic = ({ address }: { address: string }) => {
             </div>
             <div className="flex justify-between text-white">
               <span>DREX em Empréstimo:</span>
-              <span>{!isLoading ? `${formattedBorrowed.toLocaleString('pt-BR',{minimumFractionDigits: 2, maximumFractionDigits:2, })}` : "0"} DREX</span>
+              <span>
+                {!isLoading
+                  ? `${formattedBorrowed.toLocaleString("pt-BR", {
+                      minimumFractionDigits: 2,
+                      maximumFractionDigits: 2,
+                    })}`
+                  : "0"}{" "}
+                DREX
+              </span>
             </div>
           </div>
           <Button

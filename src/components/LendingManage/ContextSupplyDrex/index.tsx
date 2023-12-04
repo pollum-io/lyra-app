@@ -230,7 +230,12 @@ export const ContextSupplyDrex = ({
             <div className="flex h-full w-full flex-col items-start justify-start gap-1">
               <div className="inline-flex items-start justify-start gap-6">
                 <div className="text-base font-normal leading-normal text-gray-400">
-                  Balanço: {drexBalance.toLocaleString('pt-BR',{minimumFractionDigits: 2, maximumFractionDigits:2, })} DREX
+                  Balanço:{" "}
+                  {drexBalance.toLocaleString("pt-BR", {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2,
+                  })}{" "}
+                  DREX
                 </div>
               </div>
               <div className="border-brandBlue-300 inline-flex w-full items-center justify-between rounded-lg border border-opacity-20 bg-gray-700 px-3">
@@ -278,17 +283,33 @@ export const ContextSupplyDrex = ({
             <div className=" flex justify-between text-white">
               <span>APR de Deposito:</span>
               <span>
-                {(Number(dataSupplyInterestRate || 0) / 10e5).toLocaleString('pt-BR',{minimumFractionDigits: 2, maximumFractionDigits:2, })}%
+                {(Number(dataSupplyInterestRate || 0) / 10e5).toLocaleString(
+                  "pt-BR",
+                  { minimumFractionDigits: 2, maximumFractionDigits: 2 }
+                )}
+                %
               </span>
             </div>
             <div className="flex justify-between text-white">
               <span>Total Depositado:</span>
-              <span>{!isLoading ? `R$ ${Number(formattedTotalSupply).toLocaleString('pt-BR',{minimumFractionDigits: 2, maximumFractionDigits:2, })}` : "R$ 0"}</span>
+              <span>
+                {!isLoading
+                  ? `R$ ${Number(formattedTotalSupply).toLocaleString("pt-BR", {
+                      minimumFractionDigits: 2,
+                      maximumFractionDigits: 2,
+                    })}`
+                  : "R$ 0"}
+              </span>
             </div>
             <div className="flex justify-between text-white">
               <span>Total Emprestado:</span>
               <span>
-                {!isLoading ? `R$ ${Number(formattedTotalBorrowed).toLocaleString('pt-BR',{minimumFractionDigits: 2, maximumFractionDigits:2, })}` : "R$ 0"}
+                {!isLoading
+                  ? `R$ ${Number(formattedTotalBorrowed).toLocaleString(
+                      "pt-BR",
+                      { minimumFractionDigits: 2, maximumFractionDigits: 2 }
+                    )}`
+                  : "R$ 0"}
               </span>
             </div>
             <div className="flex justify-between text-white">
@@ -298,7 +319,10 @@ export const ContextSupplyDrex = ({
                   ? `${(
                       (Number(dataTotalBorrowed) / Number(dataTotalSupplied)) *
                       100
-                    ).toLocaleString('pt-BR',{minimumFractionDigits: 2, maximumFractionDigits:2, })}`
+                    ).toLocaleString("pt-BR", {
+                      minimumFractionDigits: 2,
+                      maximumFractionDigits: 2,
+                    })}`
                   : "0"}
                 %
               </span>
@@ -333,7 +357,10 @@ export const ContextSupplyDrex = ({
                 <div className="text-base font-normal leading-normal text-gray-400">
                   Balanço:{" "}
                   {!isLoading
-                    ? `${(Number(dataSuppliedDREX) / 10 ** 18).toLocaleString('pt-BR',{minimumFractionDigits: 2, maximumFractionDigits:2, })}`
+                    ? `${(Number(dataSuppliedDREX) / 10 ** 18).toLocaleString(
+                        "pt-BR",
+                        { minimumFractionDigits: 2, maximumFractionDigits: 2 }
+                      )}`
                     : "0"}{" "}
                   rBRLL
                 </div>
@@ -414,18 +441,33 @@ export const ContextSupplyDrex = ({
                   ? `R$ ${(
                       (Number(dataTotalSupplied) - Number(dataTotalBorrowed)) /
                       10 ** 18
-                    ).toLocaleString('pt-BR',{minimumFractionDigits: 2, maximumFractionDigits:2, })}`
+                    ).toLocaleString("pt-BR", {
+                      minimumFractionDigits: 2,
+                      maximumFractionDigits: 2,
+                    })}`
                   : "R$ 0"}
               </span>
             </div>
             <div className="flex justify-between text-white">
               <span>Total Depositado:</span>
-              <span>{!isLoading ? `R$ ${Number(formattedTotalSupply).toLocaleString('pt-BR',{minimumFractionDigits: 2, maximumFractionDigits:2, })}` : "R$ 0"}</span>
+              <span>
+                {!isLoading
+                  ? `R$ ${Number(formattedTotalSupply).toLocaleString("pt-BR", {
+                      minimumFractionDigits: 2,
+                      maximumFractionDigits: 2,
+                    })}`
+                  : "R$ 0"}
+              </span>
             </div>
             <div className="flex justify-between text-white">
               <span>Total Emprestado:</span>
               <span>
-                {!isLoading ? `R$ ${Number(formattedTotalBorrowed).toLocaleString('pt-BR',{minimumFractionDigits: 2, maximumFractionDigits:2, })}` : "R$ 0"}
+                {!isLoading
+                  ? `R$ ${Number(formattedTotalBorrowed).toLocaleString(
+                      "pt-BR",
+                      { minimumFractionDigits: 2, maximumFractionDigits: 2 }
+                    )}`
+                  : "R$ 0"}
               </span>
             </div>
             <div className="flex justify-between text-white">
@@ -435,7 +477,10 @@ export const ContextSupplyDrex = ({
                   ? `${(
                       (Number(dataTotalBorrowed) / Number(dataTotalSupplied)) *
                       100
-                    ).toLocaleString('pt-BR',{minimumFractionDigits: 2, maximumFractionDigits:2, })}`
+                    ).toLocaleString("pt-BR", {
+                      minimumFractionDigits: 2,
+                      maximumFractionDigits: 2,
+                    })}`
                   : "0"}
                 %
               </span>
@@ -458,7 +503,10 @@ export const ContextSupplyDrex = ({
                 <div className="text-base font-normal leading-normal text-gray-400">
                   Balanço:{" "}
                   {!isLoading
-                    ? `${(Number(dataSuppliedDREX) / 10 ** 18).toLocaleString('pt-BR',{minimumFractionDigits: 2, maximumFractionDigits:2, })}`
+                    ? `${(Number(dataSuppliedDREX) / 10 ** 18).toLocaleString(
+                        "pt-BR",
+                        { minimumFractionDigits: 2, maximumFractionDigits: 2 }
+                      )}`
                     : "0"}{" "}
                   rBRLL
                 </div>
