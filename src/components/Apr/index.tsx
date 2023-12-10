@@ -54,7 +54,7 @@ export const Apr = ({
       </svg>
       <div className="absolute inline-flex h-[52px] w-full max-w-[72px] transform flex-col items-center justify-center">
         <div className="text-center text-2xl font-semibold leading-loose text-white">
-          {`${aprPercent.toLocaleString("pt-BR", {
+          {`${aprPercent.toLocaleString("en-US", {
             minimumFractionDigits: 2,
             maximumFractionDigits: 2,
           })}%`}
