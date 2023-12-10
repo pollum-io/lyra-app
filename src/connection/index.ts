@@ -32,23 +32,23 @@ const xrp = {
   name: "XRPL EVM Sidechain",
   nativeCurrency: { name: "XRP", symbol: "XRP", decimals: 18 },
   blockExplorers: {
-    default: { name: "Mumbai", url: "https://evm-sidechain.xrpl.org/" },
+    default: { name: "XRP", url: "https://evm-sidechain.xrpl.org/" },
   },
   rpcUrls: {
     default: {
-      http: ["https://polygon-mumbai-bor.publicnode.com/"],
-      webSocket: ["wss://polygon-mumbai-bor.publicnode.com/"],
+      http: ["https://rpc-evm-sidechain.xrpl.org"],
+      webSocket: ["wss://rpc-evm-sidechain.xrpl.org"],
     },
     public: {
-      http: ["https://polygon-mumbai-bor.publicnode.com/"],
-      webSocket: ["wss://polygon-mumbai-bor.publicnode.com/"],
+      http: ["https://rpc-evm-sidechain.xrpl.org"],
+      webSocket: ["wss://rpc-evm-sidechain.xrpl.org"],
     },
   },
   testnet: false,
 } // TODO
 
 const { chains, publicClient, webSocketPublicClient } = configureChains(
-  [mumbai],
+  [xrp],
   [publicProvider()],
 )
 

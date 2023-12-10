@@ -47,7 +47,7 @@ export default function HomePage() {
   const { address } = useAccount();
   const { chain } = useNetwork();
   const { switchNetwork } = useSwitchNetwork();
-  const desiredChainId = 80001;
+  const desiredChainId = 1440002;
 
   useEffect(() => {
     if (chain?.id !== desiredChainId && switchNetwork) {
