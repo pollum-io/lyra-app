@@ -359,6 +359,23 @@ export default function HomePage() {
                     onManageClick: onOpenST,
                     imageUrl: "/images/tesouroSelic.png",
                   },
+                  {
+                    title: "XRP",
+                    apr: `0%`,
+                    liquidity: `$ 0`,
+                    balance: `$ 0`,
+                    onManageClick: () => { },
+                    imageUrl: "/images/xrp.png",
+                  },
+                  {
+                    title: "BTC",
+                    apr: `0%`,
+                    liquidity: `$ 0`,
+                    balance: `$ 0`,
+                    onManageClick: () => { },
+                    imageUrl: "/images/btc.png",
+                  },
+
                 ]}
               />
               <Lending
@@ -386,6 +403,22 @@ export default function HomePage() {
                     })}`,
                     onManageClick: onOpenBD,
                     imageUrl: "/images/drex.png",
+                  },
+                  {
+                    title: "XRP",
+                    apr: `0%`,
+                    liquidity: `$ 0`,
+                    balance: `$ 0`,
+                    onManageClick: () => { },
+                    imageUrl: "/images/xrp.png",
+                  },
+                  {
+                    title: "BTC",
+                    apr: `0%`,
+                    liquidity: `$ 0`,
+                    balance: `$ 0`,
+                    onManageClick: () => { },
+                    imageUrl: "/images/btc.png",
                   },
                 ]}
               />

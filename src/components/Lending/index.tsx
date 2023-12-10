@@ -17,6 +17,8 @@ interface LendingProps {
 }
 
 export const Lending = ({ title, items }: LendingProps) => {
+
+
   return (
     <div className="flex h-full w-full flex-col items-start justify-center">
       <div className="text-xl font-semibold leading-7">{title}</div>
@@ -66,10 +68,11 @@ export const Lending = ({ title, items }: LendingProps) => {
             </div>
             <div className="flex flex-col items-end">
               <Button
-                text={"Manager"}
+                text={item.title === 'BTC' || item.title === "XRP" ? 'Coming' : "Manager"}
                 height="h-[16px]"
                 maxWidth="max-w-[60px]"
                 textSize="text-xs"
+                disabled={item.title === 'BTC' || item.title === "XRP"}
                 onClick={item.onManageClick}
               />
             </div>
