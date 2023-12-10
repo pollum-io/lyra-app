@@ -349,7 +349,7 @@ export const ContextSupplyTSelic = ({ address }: { address: string }) => {
             </div>
           </div>
           <Button
-            text="Sacar"
+            text="Withdraw"
             onClick={writeWithdrawTSELIC}
             isLoading={isLoadingWithdrawTSELIC}
           />

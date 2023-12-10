@@ -2,7 +2,6 @@
 
 import { Button } from "@/components/Button";
 import Tabs, { TabContent } from "@/components/Tabs";
-import ToastNotification from "@/components/Toast";
 import {
   EthereumAddress,
   useBalanceOfDREX,
@@ -101,12 +100,12 @@ export const ContextBorrowDrex = ({
     if (transaction.isSuccess) {
       useToastStore
         .getState()
-        .showToast("Transação feita com sucesso", "success");
+        .showToast("Transaction successfully completed", "success");
     }
     if (transaction.isError && transactionHash !== "0x") {
       useToastStore
         .getState()
-        .showToast(`Erro na TX: ${transaction.error}`, "error");
+        .showToast(`Erro on TX: ${transaction.error}`, "error");
     }
     setTransactionHash(undefined);
     setLoadingTx(false);
@@ -118,10 +117,10 @@ export const ContextBorrowDrex = ({
       setLoadingTx(true);
       useToastStore
         .getState()
-        .showToast("Aprovação feita com sucesso DREX", "success");
+        .showToast("DREX approval successful", "success");
     }
     if (isErrorApproveDREX) {
-      useToastStore.getState().showToast("Erro ao aprovar DREX", "error");
+      useToastStore.getState().showToast("Error approving DREX", "error");
     }
   }, [isErrorApproveDREX, isSuccessApproveDREX]);
 
@@ -131,10 +130,10 @@ export const ContextBorrowDrex = ({
       setLoadingTx(true);
       useToastStore
         .getState()
-        .showToast("Empréstimo feito com sucesso", "success");
+        .showToast("Successful Borrowed", "success");
     }
     if (isErrorBorrowDREX) {
-      useToastStore.getState().showToast("Erro ao Emprestar DREX", "error");
+      useToastStore.getState().showToast("DREX Borrowed Error", "error");
     }
   }, [isErrorBorrowDREX, isSuccessBorrowDREX]);
 
@@ -144,10 +143,10 @@ export const ContextBorrowDrex = ({
       setLoadingTx(true);
       useToastStore
         .getState()
-        .showToast("Dívida quitada com sucesso", "success");
+        .showToast("Successfully repaying debt", "success");
     }
     if (isErrorRepayDREX) {
-      useToastStore.getState().showToast("Erro ao depositar DREX", "error");
+      useToastStore.getState().showToast("Error when depositing DREX", "error");
     }
   }, [isErrorRepayDREX, isSuccessRepayDREX]);
 
@@ -186,10 +185,9 @@ export const ContextBorrowDrex = ({
       useToastStore
         .getState()
         .showToast(
-          `Transação com hash ${
-            transactionHash &&
-            `${transactionHash.slice(0, 6)}...${transactionHash.slice(-4)}`
-          } esta sendo processada`,
+          `Hash transaction ${transactionHash &&
+          `${transactionHash.slice(0, 6)}...${transactionHash.slice(-4)}`
+          } is being processed`,
           "success"
         );
     }
@@ -197,18 +195,18 @@ export const ContextBorrowDrex = ({
 
   return (
     <Tabs>
-      <TabContent title="Emprestar">
+      <TabContent title="Borrowing">
         <div className="flex h-[400px] w-full flex-col items-center justify-start gap-6 pt-5">
           <div className="flex w-full items-start justify-start gap-3">
             <div className="flex h-full w-full flex-col items-start justify-start gap-1">
               <div className="inline-flex items-start justify-start gap-6">
                 <div className="text-base font-normal leading-normal text-gray-400">
-                  Balanço:{" "}
+                  Balance:{" "}
                   {!isLoading
-                    ? `${drexBalance.toLocaleString("pt-BR", {
-                        minimumFractionDigits: 2,
-                        maximumFractionDigits: 2,
-                      })}`
+                    ? `${drexBalance.toLocaleString("en-US", {
+                      minimumFractionDigits: 2,
+                      maximumFractionDigits: 2,
+                    })}`
                     : "0"}{" "}
                   DREX
                 </div>
@@ -222,13 +220,13 @@ export const ContextBorrowDrex = ({
                     const enteredValue = Number(e.target.value);
                     if (enteredValue > (depositedTSELIC * unitValue - borrowedAmount >
                       totalSupplied - totalBorrowed
-                        ? totalSupplied - totalBorrowed
-                        : (
-                            ((depositedTSELIC * unitValue - borrowedAmount) *
-                              99) /
-                              100
-                          ))) {
-                      setError("O valor inserido é maior que o saldo atual.");
+                      ? totalSupplied - totalBorrowed
+                      : (
+                        ((depositedTSELIC * unitValue - borrowedAmount) *
+                          99) /
+                        100
+                      ))) {
+                      setError("The amount entered is greater than the current balance.");
                     } else {
                       setError("");
                       setBorrowValue(enteredValue);
@@ -244,13 +242,13 @@ export const ContextBorrowDrex = ({
                     className="text-brandBlue-300 text-base font-normal leading-normal"
                     onClick={() =>
                       depositedTSELIC * unitValue - borrowedAmount >
-                      totalSupplied - totalBorrowed
+                        totalSupplied - totalBorrowed
                         ? setBorrowValue(totalSupplied - totalBorrowed)
                         : setBorrowValue(
-                            ((depositedTSELIC * unitValue - borrowedAmount) *
-                              99) /
-                              100
-                          )
+                          ((depositedTSELIC * unitValue - borrowedAmount) *
+                            99) /
+                          100
+                        )
                     }
                   >
                     max
@@ -270,78 +268,78 @@ export const ContextBorrowDrex = ({
           </div>
           <div className="flex h-full w-full flex-col gap-2">
             <div className=" flex justify-between text-white">
-              <span>TSELIC Depositado:</span>
+              <span>TSELIC Supplied:</span>
               <span>
                 {!isLoading
-                  ? `${depositedTSELIC.toLocaleString("pt-BR", {
-                      minimumFractionDigits: 2,
-                      maximumFractionDigits: 2,
-                    })}`
+                  ? `${depositedTSELIC.toLocaleString("en-US", {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2,
+                  })}`
                   : "0"}{" "}
                 TSELIC
               </span>
             </div>
             <div className=" flex justify-between text-white">
-              <span>Valor em Reais:</span>
+              <span>Dollar amount:</span>
               <span>
                 {!isLoading
-                  ? `R$ ${(depositedTSELIC * unitValue).toLocaleString(
-                      "pt-BR",
-                      { minimumFractionDigits: 2, maximumFractionDigits: 2 }
-                    )}`
-                  : "R$ 0"}
+                  ? `$ ${(depositedTSELIC * unitValue).toLocaleString(
+                    "en-US",
+                    { minimumFractionDigits: 2, maximumFractionDigits: 2 }
+                  )}`
+                  : "$ 0"}
               </span>
             </div>
             <div className="flex justify-between text-white">
-              <span>DREX em Emprestado:</span>
+              <span>DREX in Borrowing:</span>
               <span>
                 {!isLoading
-                  ? `${borrowedAmount.toLocaleString("pt-BR", {
-                      minimumFractionDigits: 2,
-                      maximumFractionDigits: 2,
-                    })}`
+                  ? `${borrowedAmount.toLocaleString("en-US", {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2,
+                  })}`
                   : "0"}{" "}
                 DREX
               </span>
             </div>
             <div className=" flex justify-between text-white">
-              <span>Liquidez Disponível:</span>
+              <span>Available Liquidity:</span>
               <span>
                 {!isLoading
-                  ? `${(totalSupplied - totalBorrowed).toLocaleString("pt-BR", {
-                      minimumFractionDigits: 2,
-                      maximumFractionDigits: 2,
-                    })}`
-                  : "R$ 0"}{" "}
+                  ? `${(totalSupplied - totalBorrowed).toLocaleString("en-US", {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2,
+                  })}`
+                  : "$ 0"}{" "}
                 DREX
               </span>
             </div>
           </div>
           <Button
-            text="Tomar Emprestimo"
+            text="Borrowing"
             onClick={writeBorrowDREX}
             disabled={
               borrowValue > totalSupplied - totalBorrowed ||
               borrowValue >
-                ((depositedTSELIC * unitValue - borrowedAmount) * 99) / 100 ||
+              ((depositedTSELIC * unitValue - borrowedAmount) * 99) / 100 ||
               isLoadingTx
             }
             isLoading={isLoadingBorrowDREX}
           />
         </div>
       </TabContent>
-      <TabContent title="Quitar">
+      <TabContent title="Repay">
         <div className="flex h-[400px] w-full flex-col items-center justify-start gap-6 pt-5">
           <div className="flex w-full items-start justify-start gap-3">
             <div className="flex h-full w-full flex-col items-start justify-start gap-1">
               <div className="inline-flex items-start justify-start gap-6">
                 <div className="text-base font-normal leading-normal text-gray-400">
-                  Balanço:{" "}
+                  Balance:{" "}
                   {!isLoading
-                    ? `${drexBalance.toLocaleString("pt-BR", {
-                        minimumFractionDigits: 2,
-                        maximumFractionDigits: 2,
-                      })}`
+                    ? `${drexBalance.toLocaleString("en-US", {
+                      minimumFractionDigits: 2,
+                      maximumFractionDigits: 2,
+                    })}`
                     : "0"}{" "}
                   DREX
                 </div>
@@ -354,7 +352,7 @@ export const ContextBorrowDrex = ({
                   onChange={(e) => {
                     const enteredValue = Number(e.target.value);
                     if (enteredValue > drexBalance) {
-                      setError("O valor inserido é maior que o saldo atual.");
+                      setError("The amount entered is greater than the current balance.");
                     } else {
                       setError("");
                       setRepayValue(enteredValue);
@@ -387,13 +385,13 @@ export const ContextBorrowDrex = ({
           </div>
           <div className="flex h-full w-full flex-col gap-2">
             <div className="flex justify-between text-white">
-              <span>Passivo:</span>
+              <span>Liability:</span>
               <span>
                 {!isLoading
-                  ? `${borrowedAmount.toLocaleString("pt-BR", {
-                      minimumFractionDigits: 2,
-                      maximumFractionDigits: 2,
-                    })}`
+                  ? `${borrowedAmount.toLocaleString("en-US", {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2,
+                  })}`
                   : "0"}{" "}
                 DREX
               </span>
@@ -402,13 +400,13 @@ export const ContextBorrowDrex = ({
 
           {allowanceDREX <= repayValue ? (
             <Button
-              text="Approvar"
+              text="Approve"
               onClick={writeApproveDREX}
               isLoading={isLoadingApproveDREX}
             />
           ) : (
             <Button
-              text="Quitar Emprestimo"
+              text="Repay"
               onClick={writeRepayDREX}
               isLoading={isLoadingRepayDREX}
               disabled={
