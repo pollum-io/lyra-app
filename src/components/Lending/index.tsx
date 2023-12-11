@@ -53,22 +53,22 @@ export const Lending = ({ title, items }: LendingProps) => {
             </div>
             <div className="flex flex-col items-end">
               <div className="text-xs font-medium text-white lg:text-sm">
-                {item.apr}
+                {item.title === 'BTC' || item.title === "XRP" ? '-' :item.apr}
               </div>
             </div>
             <div className="flex flex-col items-end">
               <div className="text-xs font-medium text-white lg:text-sm">
-                {item.liquidity}
+                {item.title === 'BTC' || item.title === "XRP" ? '-' :item.liquidity}
               </div>
             </div>
             <div className="flex flex-col items-end">
               <div className="text-xs font-medium text-white lg:text-sm">
-                {item.balance}
+                {item.title === 'BTC' || item.title === "XRP" ? '-' : item.balance}
               </div>
             </div>
             <div className="flex flex-col items-end">
               <Button
-                text={item.title === 'BTC' || item.title === "XRP" ? 'Coming' : "Manager"}
+                text={item.title === 'BTC' || item.title === "XRP" ? 'Soon' : "Manage"}
                 height="h-[16px]"
                 maxWidth="max-w-[60px]"
                 textSize="text-xs"

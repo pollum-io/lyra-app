@@ -291,7 +291,7 @@ export const ContextBorrowDrex = ({
               </span>
             </div>
             <div className="flex justify-between text-white">
-              <span>DREX in Borrowing:</span>
+              <span>DREX Borrowed:</span>
               <span>
                 {!isLoading
                   ? `${borrowedAmount.toLocaleString("en-US", {
@@ -385,7 +385,7 @@ export const ContextBorrowDrex = ({
           </div>
           <div className="flex h-full w-full flex-col gap-2">
             <div className="flex justify-between text-white">
-              <span>Liability:</span>
+              <span>Debt:</span>
               <span>
                 {!isLoading
                   ? `${borrowedAmount.toLocaleString("en-US", {

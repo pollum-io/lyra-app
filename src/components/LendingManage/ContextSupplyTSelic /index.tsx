@@ -336,7 +336,7 @@ export const ContextSupplyTSelic = ({ address }: { address: string }) => {
               </span>
             </div>
             <div className="flex justify-between text-white">
-              <span>DREX on Borrowed:</span>
+              <span>DREX Borrowed:</span>
               <span>
                 {!isLoading
                   ? `${formattedBorrowed.toLocaleString("en-US", {

@@ -60,7 +60,7 @@ export const Apr = ({
           })}%`}
         </div>
         <div className="text-center text-sm font-normal leading-tight text-white">
-          APR Liquid
+        Liquid APR
         </div>
       </div>
     </div>

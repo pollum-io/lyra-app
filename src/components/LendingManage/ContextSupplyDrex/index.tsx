@@ -280,7 +280,7 @@ export const ContextSupplyDrex = ({
 
           <div className="flex h-full w-full flex-col gap-2">
             <div className=" flex justify-between text-white">
-              <span>APR Supplied:</span>
+              <span>Supply APR:</span>
               <span>
                 {(Number(dataSupplyInterestRate || 0) / 10e5).toLocaleString(
                   "en-US",
@@ -312,7 +312,7 @@ export const ContextSupplyDrex = ({
               </span>
             </div>
             <div className="flex justify-between text-white">
-              <span>Utilization rate:</span>
+              <span>Utilization Rate:</span>
               <span>
                 {!isLoading
                   ? `${(
@@ -470,7 +470,7 @@ export const ContextSupplyDrex = ({
               </span>
             </div>
             <div className="flex justify-between text-white">
-              <span>Utilization rate:</span>
+              <span>Utilization Rate:</span>
               <span>
                 {!isLoading
                   ? `${(
@@ -579,7 +579,7 @@ export const ContextSupplyDrex = ({
             </div>
           </div>
           <div className="flex h-full w-full  text-white">
-            Instant recall makes it easy to exchange warranties on TSELIC for
+            Instant recall makes it easy to exchange TSELIC collateral for
             DREX through Uniswap.
           </div>
 
