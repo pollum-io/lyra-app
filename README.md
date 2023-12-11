@@ -13,7 +13,7 @@ The frontend allows users to:
 - Deposit collateral (TSELIC)
 - Deposit DREX into pools to earn yield
 - Take out loans in DREX
-- Withdraw and transfer tokens
+- Redeem and transfer tokens
 - View positions and earnings
 
 ## Installation and Execution
