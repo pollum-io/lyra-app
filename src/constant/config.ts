@@ -1,7 +1,7 @@
 export const siteConfig = {
   title: 'Lyra Loans',
   description:
-    'Lyra Loans is a decentralized lending protocol developed for the NEW HORIZON XRP Hackathon.',
+    'Lyra Loans é um protocolo de empréstimos descentralizado desenvolvido para o XRP Ledger Brasil Hackathon.',
 };
 
 export const metadata = {

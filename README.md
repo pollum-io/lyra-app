@@ -2,51 +2,51 @@
 
 <p align="center"> <img src="public/images/lyra.png" width="300" alt="Lyra Loans"> </p>
 
-This repository contains the web frontend developed for the Lyra Loans protocol using Next.js and Tailwind CSS.
+Este repositório contém o frontend web desenvolvido para o protocolo Lyra Loans utilizando Next.js e Tailwind CSS.
 
-## Features
+## Recursos
 
-The frontend allows users to:
+O frontend permite aos usuários:
 
-- Connect their crypto wallet (Metamask, WalletConnect, etc.)
-- View information about loan pools
-- Deposit collateral (TSELIC)
-- Deposit DREX into pools to earn yield
-- Take out loans in DREX
-- Redeem and transfer tokens
-- View positions and earnings
+- Conectar sua carteira cripto (Metamask, WalletConnect etc)
+- Visualizar informações sobre as pools de empréstimo
+- Depositar colateral (TSELIC)
+- Depositar DREX nas pools para obter rendimento
+- Tomar empréstimos em DREX
+- Resgatar e transferir tokens
+- Visualizar posições e rendimentos
 
-## Installation and Execution
+## Instalação e Execução
 
-First, clone the repository and install the dependencies:
+Primeiro, clone o repositório e instale as dependências:
 
 ```shell
 git clone https://github.com/pollum-io/lyra-app
 cd lyra-app
 ```
 
-To install the dependencies:
+Para instalar as dependências:
 
 ```shell
 yarn install
 ```
 
-To start the application locally:
+Para iniciar a aplicação localmente:
 
 ```shell
 yarn dev
 ```
 
-The application will be available at `http://localhost:3000`.
+A aplicação estará disponível em `http://localhost:3000`.
 
-## Deployment
+## Deploy
 
-The front end is automatically deployed and hosted using Vercel with each push to the `main` branch.
+O frontend é implantado e hospedado automaticamente utilizando o Vercel a cada push na branch `main`.
 
-## License
+## Licença
 
-This project is licensed under the MIT License.
+Este projeto está licenciado sob a licença MIT.
 
 ## Créditos
 
-Developed during the NEW HORIZON XRP Hackathon.
+Desenvolvido durante o XRP Ledger Brasil Hackathon.
