@@ -2,7 +2,8 @@ import { useContractWrite, useContractRead, usePrepareContractWrite } from 'wagm
 import { BigNumberish } from 'ethers';
 import { abi as rBRLLABI } from '../contracts/rBRLLABI';
 import { abi as InterestRateModelABI } from '../contracts/InterestRateModelABI';
-import { rBRLLPool, InterestRateModel } from '../constant/contracts'
+import { rBRLLPool, InterestRateModel, FAUCET } from '../constant/contracts'
+import { abi as FaucetABI } from '../contracts/FaucetABI';
 
 type RBRLLPoolFunctionName = 'supplyDREX' | 'withdrawDREX' | 'withdrawAllDREX' | 'repayDREX' | 'repayAll' | 'flashLiquidateBorrow' | 'supplyTSELIC' | 'withdrawTSELIC' | 'withdrawAllTSELIC' | 'borrowDREX';
 type RBRLLPoolWriteArgs = BigNumberish[] | ['MAX'] | [string, BigNumberish, BigNumberish];
@@ -19,6 +20,19 @@ interface ContractReadHookReturn<T> {
   data: T;
   isError: boolean;
   isLoading: boolean;
+}
+export function useFaucetWrite(): ContractWriteHookReturn {
+  const { config } = usePrepareContractWrite({
+    address: FAUCET,
+    abi: FaucetABI,
+    functionName: 'claimTokens',
+    args: []
+  });
+
+  const { write, data, isLoading, isSuccess, isError } = useContractWrite(config);
+  const safeWrite = write ?? (() => { });
+
+  return { write: safeWrite, data, isLoading, isSuccess, isError };
 }
 
 export function useRBRLLPoolWrite(functionName: RBRLLPoolFunctionName, args?: RBRLLPoolWriteArgs): ContractWriteHookReturn {
