@@ -7,7 +7,7 @@ export const Apr = ({
 }) => {
   const radius = 75;
   const circumference = 2 * Math.PI * radius;
-  const strokeDashoffset = circumference * (1-(aprPercent / aprMax));
+  const strokeDashoffset = circumference * (1 - (aprPercent / aprMax));
 
   return (
     <div className=" flex h-[150px] w-[150px] items-center justify-center overflow-hidden rounded-full">
@@ -54,13 +54,13 @@ export const Apr = ({
       </svg>
       <div className="absolute inline-flex h-[52px] w-full max-w-[72px] transform flex-col items-center justify-center">
         <div className="text-center text-2xl font-semibold leading-loose text-white">
-          {`${aprPercent.toLocaleString("pt-BR", {
+          {`${aprPercent.toLocaleString("en-US", {
             minimumFractionDigits: 2,
             maximumFractionDigits: 2,
           })}%`}
         </div>
         <div className="text-center text-sm font-normal leading-tight text-white">
-          APR Líquido
+        Liquid APR
         </div>
       </div>
     </div>

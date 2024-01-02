@@ -17,15 +17,17 @@ interface LendingProps {
 }
 
 export const Lending = ({ title, items }: LendingProps) => {
+
+
   return (
     <div className="flex h-full w-full flex-col items-start justify-center">
       <div className="text-xl font-semibold leading-7">{title}</div>
       <div className="flex h-full w-full flex-col items-start justify-center gap-2">
         <div className="flex h-[58px] w-full max-w-[535px] items-center justify-between px-4">
-          <div className="text-sm font-semibold">Ativo</div>
+          <div className="text-sm font-semibold">Asset</div>
           <div className="text-sm font-semibold">APR</div>
-          <div className="text-sm font-semibold">Liquidez</div>
-          <div className="text-sm font-semibold">Balanço</div>
+          <div className="text-sm font-semibold">Liquidity</div>
+          <div className="text-sm font-semibold">Balance</div>
           <div className="h-5 w-[34px]" />
         </div>
 
@@ -51,25 +53,26 @@ export const Lending = ({ title, items }: LendingProps) => {
             </div>
             <div className="flex flex-col items-end">
               <div className="text-xs font-medium text-white lg:text-sm">
-                {item.apr}
+                {item.title === 'BTC' || item.title === "XRP" ? '-' :item.apr}
               </div>
             </div>
             <div className="flex flex-col items-end">
               <div className="text-xs font-medium text-white lg:text-sm">
-                {item.liquidity}
+                {item.title === 'BTC' || item.title === "XRP" ? '-' :item.liquidity}
               </div>
             </div>
             <div className="flex flex-col items-end">
               <div className="text-xs font-medium text-white lg:text-sm">
-                {item.balance}
+                {item.title === 'BTC' || item.title === "XRP" ? '-' : item.balance}
               </div>
             </div>
             <div className="flex flex-col items-end">
               <Button
-                text={"Gerenciar"}
+                text={item.title === 'BTC' || item.title === "XRP" ? 'Soon' : "Manage"}
                 height="h-[16px]"
                 maxWidth="max-w-[60px]"
                 textSize="text-xs"
+                disabled={item.title === 'BTC' || item.title === "XRP"}
                 onClick={item.onManageClick}
               />
             </div>

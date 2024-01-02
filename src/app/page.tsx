@@ -47,7 +47,7 @@ export default function HomePage() {
   const { address } = useAccount();
   const { chain } = useNetwork();
   const { switchNetwork } = useSwitchNetwork();
-  const desiredChainId = 80001;
+  const desiredChainId = 1440002;
 
   useEffect(() => {
     if (chain?.id !== desiredChainId && switchNetwork) {
@@ -213,12 +213,12 @@ export default function HomePage() {
       suppliedDREX === null ||
       dataUnitValue === null
     ) {
-      return "R$ 0";
+      return "$ 0";
     } else {
       const drexBalance = Number(suppliedDREX) / 1e18;
       const tselicBalance =
         (Number(depositedTSELIC) * Number(dataUnitValue)) / 1e36;
-      return `R$ ${(drexBalance + tselicBalance).toLocaleString("pt-BR", {
+      return `$ ${(drexBalance + tselicBalance).toLocaleString("en-US", {
         minimumFractionDigits: 2,
         maximumFractionDigits: 2,
       })}`;
@@ -227,10 +227,10 @@ export default function HomePage() {
 
   const calculateLoanBalance = () => {
     if (isLoading || borrowedAmount === null) {
-      return "R$ 0";
+      return "$ 0";
     } else {
       const loanBalance = Number(borrowedAmount) / 1e18;
-      return `R$ ${loanBalance.toLocaleString("pt-BR", {
+      return `$ ${loanBalance.toLocaleString("en-US", {
         minimumFractionDigits: 2,
         maximumFractionDigits: 2,
       })}`;
@@ -253,44 +253,44 @@ export default function HomePage() {
                   <ProgressBar progress={Number(borrowPercentual)} />
                   <div className="absolute top-[0px] w-full text-right text-sm font-normal leading-tight text-white">
                     {!isLoading
-                      ? `R$ ${Number(availableToBorrow).toLocaleString(
-                          "pt-BR",
-                          { minimumFractionDigits: 2, maximumFractionDigits: 2 }
-                        )}`
-                      : "R$ 0"}
+                      ? `$ ${Number(availableToBorrow).toLocaleString(
+                        "en-US",
+                        { minimumFractionDigits: 2, maximumFractionDigits: 2 }
+                      )}`
+                      : "$ 0"}
                   </div>
                   <div className="absolute left-0 top-0 text-sm font-normal leading-tight text-white">
-                    Limite de Empréstimo:{" "}
+                    Borrow Limit:{" "}
                     {!isLoading
-                      ? Number(borrowPercentual).toLocaleString("pt-BR", {
-                          minimumFractionDigits: 2,
-                          maximumFractionDigits: 2,
-                        })
+                      ? Number(borrowPercentual).toLocaleString("en-US", {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2,
+                      })
                       : 0}
                     %
                   </div>
                 </div>
               </div>
-              <Card text={"Saldo em Depósito"} value={calculateValue()} />
+              <Card text={"Supply Balance"} value={calculateValue()} />
               <div className="hidden h-full w-full flex-col items-center justify-center lg:flex">
                 <Apr aprPercent={Number(netApr)} aprMax={Number(maxAPR)} />
                 <div className="relative mt-6 h-10 w-full max-w-[382px]">
                   <ProgressBar progress={Number(borrowPercentual)} />
                   <div className="absolute top-[0px] w-full text-right text-sm font-normal leading-tight text-white">
                     {!isLoading
-                      ? `R$ ${Number(availableToBorrow).toLocaleString(
-                          "pt-BR",
-                          { minimumFractionDigits: 2, maximumFractionDigits: 2 }
-                        )}`
-                      : "R$ 0"}
+                      ? `$ ${Number(availableToBorrow).toLocaleString(
+                        "en-US",
+                        { minimumFractionDigits: 2, maximumFractionDigits: 2 }
+                      )}`
+                      : "$ 0"}
                   </div>
                   <div className="absolute left-0 top-0 text-sm font-normal leading-tight text-white">
-                    Limite de Empréstimo:{" "}
+                    Borrow Limit:{" "}
                     {!isLoading
-                      ? Number(borrowPercentual).toLocaleString("pt-BR", {
-                          minimumFractionDigits: 2,
-                          maximumFractionDigits: 2,
-                        })
+                      ? Number(borrowPercentual).toLocaleString("en-US", {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2,
+                      })
                       : 0}
                     %
                   </div>
@@ -298,7 +298,7 @@ export default function HomePage() {
               </div>
 
               <Card
-                text={"Saldo em Empréstimo"}
+                text={"Borrow Balance"}
                 value={calculateLoanBalance()}
                 isLeft
               />
@@ -309,25 +309,25 @@ export default function HomePage() {
           {address ? (
             <div className="flex w-full flex-col items-start justify-center gap-7 lg:flex-row">
               <Lending
-                title="Depositado"
+                title="Supplied"
                 items={[
                   {
                     title: "DREX",
                     apr: `${(
                       ((Number(dataSupplyInterestRate) / 1e6) * 99) /
                       100
-                    ).toLocaleString("pt-BR", {
+                    ).toLocaleString("en-US", {
                       minimumFractionDigits: 2,
                       maximumFractionDigits: 2,
                     })}%`,
-                    liquidity: `R$ ${(
+                    liquidity: `$ ${(
                       Number(dataTotalSupplied) / 1e18
-                    ).toLocaleString("pt-BR", {
+                    ).toLocaleString("en-US", {
                       minimumFractionDigits: 2,
                       maximumFractionDigits: 2,
                     })}`,
-                    balance: `R$ ${(Number(suppliedDREX) / 1e18).toLocaleString(
-                      "pt-BR",
+                    balance: `$ ${(Number(suppliedDREX) / 1e18).toLocaleString(
+                      "en-US",
                       { minimumFractionDigits: 2, maximumFractionDigits: 2 }
                     )}`,
                     onManageClick: onOpenSD,
@@ -337,61 +337,94 @@ export default function HomePage() {
                     title: "TSELIC",
                     apr: `${(
                       Number(dataInterestRate || 0) / 10e5
-                    ).toLocaleString("pt-BR", {
+                    ).toLocaleString("en-US", {
                       minimumFractionDigits: 2,
                       maximumFractionDigits: 2,
                     })}%`,
-                    liquidity: `R$ ${(
+                    liquidity: `$ ${(
                       (Number(dataTotalDepositedTSELIC) *
                         Number(dataUnitValue)) /
                       1e36
-                    ).toLocaleString("pt-BR", {
+                    ).toLocaleString("en-US", {
                       minimumFractionDigits: 2,
                       maximumFractionDigits: 2,
                     })}`,
-                    balance: `R$ ${(
+                    balance: `$ ${(
                       (Number(depositedTSELIC) * Number(dataUnitValue)) /
                       1e36
-                    ).toLocaleString("pt-BR", {
+                    ).toLocaleString("en-US", {
                       minimumFractionDigits: 2,
                       maximumFractionDigits: 2,
                     })}`,
                     onManageClick: onOpenST,
                     imageUrl: "/images/tesouroSelic.png",
                   },
+                  {
+                    title: "XRP",
+                    apr: `0%`,
+                    liquidity: `$ 0`,
+                    balance: `$ 0`,
+                    onManageClick: () => { },
+                    imageUrl: "/images/xrp.png",
+                  },
+                  {
+                    title: "BTC",
+                    apr: `0%`,
+                    liquidity: `$ 0`,
+                    balance: `$ 0`,
+                    onManageClick: () => { },
+                    imageUrl: "/images/btc.png",
+                  },
+
                 ]}
               />
               <Lending
-                title="Emprestado"
+                title="Borrowed"
                 items={[
                   {
                     title: "DREX",
                     apr: `${(
                       Number(dataSupplyInterestRate) / 1e6
-                    ).toLocaleString("pt-BR", {
+                    ).toLocaleString("en-US", {
                       minimumFractionDigits: 2,
                       maximumFractionDigits: 2,
                     })}%`,
-                    liquidity: `R$ ${(
+                    liquidity: `$ ${(
                       Number(dataTotalBorrowed) / 1e18
-                    ).toLocaleString("pt-BR", {
+                    ).toLocaleString("en-US", {
                       minimumFractionDigits: 2,
                       maximumFractionDigits: 2,
                     })}`,
-                    balance: `R$ ${(
+                    balance: `$ ${(
                       Number(borrowedAmount) / 1e18
-                    ).toLocaleString("pt-BR", {
+                    ).toLocaleString("en-US", {
                       minimumFractionDigits: 2,
                       maximumFractionDigits: 2,
                     })}`,
                     onManageClick: onOpenBD,
                     imageUrl: "/images/drex.png",
                   },
+                  {
+                    title: "XRP",
+                    apr: `0%`,
+                    liquidity: `$ 0`,
+                    balance: `$ 0`,
+                    onManageClick: () => { },
+                    imageUrl: "/images/xrp.png",
+                  },
+                  {
+                    title: "BTC",
+                    apr: `0%`,
+                    liquidity: `$ 0`,
+                    balance: `$ 0`,
+                    onManageClick: () => { },
+                    imageUrl: "/images/btc.png",
+                  },
                 ]}
               />
             </div>
           ) : (
-            <div className="text-3xl">Por favor conecte sua carteira</div>
+            <div className="text-3xl">Please connect your wallet</div>
           )}
         </div>
       </section>

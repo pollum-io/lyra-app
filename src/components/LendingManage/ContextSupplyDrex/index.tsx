@@ -128,11 +128,11 @@ export const ContextSupplyDrex = ({
     if (transaction.isSuccess) {
       useToastStore
         .getState()
-        .showToast("Transação feita com sucesso", "success");
+        .showToast("Transaction successfully completed", "success");
     } else if (transaction.isError && transactionHash !== "0x") {
       useToastStore
         .getState()
-        .showToast(`Erro na TX: ${transaction.error}`, "error");
+        .showToast(`Erro on TX: ${transaction.error}`, "error");
     }
     setTransactionHash(undefined);
     setLoadingTx(false);
@@ -144,10 +144,10 @@ export const ContextSupplyDrex = ({
       setLoadingTx(true);
       useToastStore
         .getState()
-        .showToast("Aprovação feita com sucesso DREX", "success");
+        .showToast("DREX approval successful", "success");
     }
     if (isErrorApprove) {
-      useToastStore.getState().showToast("Erro ao aprovar DREX", "error");
+      useToastStore.getState().showToast("Error approving DREX", "error");
     }
   }, [isErrorApprove, isSuccessApprove]);
 
@@ -157,10 +157,10 @@ export const ContextSupplyDrex = ({
       setLoadingTx(true);
       useToastStore
         .getState()
-        .showToast("Aprovação feita com sucesso", "success");
+        .showToast("Successful approval", "success");
     }
     if (isErrorApprove) {
-      useToastStore.getState().showToast("Erro ao aprovar DREX", "error");
+      useToastStore.getState().showToast("Error approving DREX", "error");
     }
   }, [isErrorRecall, isSucessRecall]);
 
@@ -168,10 +168,10 @@ export const ContextSupplyDrex = ({
     if (isSucessWithdrawal) {
       setTransactionHash(dataWithdrawal.hash);
       setLoadingTx(true);
-      useToastStore.getState().showToast("Saque feito com sucesso", "success");
+      useToastStore.getState().showToast("Withdraw successful", "success");
     }
     if (isErrorWithdrawal) {
-      useToastStore.getState().showToast("Erro ao sacar DREX", "error");
+      useToastStore.getState().showToast("Error when withdrawing DREX", "error");
     }
   }, [isErrorWithdrawal, isSucessWithdrawal]);
 
@@ -181,10 +181,10 @@ export const ContextSupplyDrex = ({
       setLoadingTx(true);
       useToastStore
         .getState()
-        .showToast("Deposito feito com sucesso", "success");
+        .showToast("Deposit successful", "success");
     }
     if (isErrorDeposit) {
-      useToastStore.getState().showToast("Erro ao depositar DREX", "error");
+      useToastStore.getState().showToast("Error when depositing DREX", "error");
     }
   }, [isErrorDeposit, isSuccessDeposit]);
 
@@ -213,10 +213,9 @@ export const ContextSupplyDrex = ({
       useToastStore
         .getState()
         .showToast(
-          `Transação com hash ${
-            transactionHash &&
-            `${transactionHash.slice(0, 6)}...${transactionHash.slice(-4)}`
-          } esta sendo processada`,
+          `Hash transaction ${transactionHash &&
+          `${transactionHash.slice(0, 6)}...${transactionHash.slice(-4)}`
+          } is being processed`,
           "success"
         );
     }
@@ -224,14 +223,14 @@ export const ContextSupplyDrex = ({
 
   return (
     <Tabs>
-      <TabContent title="Depositar">
+      <TabContent title="Supply">
         <div className="flex h-[400px] w-full flex-col items-center justify-start gap-6 pt-5">
           <div className="flex w-full items-start justify-start gap-3">
             <div className="flex h-full w-full flex-col items-start justify-start gap-1">
               <div className="inline-flex items-start justify-start gap-6">
                 <div className="text-base font-normal leading-normal text-gray-400">
-                  Balanço:{" "}
-                  {drexBalance.toLocaleString("pt-BR", {
+                  Balance:{" "}
+                  {drexBalance.toLocaleString("en-US", {
                     minimumFractionDigits: 2,
                     maximumFractionDigits: 2,
                   })}{" "}
@@ -247,7 +246,7 @@ export const ContextSupplyDrex = ({
                   onChange={(e) => {
                     const enteredValue = Number(e.target.value);
                     if (enteredValue > drexBalance) {
-                      setError("O valor inserido é maior que o saldo atual.");
+                      setError("The amount entered is greater than the current balance.");
                     } else {
                       setError("");
                       setValueDREX(e.target.value);
@@ -281,48 +280,48 @@ export const ContextSupplyDrex = ({
 
           <div className="flex h-full w-full flex-col gap-2">
             <div className=" flex justify-between text-white">
-              <span>APR de Deposito:</span>
+              <span>Supply APR:</span>
               <span>
                 {(Number(dataSupplyInterestRate || 0) / 10e5).toLocaleString(
-                  "pt-BR",
+                  "en-US",
                   { minimumFractionDigits: 2, maximumFractionDigits: 2 }
                 )}
                 %
               </span>
             </div>
             <div className="flex justify-between text-white">
-              <span>Total Depositado:</span>
+              <span>Total Supplied:</span>
               <span>
                 {!isLoading
-                  ? `R$ ${Number(formattedTotalSupply).toLocaleString("pt-BR", {
-                      minimumFractionDigits: 2,
-                      maximumFractionDigits: 2,
-                    })}`
-                  : "R$ 0"}
+                  ? `$ ${Number(formattedTotalSupply).toLocaleString("en-US", {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2,
+                  })}`
+                  : "$ 0"}
               </span>
             </div>
             <div className="flex justify-between text-white">
-              <span>Total Emprestado:</span>
+              <span>Total Borrowed:</span>
               <span>
                 {!isLoading
-                  ? `R$ ${Number(formattedTotalBorrowed).toLocaleString(
-                      "pt-BR",
-                      { minimumFractionDigits: 2, maximumFractionDigits: 2 }
-                    )}`
-                  : "R$ 0"}
+                  ? `$ ${Number(formattedTotalBorrowed).toLocaleString(
+                    "en-US",
+                    { minimumFractionDigits: 2, maximumFractionDigits: 2 }
+                  )}`
+                  : "$ 0"}
               </span>
             </div>
             <div className="flex justify-between text-white">
-              <span>Taxa de Utilização:</span>
+              <span>Utilization Rate:</span>
               <span>
                 {!isLoading
                   ? `${(
-                      (Number(dataTotalBorrowed) / Number(dataTotalSupplied)) *
-                      100
-                    ).toLocaleString("pt-BR", {
-                      minimumFractionDigits: 2,
-                      maximumFractionDigits: 2,
-                    })}`
+                    (Number(dataTotalBorrowed) / Number(dataTotalSupplied)) *
+                    100
+                  ).toLocaleString("en-US", {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2,
+                  })}`
                   : "0"}
                 %
               </span>
@@ -330,7 +329,7 @@ export const ContextSupplyDrex = ({
           </div>
           {Number(approvedAmountDREX) >= Number(valueDREX) ? (
             <Button
-              text="Depositar"
+              text="Supply"
               onClick={writeDeposit}
               isLoading={isLoadingDeposit}
               disabled={
@@ -339,7 +338,7 @@ export const ContextSupplyDrex = ({
             />
           ) : (
             <Button
-              text="Aprovar"
+              text="Approve"
               onClick={writeApprove}
               isLoading={isLoadingApproval}
               disabled={
@@ -349,18 +348,18 @@ export const ContextSupplyDrex = ({
           )}
         </div>
       </TabContent>
-      <TabContent title="Sacar">
+      <TabContent title="Withdraw">
         <div className="flex h-[400px] w-full flex-col items-center justify-center gap-6 pt-5">
           <div className="flex w-full items-start justify-start gap-3">
             <div className="flex h-full w-full flex-col items-start justify-start gap-4">
               <div className="inline-flex items-start justify-start gap-6">
                 <div className="text-base font-normal leading-normal text-gray-400">
-                  Balanço:{" "}
+                  Balance:{" "}
                   {!isLoading
                     ? `${(Number(dataSuppliedDREX) / 10 ** 18).toLocaleString(
-                        "pt-BR",
-                        { minimumFractionDigits: 2, maximumFractionDigits: 2 }
-                      )}`
+                      "en-US",
+                      { minimumFractionDigits: 2, maximumFractionDigits: 2 }
+                    )}`
                     : "0"}{" "}
                   rBRLL
                 </div>
@@ -374,7 +373,7 @@ export const ContextSupplyDrex = ({
                   onChange={(e) => {
                     const enteredValue = Number(e.target.value);
                     if (enteredValue > Number(dataSuppliedDREX) / 10 ** 18) {
-                      setError("O valor inserido é maior que o saldo atual.");
+                      setError("The amount entered is greater than the current balance.");
                     } else {
                       setError("");
                       setValueRBLL(e.target.value);
@@ -435,52 +434,52 @@ export const ContextSupplyDrex = ({
           </div>
           <div className="flex h-full w-full flex-col gap-2">
             <div className=" flex justify-between text-white">
-              <span>Liquidez Disponível:</span>
+              <span>Available Liquidity:</span>
               <span>
                 {!isLoading
-                  ? `R$ ${(
-                      (Number(dataTotalSupplied) - Number(dataTotalBorrowed)) /
-                      10 ** 18
-                    ).toLocaleString("pt-BR", {
-                      minimumFractionDigits: 2,
-                      maximumFractionDigits: 2,
-                    })}`
-                  : "R$ 0"}
+                  ? `$ ${(
+                    (Number(dataTotalSupplied) - Number(dataTotalBorrowed)) /
+                    10 ** 18
+                  ).toLocaleString("en-US", {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2,
+                  })}`
+                  : "$ 0"}
               </span>
             </div>
             <div className="flex justify-between text-white">
-              <span>Total Depositado:</span>
+              <span>Total Supplied:</span>
               <span>
                 {!isLoading
-                  ? `R$ ${Number(formattedTotalSupply).toLocaleString("pt-BR", {
-                      minimumFractionDigits: 2,
-                      maximumFractionDigits: 2,
-                    })}`
-                  : "R$ 0"}
+                  ? `$ ${Number(formattedTotalSupply).toLocaleString("en-US", {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2,
+                  })}`
+                  : "$ 0"}
               </span>
             </div>
             <div className="flex justify-between text-white">
-              <span>Total Emprestado:</span>
+              <span>Total Borrowed:</span>
               <span>
                 {!isLoading
-                  ? `R$ ${Number(formattedTotalBorrowed).toLocaleString(
-                      "pt-BR",
-                      { minimumFractionDigits: 2, maximumFractionDigits: 2 }
-                    )}`
-                  : "R$ 0"}
+                  ? `$ ${Number(formattedTotalBorrowed).toLocaleString(
+                    "en-US",
+                    { minimumFractionDigits: 2, maximumFractionDigits: 2 }
+                  )}`
+                  : "$ 0"}
               </span>
             </div>
             <div className="flex justify-between text-white">
-              <span>Taxa de Utilização:</span>
+              <span>Utilization Rate:</span>
               <span>
                 {!isLoading
                   ? `${(
-                      (Number(dataTotalBorrowed) / Number(dataTotalSupplied)) *
-                      100
-                    ).toLocaleString("pt-BR", {
-                      minimumFractionDigits: 2,
-                      maximumFractionDigits: 2,
-                    })}`
+                    (Number(dataTotalBorrowed) / Number(dataTotalSupplied)) *
+                    100
+                  ).toLocaleString("en-US", {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2,
+                  })}`
                   : "0"}
                 %
               </span>
@@ -488,7 +487,7 @@ export const ContextSupplyDrex = ({
           </div>
 
           <Button
-            text="Sacar"
+            text="Withdraw"
             onClick={writeWithdrawal}
             isLoading={isLoadingWithDrawal}
             disabled={valueRBLL === "" || Number(valueRBLL) === 0}
@@ -501,12 +500,12 @@ export const ContextSupplyDrex = ({
             <div className="flex h-full w-full flex-col items-start justify-start gap-4">
               <div className="inline-flex items-start justify-start gap-6">
                 <div className="text-base font-normal leading-normal text-gray-400">
-                  Balanço:{" "}
+                  Balance:{" "}
                   {!isLoading
                     ? `${(Number(dataSuppliedDREX) / 10 ** 18).toLocaleString(
-                        "pt-BR",
-                        { minimumFractionDigits: 2, maximumFractionDigits: 2 }
-                      )}`
+                      "en-US",
+                      { minimumFractionDigits: 2, maximumFractionDigits: 2 }
+                    )}`
                     : "0"}{" "}
                   rBRLL
                 </div>
@@ -520,7 +519,7 @@ export const ContextSupplyDrex = ({
                   onChange={(e) => {
                     const enteredValue = Number(e.target.value);
                     if (enteredValue > Number(dataSuppliedDREX) / 10 ** 18) {
-                      setError("O valor inserido é maior que o saldo atual.");
+                      setError("The amount entered is greater than the current balance.");
                     } else {
                       setError("");
                       setValueRBLL(e.target.value);
@@ -580,8 +579,8 @@ export const ContextSupplyDrex = ({
             </div>
           </div>
           <div className="flex h-full w-full  text-white">
-            O recall instantâneo facilita a troca de garantias em TSELIC por
-            DREX através da Uniswap.
+            Instant recall makes it easy to exchange TSELIC collateral for
+            DREX through Uniswap.
           </div>
 
           <Button

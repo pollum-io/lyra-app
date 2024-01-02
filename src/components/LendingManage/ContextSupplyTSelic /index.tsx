@@ -96,12 +96,12 @@ export const ContextSupplyTSelic = ({ address }: { address: string }) => {
     if (transaction.isSuccess) {
       useToastStore
         .getState()
-        .showToast("Transação feita com sucesso", "success");
+        .showToast("Transaction successfully completed", "success");
     }
     if (transaction.isError && transactionHash !== "0x") {
       useToastStore
         .getState()
-        .showToast(`Erro na TX: ${transaction.error}`, "error");
+        .showToast(`Erro on TX: ${transaction.error}`, "error");
     }
     setTransactionHash(undefined);
     setLoadingTx(false);
@@ -113,10 +113,10 @@ export const ContextSupplyTSelic = ({ address }: { address: string }) => {
       setLoadingTx(true);
       useToastStore
         .getState()
-        .showToast("Aprovação feita com sucesso TSELIC", "success");
+        .showToast("TSELIC approval successful", "success");
     }
     if (isErrorApproveTSELIC) {
-      useToastStore.getState().showToast("Erro ao aprovar TSELIC", "error");
+      useToastStore.getState().showToast("Error approving TSELIC", "error");
     }
   }, [isErrorApproveTSELIC, isSuccessApproveTSELIC]);
 
@@ -132,10 +132,10 @@ export const ContextSupplyTSelic = ({ address }: { address: string }) => {
       setLoadingTx(true);
       useToastStore
         .getState()
-        .showToast("Aprovação feita com sucesso TSELIC", "success");
+        .showToast("TSELIC approval successful", "success");
     }
     if (isErrorSupplyTSELIC) {
-      useToastStore.getState().showToast("Erro ao aprovar TSELIC", "error");
+      useToastStore.getState().showToast("Error approving TSELIC", "error");
     }
   }, [isErrorSupplyTSELIC, isSuccessSupplyTSELIC]);
 
@@ -143,10 +143,10 @@ export const ContextSupplyTSelic = ({ address }: { address: string }) => {
     if (isSuccessWithdrawTSELIC) {
       setTransactionHash(dataWithdrawTSELIC.hash);
       setLoadingTx(true);
-      useToastStore.getState().showToast("Saque feito com sucesso", "success");
+      useToastStore.getState().showToast("Successful withdrawal", "success");
     }
     if (isErrorWithdrawTSELIC) {
-      useToastStore.getState().showToast("Erro ao sacar TSELIC", "error");
+      useToastStore.getState().showToast("TSELIC withdrawal error", "error");
     }
   }, [isErrorWithdrawTSELIC, isSuccessWithdrawTSELIC]);
 
@@ -175,10 +175,9 @@ export const ContextSupplyTSelic = ({ address }: { address: string }) => {
       useToastStore
         .getState()
         .showToast(
-          `Transação com hash ${
-            transactionHash &&
-            `${transactionHash.slice(0, 6)}...${transactionHash.slice(-4)}`
-          } esta sendo processada`,
+          `Hash transaction ${transactionHash &&
+          `${transactionHash.slice(0, 6)}...${transactionHash.slice(-4)}`
+          } is being processed`,
           "success"
         );
     }
@@ -186,18 +185,18 @@ export const ContextSupplyTSelic = ({ address }: { address: string }) => {
 
   return (
     <Tabs>
-      <TabContent title="Depositar">
+      <TabContent title="Supply">
         <div className="flex h-[400px] w-full flex-col items-center justify-start gap-6 pt-5">
           <div className="flex w-full items-start justify-start gap-3">
             <div className="flex h-full w-full flex-col items-start justify-start gap-1">
               <div className="inline-flex items-start justify-start gap-6">
                 <div className="text-base font-normal leading-normal text-gray-400">
-                  Balanço:{" "}
+                  Balance:{" "}
                   {!isLoading
                     ? `${Number(formattedTselicBalance).toLocaleString(
-                        "pt-BR",
-                        { minimumFractionDigits: 2, maximumFractionDigits: 2 }
-                      )}`
+                      "en-US",
+                      { minimumFractionDigits: 2, maximumFractionDigits: 2 }
+                    )}`
                     : "0"}{" "}
                   TSELIC
                 </div>
@@ -211,7 +210,7 @@ export const ContextSupplyTSelic = ({ address }: { address: string }) => {
                   onChange={(e) => {
                     const enteredValue = Number(e.target.value);
                     if (enteredValue > formattedTselicBalance) {
-                      setError("O valor inserido é maior que o saldo atual.");
+                      setError("The amount entered is greater than the current balance.");
                     } else {
                       setError("");
                       setValueTselic(e.target.value);
@@ -247,7 +246,7 @@ export const ContextSupplyTSelic = ({ address }: { address: string }) => {
 
           <div className="flex h-full w-full flex-col gap-2">
             <div className=" flex justify-between text-white">
-              <span>TSELIC Depositado:</span>
+              <span>TSELIC Supplied:</span>
               <span>
                 {!isLoading ? `${formattedDepositedTSELIC}` : "0"} TSELIC
               </span>
@@ -262,25 +261,25 @@ export const ContextSupplyTSelic = ({ address }: { address: string }) => {
             />
           ) : (
             <Button
-              text="Depositar"
+              text="Supply"
               onClick={writeSupplyTSELIC}
               isLoading={isLoadingSupplyTSELIC}
             />
           )}
         </div>
       </TabContent>
-      <TabContent title="Sacar">
+      <TabContent title="Withdraw">
         <div className="flex h-[400px] w-full flex-col items-center justify-start gap-6 pt-5">
           <div className="flex w-full items-start justify-start gap-3">
             <div className="flex h-full w-full flex-col items-start justify-start gap-1">
               <div className="inline-flex items-start justify-start gap-6">
                 <div className="text-base font-normal leading-normal text-gray-400">
-                  Balanço:{" "}
+                  Balance:{" "}
                   {!isLoading
                     ? `${Number(formattedTselicBalance).toLocaleString(
-                        "pt-BR",
-                        { minimumFractionDigits: 2, maximumFractionDigits: 2 }
-                      )}`
+                      "en-US",
+                      { minimumFractionDigits: 2, maximumFractionDigits: 2 }
+                    )}`
                     : "0"}{" "}
                   TSELIC
                 </div>
@@ -294,7 +293,7 @@ export const ContextSupplyTSelic = ({ address }: { address: string }) => {
                   onChange={(e) => {
                     const enteredValue = Number(e.target.value);
                     if (enteredValue > formattedDepositedTSELIC) {
-                      setError("O valor inserido é maior que o saldo atual.");
+                      setError("The amount entered is greater than the current balance.");
                     } else {
                       setError("");
                       setValueWithdrawlTselic(e.target.value);
@@ -331,26 +330,26 @@ export const ContextSupplyTSelic = ({ address }: { address: string }) => {
           </div>
           <div className="flex h-full w-full flex-col gap-2">
             <div className=" flex justify-between text-white">
-              <span>TSELIC Depositado:</span>
+              <span>TSELIC Supplied:</span>
               <span>
                 {!isLoading ? `${formattedDepositedTSELIC}` : "0"} TSELIC
               </span>
             </div>
             <div className="flex justify-between text-white">
-              <span>DREX em Empréstimo:</span>
+              <span>DREX Borrowed:</span>
               <span>
                 {!isLoading
-                  ? `${formattedBorrowed.toLocaleString("pt-BR", {
-                      minimumFractionDigits: 2,
-                      maximumFractionDigits: 2,
-                    })}`
+                  ? `${formattedBorrowed.toLocaleString("en-US", {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2,
+                  })}`
                   : "0"}{" "}
                 DREX
               </span>
             </div>
           </div>
           <Button
-            text="Sacar"
+            text="Withdraw"
             onClick={writeWithdrawTSELIC}
             isLoading={isLoadingWithdrawTSELIC}
           />
