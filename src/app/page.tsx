@@ -213,12 +213,12 @@ export default function HomePage() {
       suppliedDREX === null ||
       dataUnitValue === null
     ) {
-      return "$ 0";
+      return "R$ 0";
     } else {
       const drexBalance = Number(suppliedDREX) / 1e18;
       const tselicBalance =
         (Number(depositedTSELIC) * Number(dataUnitValue)) / 1e36;
-      return `$ ${(drexBalance + tselicBalance).toLocaleString("en-US", {
+      return `R$ ${(drexBalance + tselicBalance).toLocaleString("en-US", {
         minimumFractionDigits: 2,
         maximumFractionDigits: 2,
       })}`;
@@ -227,10 +227,10 @@ export default function HomePage() {
 
   const calculateLoanBalance = () => {
     if (isLoading || borrowedAmount === null) {
-      return "$ 0";
+      return "R$ 0";
     } else {
       const loanBalance = Number(borrowedAmount) / 1e18;
-      return `$ ${loanBalance.toLocaleString("en-US", {
+      return `R$ ${loanBalance.toLocaleString("en-US", {
         minimumFractionDigits: 2,
         maximumFractionDigits: 2,
       })}`;
@@ -253,11 +253,11 @@ export default function HomePage() {
                   <ProgressBar progress={Number(borrowPercentual)} />
                   <div className="absolute top-[0px] w-full text-right text-sm font-normal leading-tight text-white">
                     {!isLoading
-                      ? `$ ${Number(availableToBorrow).toLocaleString(
+                      ? `R$ ${Number(availableToBorrow).toLocaleString(
                         "en-US",
                         { minimumFractionDigits: 2, maximumFractionDigits: 2 }
                       )}`
-                      : "$ 0"}
+                      : "R$ 0"}
                   </div>
                   <div className="absolute left-0 top-0 text-sm font-normal leading-tight text-white">
                     Borrow Limit:{" "}
@@ -278,11 +278,11 @@ export default function HomePage() {
                   <ProgressBar progress={Number(borrowPercentual)} />
                   <div className="absolute top-[0px] w-full text-right text-sm font-normal leading-tight text-white">
                     {!isLoading
-                      ? `$ ${Number(availableToBorrow).toLocaleString(
+                      ? `R$ ${Number(availableToBorrow).toLocaleString(
                         "en-US",
                         { minimumFractionDigits: 2, maximumFractionDigits: 2 }
                       )}`
-                      : "$ 0"}
+                      : "R$ 0"}
                   </div>
                   <div className="absolute left-0 top-0 text-sm font-normal leading-tight text-white">
                     Borrow Limit:{" "}
@@ -320,13 +320,13 @@ export default function HomePage() {
                       minimumFractionDigits: 2,
                       maximumFractionDigits: 2,
                     })}%`,
-                    liquidity: `$ ${(
+                    liquidity: `R$ ${(
                       Number(dataTotalSupplied) / 1e18
                     ).toLocaleString("en-US", {
                       minimumFractionDigits: 2,
                       maximumFractionDigits: 2,
                     })}`,
-                    balance: `$ ${(Number(suppliedDREX) / 1e18).toLocaleString(
+                    balance: `R$ ${(Number(suppliedDREX) / 1e18).toLocaleString(
                       "en-US",
                       { minimumFractionDigits: 2, maximumFractionDigits: 2 }
                     )}`,
@@ -341,7 +341,7 @@ export default function HomePage() {
                       minimumFractionDigits: 2,
                       maximumFractionDigits: 2,
                     })}%`,
-                    liquidity: `$ ${(
+                    liquidity: `R$ ${(
                       (Number(dataTotalDepositedTSELIC) *
                         Number(dataUnitValue)) /
                       1e36
@@ -349,7 +349,7 @@ export default function HomePage() {
                       minimumFractionDigits: 2,
                       maximumFractionDigits: 2,
                     })}`,
-                    balance: `$ ${(
+                    balance: `R$ ${(
                       (Number(depositedTSELIC) * Number(dataUnitValue)) /
                       1e36
                     ).toLocaleString("en-US", {
@@ -358,24 +358,7 @@ export default function HomePage() {
                     })}`,
                     onManageClick: onOpenST,
                     imageUrl: "/images/tesouroSelic.png",
-                  },
-                  {
-                    title: "XRP",
-                    apr: `0%`,
-                    liquidity: `$ 0`,
-                    balance: `$ 0`,
-                    onManageClick: () => { },
-                    imageUrl: "/images/xrp.png",
-                  },
-                  {
-                    title: "BTC",
-                    apr: `0%`,
-                    liquidity: `$ 0`,
-                    balance: `$ 0`,
-                    onManageClick: () => { },
-                    imageUrl: "/images/btc.png",
-                  },
-
+                  }
                 ]}
               />
               <Lending
@@ -389,7 +372,7 @@ export default function HomePage() {
                       minimumFractionDigits: 2,
                       maximumFractionDigits: 2,
                     })}%`,
-                    liquidity: `$ ${(
+                    liquidity: `R$ ${(
                       Number(dataTotalBorrowed) / 1e18
                     ).toLocaleString("en-US", {
                       minimumFractionDigits: 2,
@@ -403,23 +386,7 @@ export default function HomePage() {
                     })}`,
                     onManageClick: onOpenBD,
                     imageUrl: "/images/drex.png",
-                  },
-                  {
-                    title: "XRP",
-                    apr: `0%`,
-                    liquidity: `$ 0`,
-                    balance: `$ 0`,
-                    onManageClick: () => { },
-                    imageUrl: "/images/xrp.png",
-                  },
-                  {
-                    title: "BTC",
-                    apr: `0%`,
-                    liquidity: `$ 0`,
-                    balance: `$ 0`,
-                    onManageClick: () => { },
-                    imageUrl: "/images/btc.png",
-                  },
+                  }
                 ]}
               />
             </div>

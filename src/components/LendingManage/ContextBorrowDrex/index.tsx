@@ -287,7 +287,7 @@ export const ContextBorrowDrex = ({
                     "en-US",
                     { minimumFractionDigits: 2, maximumFractionDigits: 2 }
                   )}`
-                  : "$ 0"}
+                  : "R$ 0"}
               </span>
             </div>
             <div className="flex justify-between text-white">
@@ -310,7 +310,7 @@ export const ContextBorrowDrex = ({
                     minimumFractionDigits: 2,
                     maximumFractionDigits: 2,
                   })}`
-                  : "$ 0"}{" "}
+                  : "R$ 0"}{" "}
                 DREX
               </span>
             </div>
