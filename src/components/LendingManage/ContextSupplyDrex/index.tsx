@@ -293,22 +293,22 @@ export const ContextSupplyDrex = ({
               <span>Total Supplied:</span>
               <span>
                 {!isLoading
-                  ? `$ ${Number(formattedTotalSupply).toLocaleString("en-US", {
+                  ? `R$ ${Number(formattedTotalSupply).toLocaleString("en-US", {
                     minimumFractionDigits: 2,
                     maximumFractionDigits: 2,
                   })}`
-                  : "$ 0"}
+                  : "R$ 0"}
               </span>
             </div>
             <div className="flex justify-between text-white">
               <span>Total Borrowed:</span>
               <span>
                 {!isLoading
-                  ? `$ ${Number(formattedTotalBorrowed).toLocaleString(
+                  ? `R$ ${Number(formattedTotalBorrowed).toLocaleString(
                     "en-US",
                     { minimumFractionDigits: 2, maximumFractionDigits: 2 }
                   )}`
-                  : "$ 0"}
+                  : "R$ 0"}
               </span>
             </div>
             <div className="flex justify-between text-white">
@@ -437,36 +437,36 @@ export const ContextSupplyDrex = ({
               <span>Available Liquidity:</span>
               <span>
                 {!isLoading
-                  ? `$ ${(
+                  ? `R$ ${(
                     (Number(dataTotalSupplied) - Number(dataTotalBorrowed)) /
                     10 ** 18
                   ).toLocaleString("en-US", {
                     minimumFractionDigits: 2,
                     maximumFractionDigits: 2,
                   })}`
-                  : "$ 0"}
+                  : "R$ 0"}
               </span>
             </div>
             <div className="flex justify-between text-white">
               <span>Total Supplied:</span>
               <span>
                 {!isLoading
-                  ? `$ ${Number(formattedTotalSupply).toLocaleString("en-US", {
+                  ? `R$ ${Number(formattedTotalSupply).toLocaleString("en-US", {
                     minimumFractionDigits: 2,
                     maximumFractionDigits: 2,
                   })}`
-                  : "$ 0"}
+                  : "R$ 0"}
               </span>
             </div>
             <div className="flex justify-between text-white">
               <span>Total Borrowed:</span>
               <span>
                 {!isLoading
-                  ? `$ ${Number(formattedTotalBorrowed).toLocaleString(
+                  ? `R$ ${Number(formattedTotalBorrowed).toLocaleString(
                     "en-US",
                     { minimumFractionDigits: 2, maximumFractionDigits: 2 }
                   )}`
-                  : "$ 0"}
+                  : "R$ 0"}
               </span>
             </div>
             <div className="flex justify-between text-white">

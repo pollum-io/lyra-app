@@ -41,7 +41,7 @@ const xrp = {
     },
     public: {
       http: ["https://rpc-evm-sidechain.xrpl.org"],
-      webSocket: ["wss://rpc-evm-sidechain.xrpl.org"],
+      webSocket: ["https://rpc-evm-sidechain.xrpl.org"],
     },
   },
   testnet: false,
