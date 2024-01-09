@@ -123,29 +123,33 @@ export const Header = () => {
                 </div>
               </button>
             ) : (
-                <div className="group relative flex cursor-pointer">
-                  <Button
+              <div className="flex cursor-pointer">
+              <Button
                 text={"Faucet"}
                 height="h-[16px]"
                 maxWidth="max-w-[60px]"
                 textSize="text-xs"
                 onClick={writeFaucet} />
-                  <div className="bg-brandBlue-300 flex h-[45px] max-w-[212px] items-center justify-center gap-4 rounded-[5px] py-4 pl-4 pr-6 text-sm">
-                    <div className="w-30 h-30 bg-brandBlue-300 flex items-center justify-center rounded-full p-2">
-                      <RiUserLine size={18} color="white" />
-                    </div>
-                    {address && `${address.slice(0, 6)}...${address.slice(-4)}`}
+              <div className="group relative ml-2">
+                <div className="bg-brandBlue-300 flex h-[45px] max-w-[212px] items-center justify-center gap-4 rounded-[5px] py-4 pl-4 pr-6 text-sm">
+                  <div className="w-30 h-30 bg-brandBlue-300 flex items-center justify-center rounded-full p-2">
+                    <RiUserLine size={18} color="white" />
                   </div>
-                  <div className="z-1 absolute bottom-[-50px] left-0 right-0 flex opacity-0 group-hover:flex group-hover:opacity-100 group-hover:transition-opacity">
-                    <button
-                      onClick={() => disconnect()}
-                      className="mt-2 flex h-[45px] w-full items-center justify-center gap-2 rounded-[5px] bg-gray-500"
-                    >
-                      <RiLogoutBoxLine size={18} color="white" />
-                      <div>Disconnect</div>
-                    </button>
-                  </div>
+                  {address && `${address.slice(0, 6)}...${address.slice(-4)}`}
                 </div>
+                <div className="z-10 absolute bottom-[-50px] left-0 right-0 flex opacity-0 group-hover:flex group-hover:opacity-100 transition-opacity">
+                  <button
+                    onClick={() => disconnect()}
+                    className="mt-2 flex h-[45px] w-full items-center justify-center gap-2 rounded-[5px] bg-gray-500"
+                  >
+                    <RiLogoutBoxLine size={18} color="white" />
+                    <div>Disconnect</div>
+                  </button>
+                </div>
+              </div>
+            </div>
+            
+                  
             ))}
         </div>
       </div>
