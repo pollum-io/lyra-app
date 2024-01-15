@@ -378,7 +378,7 @@ export default function HomePage() {
                       minimumFractionDigits: 2,
                       maximumFractionDigits: 2,
                     })}`,
-                    balance: `$ ${(
+                    balance: `R$ ${(
                       Number(borrowedAmount) / 1e18
                     ).toLocaleString("en-US", {
                       minimumFractionDigits: 2,
