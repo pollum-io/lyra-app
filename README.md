@@ -46,7 +46,3 @@ The front end is automatically deployed and hosted using Vercel with each push t
 ## License
 
 This project is licensed under the MIT License.
-
-## Créditos
-
-Developed during the XRP Ledger Brazil Hackathon.
