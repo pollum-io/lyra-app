@@ -195,7 +195,7 @@ export const ContextBorrowDrex = ({
 
   return (
     <Tabs>
-      <TabContent title="Borrowing">
+      <TabContent title="Borrow">
         <div className="flex h-[400px] w-full flex-col items-center justify-start gap-6 pt-5">
           <div className="flex w-full items-start justify-start gap-3">
             <div className="flex h-full w-full flex-col items-start justify-start gap-1">
@@ -280,10 +280,10 @@ export const ContextBorrowDrex = ({
               </span>
             </div>
             <div className=" flex justify-between text-white">
-              <span>Dollar amount:</span>
+              <span>Supplied (in Drex):</span>
               <span>
                 {!isLoading
-                  ? `$ ${(depositedTSELIC * unitValue).toLocaleString(
+                  ? `R$ ${(depositedTSELIC * unitValue).toLocaleString(
                     "en-US",
                     { minimumFractionDigits: 2, maximumFractionDigits: 2 }
                   )}`
@@ -316,7 +316,7 @@ export const ContextBorrowDrex = ({
             </div>
           </div>
           <Button
-            text="Borrowing"
+            text="Borrow"
             onClick={writeBorrowDREX}
             disabled={
               borrowValue > totalSupplied - totalBorrowed ||
